@@ -1,10 +1,8 @@
-// Include any necessary headers
 #include <stdio.h>
-#include "header/tes.h"
+#include "./header/user.h"
 
 int main() {
-    // Your code goes here
-    printf("Hello, World!\n");
-    tes();
+    UserList userList;
+    LoadUsers(&userList);
     return 0;
 }

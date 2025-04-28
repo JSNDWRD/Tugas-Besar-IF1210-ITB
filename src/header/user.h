@@ -2,6 +2,8 @@
 #define _USER_H_
 
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 // Manajemen User
 // Header untuk feature login, register, logout

@@ -4,5 +4,7 @@
 int main() {
     UserList userList;
     LoadUsers(&userList);
+
+    // alur manager, dokter, pasien
     return 0;
 }

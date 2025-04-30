@@ -35,14 +35,14 @@ void SelectionSort(UserList *userList, int n, int basedOn, int order) {
 
 void PrintPilihan(int *pil1, int *pil2) {
     printf("Urutkan berdasarkan:\n");
-        printf("1. ID\n");
-        printf("2. Nama\n");
-        scanf("> Pilihan: %d", pil1);
+        printf("   1. ID\n");
+        printf("   2. Nama\n> Pilihan: ");
+        scanf("%d", pil1);
 
         printf("Urutkan secara:\n");
-        printf("1. Ascending\n");
-        printf("2. Descending\n");
-        scanf("> Pilihan: %d", pil2);
+        printf("   1. Ascending\n");
+        printf("   2. Descending\n> Pilihan: ");
+        scanf("%d", pil2);
 }
 
 void PrintList(UserList *userList, int basedOn, int order) {
@@ -55,8 +55,8 @@ void PrintList(UserList *userList, int basedOn, int order) {
     if (basedOn == 1) printf("ID ");
     else if (basedOn == 2) printf("Nama ");
 
-    if (order == 1) printf("terurut ascending...\n");
-    else if (order == 2) printf("terurut descending...\n");
+    if (order == 1) printf("terurut ascending:\n");
+    else if (order == 2) printf("terurut descending:\n");
 
     printf("ID | Nama     | Role   | Penyakit\n");
     printf("-------------------------------------\n");
@@ -67,7 +67,8 @@ void PrintList(UserList *userList, int basedOn, int order) {
                 user.id,
                 user.username,
                 user.role,
-                strcmp(user.role, "Pasien") == 0 ? user.riwayatPenyakit : "-");
+                user.riwayatPenyakit);
+                // strcmp(user.role, "pasien") == 0 ? user.riwayatPenyakit : "-");
     }
 }
 
@@ -105,14 +106,19 @@ void LihatPasien(UserList *userList, Session *session) {
     UserList sortedList;
     sortedList.count = 0;
     for (int i = 0; i < userList->count; i++) {
-        if (strcmp(userList->users[i].role, "Pasien") == 0) {
+        if (strcmp(userList->users[i].role, "pasien") == 0) {
             sortedList.users[sortedList.count++] = userList->users[i];
         }
     }
 
     SelectionSort(&sortedList, sortedList.count, pil1, pil2);
 
-    printf("Menampilkan daftar pasien...\n");
+    
+    printf("Menampilkan daftar pasien dengan ");
+    if (pil1 == 1) printf("ID ");
+    else if (pil1 == 2) printf("Nama ");
+    if (pil2 == 1) printf("terurut ascending:\n");
+    else if (pil2 == 2) printf("terurut descending:\n");
     printf("ID | Nama     | Penyakit\n");
     printf("-----------------------------\n");
     for (int i = 0; i < sortedList.count; i++) {
@@ -136,14 +142,18 @@ void LihatDokter(UserList *userList, Session *session) {
     UserList sortedList;
     sortedList.count = 0;
     for (int i = 0; i < userList->count; i++) {
-        if (strcmp(userList->users[i].role, "Dokter") == 0) {
+        if (strcmp(userList->users[i].role, "dokter") == 0) {
             sortedList.users[sortedList.count++] = userList->users[i];
         }
     }
 
     SelectionSort(&sortedList, sortedList.count, pil1, pil2);
 
-    printf("Menampilkan daftar dokter...\n");
+    printf("Menampilkan daftar dokter dengan ");
+    if (pil1 == 1) printf("ID ");
+    else if (pil1 == 2) printf("Nama ");
+    if (pil2 == 1) printf("terurut ascending:\n");
+    else if (pil2 == 2) printf("terurut descending:\n");
     printf("ID | Nama\n");
     printf("------------------\n");
     for (int i = 0; i < sortedList.count; i++) {

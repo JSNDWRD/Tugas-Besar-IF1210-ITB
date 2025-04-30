@@ -136,6 +136,14 @@ void ResetPassword(UserList *userList, Session *session) {
                 printf("Kode unik salah!\n");
                 return;
             }
+            if(strcmp(userList->users[i].role,"manager") == 0){
+                printf("\nSelamat pagi Manager ");
+            } else if(strcmp(userList->users[i].role,"pasien") == 0){
+                printf("\nSelamat pagi ");
+            } else if(strcmp(userList->users[i].role,"dokter") == 0){
+                printf("\nSelamat pagi Dokter");
+            }
+            printf("%s, silakan update password Anda\n",userList->users[i].username);
 
             char newPass[MAX_PASSWORD_LENGTH];
             printf("Password baru: ");

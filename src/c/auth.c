@@ -86,7 +86,7 @@ void RegisterUser(UserList *userList, Session *session) {
     ToLowerCase(usernameLowered);
 
     if (IsInSet(&usernameSet, usernameLowered)) {
-        printf("Registrasi gagal! Username %s sudah terdaftar.\n", username);
+        printf("Registrasi gagal! Pasien dengan nama %s sudah terdaftar.\n", username);
         return;
     }
 
@@ -132,7 +132,7 @@ void ResetPassword(UserList *userList, Session *session) {
         if (strcmp(username, userList->users[i].username) == 0) {
             ada = 1;
 
-            if (strcmp(kode, usn_encoded) == 0) {
+            if (strcmp(kode, usn_encoded) != 0) {
                 printf("Kode unik salah!\n");
                 return;
             }
@@ -148,7 +148,7 @@ void ResetPassword(UserList *userList, Session *session) {
     }
 
     if (!ada) {
-        printf("Username tidak ada di database!\n");
+        printf("Username tidak terdaftar!\n");
     }
 
 }

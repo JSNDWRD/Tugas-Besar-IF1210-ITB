@@ -30,7 +30,7 @@ int main() {
             }
         } while(valid == 0);
 
-        for (int i = 0; i < 6; i++) {
+        for (int i = 0; i < commandCount; i++) {
             if (strcmp(input, arrCommand[i]) == 0) {
                 command = i + 1;
                 break;

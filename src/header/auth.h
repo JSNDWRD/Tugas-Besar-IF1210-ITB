@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <string.h>
 #include "user.h"
+#include "utils.h"
 #include <ctype.h>
 
 // Untuk login, register, dan logout
@@ -27,15 +28,13 @@ void InsertSet(Set *set, char *value);
 // Cek apakah value sudah ada di Set
 int IsInSet(Set *set, char *value);  
 
-// Make lowercase string -> untuk cek username
-void ToLowerCase(char *str);
-
 // Login user
 void Login(UserList *userList, Session *session);
 
 // Daftar user 
 void RegisterUser(UserList *userList, Session *session);
 
+// Logout user
 void Logout(Session *session);
 
 #endif

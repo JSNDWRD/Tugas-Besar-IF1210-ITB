@@ -45,19 +45,18 @@ typedef struct {
     User currentUser;  // Data user pada sesi sekarang
 } Session;
 
-User CreateNewUser(int id, char *username, char *password, char *role, char *riwayatPenyakit,
-                float suhuTubuh, int tekananDarahSistolik, int tekananDarahDiastolik, int detakJantung,
-                float saturasiOksigen, float kadarGulaDarah, float beratBadan, int tinggiBadan,
-                int kadarKolesterol, int kadarKolesterolLDL, int trombosit);
 
 /* Membaca file eksternal dan memasukkan data user yang terdaftar ke dalam userList  */
 void LoadUsers(UserList *userList);
 
-/* Logout user dengan memvalidasi apakah sudah logged in atau belum */
-void Logout(Session *session);
-
 // Tambah user ke list
 void AddUser(UserList *userList, User newUser);
 
+
+// Membuat user baru
+User CreateNewUser(int id, char *username, char *password, char *role, char *riwayatPenyakit,
+                float suhuTubuh, int tekananDarahSistolik, int tekananDarahDiastolik, int detakJantung,
+                float saturasiOksigen, float kadarGulaDarah, float beratBadan, int tinggiBadan,
+                int kadarKolesterol, int kadarKolesterolLDL, int trombosit);
 
 #endif

@@ -87,9 +87,10 @@ void LoadUsers(UserList *userList){
                 current = 0;
                 kolomData++;
             } else {
-                if (current < sizeof(currentData) - 1)
+                if ((size_t)current < sizeof(currentData) - 1){
                     currentData[current] = baris[i];
-                    current++;
+                }
+                current++;
             }
             i++;
         }
@@ -124,6 +125,11 @@ void LoadUsers(UserList *userList){
     //     printf("Trombosit: %d\n", userList->users[i].trombosit);
     //     printf("\n");
     // }
+}
+
+void AddUser(UserList *userList, User newUser){
+    userList->users[userList->count] = newUser;
+    userList->count++;
 }
 
 User CreateNewUser(int id, char *username, char *password, char *role, char *riwayatPenyakit,

@@ -22,11 +22,6 @@ int IsInSet(Set *set, char *value) {
 }
 
 // Implementasi auth.
-void ToLowerCase(char *str) {
-    for (int i = 0; str[i]; i++) {
-        str[i] = tolower(str[i]);
-    }
-}
 
 void Login(UserList *userList, Session *session) {
     if (session->loggedIn) {
@@ -47,15 +42,21 @@ void Login(UserList *userList, Session *session) {
             if (strcmp(passwordInput, userList->users[i].password) == 0) {
                 session->loggedIn = 1;
                 session->currentUser = userList->users[i];
-                printf("Selamat datang, %s!\n", session->currentUser.username);
+                if(strcmp(session->currentUser.role,"manager") == 0){
+                    printf("\nSelamat pagi Manager %s!\n",session->currentUser.username);
+                } else if(strcmp(session->currentUser.role,"dokter") == 0){
+                    printf("\nSelamat pagi Dokter %s!\n",session->currentUser.username);
+                } else { // Pasien
+                    printf("\nSelamat pagi %s! Ada keluhan apa?\n",session->currentUser.username);
+                }
                 return;
             } else {
-                printf("Password salah untuk username %s.\n", usernameInput);
+                printf("Password salah untuk pengguna yang bernama %s!\n", usernameInput);
                 return;
             }
         }
     }
-    printf("Username %s tidak ditemukan!\n", usernameInput);
+    printf("Tidak ada Manager, Dokter, atau pun Pasien yang bernama %s!\n", usernameInput);
 }
 
 void RegisterUser(UserList *userList, Session *session) {
@@ -92,7 +93,16 @@ void RegisterUser(UserList *userList, Session *session) {
 
     // Jika username unik, buat user baru
     User newUser = CreateNewUser(userList->count + 1, username, password, "pasien", "-", -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
-
     AddUser(userList, newUser);
-    printf("Registrasi sukses! Silahkan login dengan akun baru.\n");
+    printf("\nPasien %s berhasil ditambahkan!\n",newUser.username);
+}
+
+void Logout(Session *session){
+    if (session->loggedIn == 0) {
+        printf("Logout gagal!\nAnda belum login, silahkan login terlebih dahulu sebelum melakukan logout.\n");
+    } else {
+        printf("Sampai jumpa, %s!\n", session->currentUser.username);
+        session->loggedIn = 0;
+        memset(&session->currentUser, 0, sizeof(session->currentUser)); // Mereset session->currentUser
+    }
 }

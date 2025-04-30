@@ -2,7 +2,9 @@
 #define AUTH_H
 
 #include <stdio.h>
-#include <user.h>
+#include <string.h>
+#include "user.h"
+#include <ctype.h>
 
 // Untuk login, register, dan logout
 // Nanti bagian login, etc. di user.h dihapus
@@ -34,5 +36,6 @@ void Login(UserList *userList, Session *session);
 // Daftar user 
 void RegisterUser(UserList *userList, Session *session);
 
+void Logout(Session *session);
 
 #endif

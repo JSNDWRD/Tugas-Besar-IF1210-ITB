@@ -1,5 +1,3 @@
-#include <stdio.h>
-#include <string.h>
 #include "../header/auth.h"
 
 // Implementasi untuk set.

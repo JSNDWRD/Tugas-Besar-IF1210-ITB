@@ -52,8 +52,6 @@ User CreateNewUser(int id, char *username, char *password, char *role, char *riw
 
 /* Membaca file eksternal dan memasukkan data user yang terdaftar ke dalam userList  */
 void LoadUsers(UserList *userList);
-/* Membaca file eksternal dan memasukkan data user yang terdaftar ke dalam userList  */
-void LoadUsers(UserList *userList);
 
 /* Logout user dengan memvalidasi apakah sudah logged in atau belum */
 void Logout(Session *session);

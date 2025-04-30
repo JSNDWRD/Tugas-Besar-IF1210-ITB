@@ -11,6 +11,12 @@ void ToLowerCase(char *str);
 // Make uppercase string
 void ToUpperCase(char *str);
 
+// Mengembalikan float dalam bentuk string
+char* FloatToStr(float x);
+
+// Mengembalikan integer dalam bentuk string
+char* IntToStr(int x);
+
 /* Memberikan tampilan Help berdasarkan session (sudah login atau belum) */
 void Help(Session session);
 

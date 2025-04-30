@@ -1,4 +1,5 @@
 #include "../header/user.h"
+#include "../header/utils.h"
 
 void LoadUsers(UserList *userList){
     FILE *fUserList = fopen("./src/file/user.csv","r");
@@ -125,6 +126,32 @@ void LoadUsers(UserList *userList){
     //     printf("Trombosit: %d\n", userList->users[i].trombosit);
     //     printf("\n");
     // }
+}
+
+void SaveUsers(UserList userList){
+    FILE *fUserList = fopen("./src/file/user.csv","w");
+    fprintf(fUserList, "id,username,password,role,riwayatPenyakit,suhuTubuh,tekananDarahSistolik,tekananDarahDiastolik,detakJantung,saturasiOksigen,kadarGulaDarah,beratBadan,tinggiBadan,kadarKolesterol,kadarKolesterolLDL,trombosit\n");
+    for (int i = 0; i < userList.count; i++) {
+        User user = userList.users[i];
+        fprintf(fUserList, "%d,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s\n",
+                user.id, // Always write the ID
+                user.username,
+                user.password,
+                user.role,
+                strcmp(user.riwayatPenyakit, "-") == 0 ? "" : user.riwayatPenyakit,
+                user.suhuTubuh == -1 ? "" : FloatToStr(user.suhuTubuh),
+                user.tekananDarahSistolik == -1 ? "" : IntToStr(user.tekananDarahSistolik),
+                user.tekananDarahDiastolik == -1 ? "" : IntToStr(user.tekananDarahDiastolik),
+                user.detakJantung == -1 ? "" : IntToStr(user.detakJantung),
+                user.saturasiOksigen == -1 ? "" : FloatToStr(user.saturasiOksigen),
+                user.kadarGulaDarah == -1 ? "" : FloatToStr(user.kadarGulaDarah),
+                user.beratBadan == -1 ? "" : FloatToStr(user.beratBadan),
+                user.tinggiBadan == -1 ? "" : IntToStr(user.tinggiBadan),
+                user.kadarKolesterol == -1 ? "" : IntToStr(user.kadarKolesterol),
+                user.kadarKolesterolLDL == -1 ? "" : IntToStr(user.kadarKolesterolLDL),
+                user.trombosit == -1 ? "" : IntToStr(user.trombosit));
+    }
+    fclose(fUserList);
 }
 
 void AddUser(UserList *userList, User newUser){

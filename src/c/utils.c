@@ -12,6 +12,20 @@ void ToUpperCase(char *str) {
     }
 }
 
+// Mengembalikan float dalam bentuk string
+char* FloatToStr(float x){
+    static char bilangan[32];
+    snprintf(bilangan,sizeof(bilangan),"%.2f",x);
+    return bilangan;
+}
+
+// Mengembalikan integer dalam bentuk string
+char* IntToStr(int x){
+    static char bilangan[32];
+    snprintf(bilangan,sizeof(bilangan),"%d",x);
+    return bilangan;
+}
+
 void Help(Session session){
     printf("========== HELP ==========\n\n");
     if(session.loggedIn == 1){
@@ -57,7 +71,7 @@ void RunLenEncode(char* str, char* encoded) {
 }
 
 
-void Exit(){
+void Exit(UserList userList){
     char input[10];
     do {
         printf("Apakah Anda mau melakukan penyimpanan file yang sudah diubah? (y/n) ");
@@ -65,6 +79,6 @@ void Exit(){
         ToLowerCase(input); // Ubah ke huruf kecil
     } while(strcmp(input, "y") != 0 && strcmp(input, "n") != 0);
     if(strcmp(input,"y") == 0){ // Simpan Perubahan
-        printf("Simpan Perubahan.\n");
+        SaveUsers(userList);
     }
 }

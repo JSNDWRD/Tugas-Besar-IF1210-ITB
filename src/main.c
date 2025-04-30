@@ -13,7 +13,6 @@ int main() {
 
     int command = 0;
     int commandCount = sizeof(arrCommand) / sizeof(arrCommand[0]);
-    printf("%d",commandCount);
     do {
         int valid = 0;
         do {
@@ -55,7 +54,7 @@ int main() {
                 ResetPassword(&userList, &session);
                 break;
             case EXIT:
-                Exit();
+                Exit(userList);
                 break;
             default:
                 printf("Command tidak ditemukan.\n");

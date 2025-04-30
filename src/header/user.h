@@ -48,6 +48,9 @@ typedef struct {
 /* Membaca file eksternal dan memasukkan data user yang terdaftar ke dalam userList  */
 void LoadUsers(UserList *userList);
 
+/* Menyimpan array userList ke dalam file eksternal */
+void SaveUsers(UserList userList);
+
 // Tambah user ke list
 void AddUser(UserList *userList, User newUser);
 

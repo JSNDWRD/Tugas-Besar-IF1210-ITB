@@ -6,6 +6,12 @@ void ToLowerCase(char *str) {
     }
 }
 
+void ToUpperCase(char *str) {
+    for (int i = 0; str[i]; i++) {
+        str[i] = toupper(str[i]);
+    }
+}
+
 void Help(Session session){
     printf("========== HELP ==========\n\n");
     if(session.loggedIn == 1){
@@ -58,9 +64,7 @@ void Exit(){
         scanf("%s", input);
         ToLowerCase(input); // Ubah ke huruf kecil
     } while(strcmp(input, "y") != 0 && strcmp(input, "n") != 0);
-    if(strcmp(input,"y") == 0){
+    if(strcmp(input,"y") == 0){ // Simpan Perubahan
         printf("Simpan Perubahan.\n");
-    } else { // input = 'n'
-        printf("Tidak Menyimpan Perubahan.\n");
     }
 }

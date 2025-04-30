@@ -91,7 +91,7 @@ void RegisterUser(UserList *userList, Session *session) {
     }
 
     // Jika username unik, buat user baru
-    User newUser = CreateNewUser(userList->count + 1, username, password, "pasien", "-", -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
+    User newUser = CreateNewUser(userList->count+1, username, password, "pasien", "-", -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
     AddUser(userList, newUser);
     printf("\nPasien %s berhasil ditambahkan!\n",newUser.username);
 }

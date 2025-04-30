@@ -8,6 +8,9 @@
 // Make lowercase string -> untuk cek username
 void ToLowerCase(char *str);
 
+// Make uppercase string
+void ToUpperCase(char *str);
+
 /* Memberikan tampilan Help berdasarkan session (sudah login atau belum) */
 void Help(Session session);
 

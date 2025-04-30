@@ -17,7 +17,8 @@ int main() {
         do {
             printf("\n>>> Input Command: ");
             scanf("%s", input);
-            for (int i = 0; i < 5; i++) {
+            ToUpperCase(input);
+            for (int i = 0; i < 6; i++) {
                 if (strcmp(input, arrCommand[i]) == 0) {
                     valid = 1;
                     break;
@@ -28,7 +29,7 @@ int main() {
             }
         } while(valid == 0);
 
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 6; i++) {
             if (strcmp(input, arrCommand[i]) == 0) {
                 command = i + 1;
                 break;

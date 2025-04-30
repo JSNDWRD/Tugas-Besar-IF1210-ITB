@@ -6,9 +6,9 @@
 int main() {
     UserList userList; // Daftar pengguna
     LoadUsers(&userList);
-    char arrCommand[20][50] = {"HELP", "LOGIN", "LOGOUT", "REGISTER", "EXIT"};
+    char arrCommand[20][50] = {"HELP", "LOGIN", "LOGOUT", "REGISTER", "EXIT", "LUPA_PASSWORD"};
     char input[50]; // Input command
-    enum Command { HELP=1, LOGIN, LOGOUT, REGISTER, EXIT };
+    enum Command { HELP=1, LOGIN, LOGOUT, REGISTER, EXIT, LUPA_PASSWORD };
     Session session = {.loggedIn = 0};
 
     int command = 0;
@@ -40,13 +40,16 @@ int main() {
                 Help(session);
                 break;
             case LOGIN:
-                Login(&userList,&session);
+                Login(&userList, &session);
                 break;
             case LOGOUT:
                 Logout(&session);
                 break;
             case REGISTER:
-                RegisterUser(&userList,&session);
+                RegisterUser(&userList, &session);
+                break;
+            case LUPA_PASSWORD:
+                ResetPassword(&userList, &session);
                 break;
             case EXIT:
                 Exit();

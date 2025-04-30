@@ -24,6 +24,33 @@ void Help(Session session){
     printf("Footnote:\n   1. Untuk menggunakan aplikasi, silahkan masukkan nama fungsi yang terdaftar\n   2. Jangan lupa untuk memasukkan input yang valid\n\n");
 }
 
+void RunLenEncode(char* str, char* encoded) {
+    int count = 1, index = 0;
+
+    for (int i = 0; str[i]; i++) {
+        if (str[i] == str[i + 1]) {
+            count++;
+        } else {
+            encoded[index] = str[i];
+            index++;
+            if (count > 1) {
+                // konversi int ke string
+                char num[10];
+                sprintf(num, "%d", count);
+
+                for (int j = 0; num[j]; j++) {
+                    encoded[index] = num[j];
+                    index++;
+                }
+            }
+            count = 1;  // reset count
+        }
+    }
+
+    encoded[index] = '\0'; // null-terminate string
+}
+
+
 void Exit(){
     char input[10];
     do {

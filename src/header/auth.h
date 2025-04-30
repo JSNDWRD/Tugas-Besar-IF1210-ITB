@@ -13,6 +13,8 @@
 #define MAX_USERS 100
 #define MAX_SET_SIZE 200
 
+#define MAX_UNIQUE_CODE 50
+
 // Implementasi Set
 typedef struct {
     char username[MAX_SET_SIZE][MAX_USERNAME_LENGTH];
@@ -31,10 +33,13 @@ int IsInSet(Set *set, char *value);
 // Login user
 void Login(UserList *userList, Session *session);
 
-// Daftar user 
+// Daftar user, khusus pasien
 void RegisterUser(UserList *userList, Session *session);
 
 // Logout user
 void Logout(Session *session);
+
+void ResetPassword(UserList *userList, Session *session);
+
 
 #endif

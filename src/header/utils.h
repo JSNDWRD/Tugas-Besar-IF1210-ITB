@@ -11,6 +11,9 @@ void ToLowerCase(char *str);
 /* Memberikan tampilan Help berdasarkan session (sudah login atau belum) */
 void Help(Session session);
 
+// Untuk fitur reset password
+void RunLenEncode(char* str, char* encoded);
+
 /* F18 - Exit */
 void Exit();
 

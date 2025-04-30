@@ -1,6 +1,6 @@
 #include "../header/auth.h"
 
-// Implementasi untuk set.
+// Implementasi untuk set
 Set CreateNewSet() {
     Set newSet;
     newSet.count = 0;
@@ -21,8 +21,7 @@ int IsInSet(Set *set, char *value) {
     return 0;  // belum ada
 }
 
-// Implementasi auth.
-
+// Implementasi auth
 void Login(UserList *userList, Session *session) {
     if (session->loggedIn) {
         printf("Anda sudah login sebagai %s.\n", session->currentUser.username);
@@ -103,6 +102,41 @@ void Logout(Session *session){
     } else {
         printf("Sampai jumpa, %s!\n", session->currentUser.username);
         session->loggedIn = 0;
-        memset(&session->currentUser, 0, sizeof(session->currentUser)); // Mereset session->currentUser
+        memset(&session->currentUser, 0, sizeof(session->currentUser));  // Mereset session->currentUser, set jadi 0.
+        // Future update (if ngebug) -> ubah integers jadi -1, string jadi "-"
+    }
+}
+
+void ResetPassword(UserList *userList, Session *session) {
+    if (session->loggedIn) {
+        printf("Logout dulu sebelum reset password\n");
+        return;
+    } 
+    // future implementation: diapus kalau mau bisa reset di dalem session
+    //-> berarti harus logout setelah reset password.
+    
+    char username[MAX_USERNAME_LENGTH], kode[MAX_UNIQUE_CODE];
+
+    printf("Username: ");
+    scanf("%s", username);
+    printf("Kode Unik: ");
+    scanf("%s", kode);
+
+    char usn_encoded[MAX_UNIQUE_CODE];
+    
+    RunLenEncode(username, usn_encoded);
+
+    for (int i = 0; i < userList->count; i++) {
+        if (strcmp(username, userList->users[i].username) == 0) {
+            if (strcmp(kode, usn_encoded) == 0) {
+                char newPass[MAX_PASSWORD_LENGTH];
+                printf("Password baru: ");
+                scanf("%s", newPass);
+
+                strcpy(userList->users[i].password, newPass);
+                printf("Password berhasil direset!\n");
+                return;
+            }
+        }
     }
 }

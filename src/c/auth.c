@@ -22,6 +22,7 @@ int IsInSet(Set *set, char *value) {
 }
 
 // Implementasi auth
+// Login menggunakan username yang case sensitive
 void Login(UserList *userList, Session *session) {
     if (session->loggedIn) {
         printf("Anda sudah login sebagai %s.\n", session->currentUser.username);
@@ -45,7 +46,7 @@ void Login(UserList *userList, Session *session) {
                     printf("\nSelamat pagi Manager %s!\n",session->currentUser.username);
                 } else if(strcmp(session->currentUser.role,"dokter") == 0){
                     printf("\nSelamat pagi Dokter %s!\n",session->currentUser.username);
-                } else { // Pasien
+                } else {  // Pasien
                     printf("\nSelamat pagi %s! Ada keluhan apa?\n",session->currentUser.username);
                 }
                 return;
@@ -58,6 +59,8 @@ void Login(UserList *userList, Session *session) {
     printf("Tidak ada Manager, Dokter, atau pun Pasien yang bernama %s!\n", usernameInput);
 }
 
+// Register user baru
+// Username case insensitive, jadi tidak bisa ada username yang sama, tapi case nya beda
 void RegisterUser(UserList *userList, Session *session) {
     if (session->loggedIn) {
         printf("Logout dulu sebelum register!\n");
@@ -103,10 +106,11 @@ void Logout(Session *session){
         printf("Sampai jumpa, %s!\n", session->currentUser.username);
         session->loggedIn = 0;
         memset(&session->currentUser, 0, sizeof(session->currentUser));  // Mereset session->currentUser, set jadi 0.
-        // Future update (if ngebug) -> ubah integers jadi -1, string jadi "-"
+        // future update (if ngebug) -> ubah integers jadi -1, string jadi "-"
     }
 }
 
+// Username dilihat case sensitive
 void ResetPassword(UserList *userList, Session *session) {
     if (session->loggedIn) {
         printf("Logout dulu sebelum reset password\n");
@@ -141,7 +145,7 @@ void ResetPassword(UserList *userList, Session *session) {
             } else if(strcmp(userList->users[i].role,"pasien") == 0){
                 printf("\nSelamat pagi ");
             } else if(strcmp(userList->users[i].role,"dokter") == 0){
-                printf("\nSelamat pagi Dokter");
+                printf("\nSelamat pagi Dokter ");
             }
             printf("%s, silakan update password Anda\n",userList->users[i].username);
 

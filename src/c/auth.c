@@ -126,17 +126,29 @@ void ResetPassword(UserList *userList, Session *session) {
     
     RunLenEncode(username, usn_encoded);
 
+    int ada = 0;
+
     for (int i = 0; i < userList->count; i++) {
         if (strcmp(username, userList->users[i].username) == 0) {
-            if (strcmp(kode, usn_encoded) == 0) {
-                char newPass[MAX_PASSWORD_LENGTH];
-                printf("Password baru: ");
-                scanf("%s", newPass);
+            ada = 1;
 
-                strcpy(userList->users[i].password, newPass);
-                printf("Password berhasil direset!\n");
+            if (strcmp(kode, usn_encoded) == 0) {
+                printf("Kode unik salah!\n");
                 return;
             }
+
+            char newPass[MAX_PASSWORD_LENGTH];
+            printf("Password baru: ");
+            scanf("%s", newPass);
+
+            strcpy(userList->users[i].password, newPass);
+            printf("Password berhasil direset!\n");
+            return;
         }
     }
+
+    if (!ada) {
+        printf("Username tidak ada di database!\n");
+    }
+
 }

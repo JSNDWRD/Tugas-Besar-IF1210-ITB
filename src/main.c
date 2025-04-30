@@ -12,13 +12,15 @@ int main() {
     Session session = {.loggedIn = 0};
 
     int command = 0;
+    int commandCount = sizeof(arrCommand) / sizeof(arrCommand[0]);
+    printf("%d",commandCount);
     do {
         int valid = 0;
         do {
             printf("\n>>> Input Command: ");
             scanf("%s", input);
             ToUpperCase(input);
-            for (int i = 0; i < 6; i++) {
+            for (int i = 0; i < commandCount; i++) {
                 if (strcmp(input, arrCommand[i]) == 0) {
                     valid = 1;
                     break;

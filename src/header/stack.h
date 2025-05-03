@@ -13,10 +13,11 @@ typedef struct {
     int top;
 } Stack;
 
-void CreateEmpty(Stack *S);
-boolean isEmpty(Stack S);
-boolean isFull(Stack S);
-void push(Stack *S, Obat x);
-void pop(Stack *S, Obat x);
+void CreateEmptyStack(Stack *S);
+boolean isStackEmpty(Stack S);
+boolean isStackFull(Stack S);
+void printStackObat(Stack S);
+void push(Stack *S, Obat val);
+void pop(Stack *S, Obat *val);
 
 #endif

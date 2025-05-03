@@ -6,7 +6,7 @@
 
 int main() {
     UserList userList; // Daftar pengguna
-    LoadUsers(&userList);
+    GetUsers(&userList);
     char arrCommand[20][50] = {"HELP", "LOGIN", "LOGOUT", "REGISTER", "EXIT", "LUPA_PASSWORD", "LIHAT_USER", "LIHAT_PASIEN", "LIHAT_DOKTER"};
     char input[50]; // Input command
     enum Command { HELP=1, LOGIN, LOGOUT, REGISTER, EXIT, LUPA_PASSWORD, LIHAT_USER, LIHAT_PASIEN, LIHAT_DOKTER };

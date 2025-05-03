@@ -26,6 +26,18 @@ void printStackObat(Stack S){
     }
 }
 
+boolean isStackEqual(Stack S1, Stack S2){
+    if(S1.top!=S2.top){
+        return false;
+    }
+    for(int i=0; i<S1.top; i++){
+        if(strcmp(S1.obat[i],S2.obat[i])!=0){
+            return false;
+        }
+    }
+    return true;
+}
+
 void push(Stack *S, Obat val){
     if(!isFull(*S)){
         S->top++;

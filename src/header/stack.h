@@ -17,6 +17,7 @@ void CreateEmptyStack(Stack *S);
 boolean isStackEmpty(Stack S);
 boolean isStackFull(Stack S);
 void printStackObat(Stack S);
+boolean isStackEqual();
 void push(Stack *S, Obat val);
 void pop(Stack *S, Obat *val);
 

@@ -15,11 +15,25 @@ void LihatPasien(UserList *userList, Session *session);
 void LihatDokter(UserList *userList, Session *session);
 
 // Sorting dengan selection sort, berdasarkan id atau nama
-void SelectionSort(UserList *userList, int n, int basedOn, int order) ;
+void SelectionSort(UserList *userList, int n, int basedOn, int order);
 
 // Function bantuan untuk menampilkan pilihan
 void PrintPilihan(int *pil1, int *pil2);
 
 // Print userlist
 void PrintList(UserList *userList, int basedOn, int order);
+
+// Cari user dengan binary search
+void CariUser(UserList *userList, Session *session);
+
+// Cari pasien dengan binary search
+void CariPasien(UserList *userList, Session *session);
+
+// Cari dokter dengan binary search
+void CariDokter(UserList *userList, Session *session);
+
+// searching user dengan binary search
+int BinarySearchUser(UserList *userList, const char *username, int *index);
+
+
 #endif

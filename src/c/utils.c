@@ -57,7 +57,7 @@ void RunLenEncode(char* str, char* encoded) {
         } else {
             if (count > 1) {
                 // konversi int ke string
-                char num[10];
+                char num[12];
                 sprintf(num, "%d", count);
                 
                 for (int j = 0; num[j]; j++) {

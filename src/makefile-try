@@ -1,0 +1,23 @@
+# make
+CC = gcc
+CFLAGS = -Wall -Wextra -Werror -Iheader
+SRC_DIR = c
+HDR_DIR = header
+OBJS = $(patsubst $(SRC_DIR)/%.c, $(SRC_DIR)/%.o, $(wildcard $(SRC_DIR)/*.c))
+TARGET = main
+
+all: $(TARGET)
+
+$(TARGET): main.o $(OBJS)
+	$(CC) $(CFLAGS) -o $@ $^
+
+main.o: main.c
+	$(CC) $(CFLAGS) -c main.c -o main.o
+
+$(SRC_DIR)/%.o: $(SRC_DIR)/%.c
+	$(CC) $(CFLAGS) -c $< -o $@
+
+clean:
+	rm -f *.o c/*.o main
+
+.PHONY: all clean

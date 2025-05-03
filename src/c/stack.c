@@ -6,24 +6,35 @@
 #define MAX_OBAT_LENGTH 50
 #define MAX_STACK_SIZE 100
 
-void CreateEmpty(Stack *S){
+void CreateEmptyStack(Stack *S){
     S->top=-1;
 }
-boolean isEmpty(Stack S){
+boolean isStackEmpty(Stack S){
     return S.top==-1;
 }
-boolean isFull(Stack S){
+boolean isStackFull(Stack S){
     return S.top==MAX_STACK_SIZE-1;
 }
-void push(Stack *S, Obat x){
-    if(!isFull(*S)){
-        S->top++;
-        strncpy(S->obat[S->top], x, MAX_OBAT_LENGTH);
+
+void printStackObat(Stack S){
+    for(int i=0; i<S.top; i++){
+        printf("%s", S.obat[i]);
+        if(i<S.top-1){
+            printf(" -> ");
+        }
+        printf("\n");
     }
 }
-void pop(Stack *S, Obat x){
+
+void push(Stack *S, Obat val){
+    if(!isFull(*S)){
+        S->top++;
+        strncpy(S->obat[S->top], val, MAX_OBAT_LENGTH);
+    }
+}
+void pop(Stack *S, Obat *val){
     if(!isEmpty(*S)){
-        strncpy(x, S->obat[S->top], MAX_OBAT_LENGTH);
+        strncpy(*val, S->obat[S->top], MAX_OBAT_LENGTH);
         S->top--;
     }
 }

@@ -1,21 +1,12 @@
 #ifndef LIST_OBAT_H
 #define LIST_OBAT_H
 
-#include "boolean.h"
+#include "kamus.h"
+#include <stdlib.h>
+#include <string.h>
+#include <stdio.h>
 
-#define IDX_MIN 0
-#define IDX_UNDEF -1
-#define MAX_OBAT 100
-#define MAX_OBAT_LENGTH 50
-
-//BELUM FIX
-typedef char Obat[MAX_OBAT_LENGTH];
-
-typedef struct{
-    Obat *buffer;
-    int nEff;       
-    int capacity;   
-} ListObat;
+//MASIH BISA BERUBAH
 
 void CreateListDin(ListObat *l, int capacity);
 
@@ -29,13 +20,15 @@ boolean isListEmpty(ListObat l);
    
 boolean isListFull(ListObat l);
 
-void readList(ListObat *l){}
+void readList(ListObat *l);
 
 void printList(ListObat l);
 
 int indexOf(ListObat l, Obat val);
 
 void insertLast(ListObat *l, Obat val);
+
+void insertAt(ListObat *l, Obat *val, int idx);
 
 void deleteLast(ListObat *l, Obat *val);
 

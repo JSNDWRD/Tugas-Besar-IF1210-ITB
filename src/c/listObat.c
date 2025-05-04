@@ -56,7 +56,7 @@ void insertLast(ListObat *l, Obat val){
     }
 }
 
-void insertAt(ListObat *l, Obat *val, int idx){
+void insertAt(ListObat *l, Obat val, int idx){
     if(isIdxEff(*l,idx)){
         l->nEff++;
         for(int i=l->nEff-1; i>idx; i--){

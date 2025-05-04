@@ -28,7 +28,7 @@ int indexOf(ListObat l, Obat val);
 
 void insertLast(ListObat *l, Obat val);
 
-void insertAt(ListObat *l, Obat *val, int idx);
+void insertAt(ListObat *l, Obat val, int idx);
 
 void deleteLast(ListObat *l, Obat *val);
 

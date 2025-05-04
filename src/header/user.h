@@ -155,7 +155,7 @@ void AddUser(UserList *userList, User newUser);
 /* Menambahkan user ke dalam array userList */
 
 /* KELOMPOK OPERASI BACA / TULIS FILE EKSTERNAL */
-void GetUsers(UserList *userList);
+void LoadUsers(UserList *userList);
 /* Membaca file eksternal dan memasukkan data user yang terdaftar ke dalam userList  */
 
 void SaveUsers(UserList userList);

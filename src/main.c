@@ -3,10 +3,13 @@
 #include "./header/auth.h"
 #include "./header/utils.h"
 #include "./header/manager.h"
+#include "./header/hospital.h"
 
 int main() {
     UserList userList; // Daftar pengguna
-    GetUsers(&userList);
+    Matrix denahHospital;
+    LoadUsers(&userList);
+    LoadConfig(&denahHospital);
     char arrCommand[20][50] = {"HELP", "LOGIN", "LOGOUT", "REGISTER", "EXIT", "LUPA_PASSWORD", "LIHAT_USER", "LIHAT_PASIEN", "LIHAT_DOKTER", "CARI_USER", "CARI_PASIEN", "CARI_DOKTER"};
     char input[50]; // Input command
     enum Command { HELP=1, LOGIN, LOGOUT, REGISTER, EXIT, LUPA_PASSWORD, LIHAT_USER, LIHAT_PASIEN, LIHAT_DOKTER, CARI_USER, CARI_PASIEN, CARI_DOKTER };

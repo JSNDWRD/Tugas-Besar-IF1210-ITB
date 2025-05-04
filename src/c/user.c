@@ -188,7 +188,7 @@ void AddUser(UserList *userList, User newUser){
     userList->count++;
 }
 
-void GetUsers(UserList *userList){
+void LoadUsers(UserList *userList){
     FILE *fUserList = fopen("./src/file/user.csv","r");
 
     // Inisialisasi jumlah user

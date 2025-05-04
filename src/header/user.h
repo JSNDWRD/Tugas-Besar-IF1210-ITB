@@ -25,7 +25,7 @@ typedef struct {
     int tekananDarahDiastolik;
     int detakJantung;
     float saturasiOksigen;
-    float kadarGulaDarah;
+    int kadarGulaDarah;
     float beratBadan;
     int tinggiBadan;
     int kadarKolesterol;
@@ -49,7 +49,7 @@ typedef struct {
 /* KONSTRUKTOR */
 void CreateUser(User *user,int id, char *username, char *password, char *role, char *riwayatPenyakit,
                 float suhuTubuh, int tekananDarahSistolik, int tekananDarahDiastolik, int detakJantung,
-                float saturasiOksigen, float kadarGulaDarah, float beratBadan, int tinggiBadan,
+                float saturasiOksigen, int kadarGulaDarah, float beratBadan, int tinggiBadan,
                 int kadarKolesterol, int kadarKolesterolLDL, int trombosit);
 /* Membentuk user berdasarkan komponen-komponen yang dimasukkan */
 
@@ -133,7 +133,7 @@ void SetDetakJantung(User *user, int val);
 void SetSaturasiOksigen(User *user, float val);
 /* Mengubah nilai komponen SaturasiOksigen dari user menjadi val */
 
-void SetKadarGulaDarah(User *user, float val);
+void SetKadarGulaDarah(User *user, int val);
 /* Mengubah nilai komponen KadarGulaDarah dari user menjadi val */
 
 void SetBeratBadan(User *user, float val);

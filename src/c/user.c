@@ -3,7 +3,7 @@
 
 void CreateUser(User *user,int id, char *username, char *password, char *role, char *riwayatPenyakit,
     float suhuTubuh, int tekananDarahSistolik, int tekananDarahDiastolik, int detakJantung,
-    float saturasiOksigen, float kadarGulaDarah, float beratBadan, int tinggiBadan,
+    float saturasiOksigen, int kadarGulaDarah, float beratBadan, int tinggiBadan,
     int kadarKolesterol, int kadarKolesterolLDL, int trombosit) {
 user->id = id;
 strcpy(user->username, username);
@@ -153,7 +153,7 @@ void SetSaturasiOksigen(User *user, float val){
 }
 /* Mengubah nilai komponen SaturasiOksigen dari user menjadi val */
 
-void SetKadarGulaDarah(User *user, float val){
+void SetKadarGulaDarah(User *user, int val){
     user->kadarGulaDarah = val;
 }
 /* Mengubah nilai komponen KadarGulaDarah dari user menjadi val */
@@ -331,7 +331,7 @@ void SaveUsers(UserList userList){
                 user.tekananDarahDiastolik == -1 ? "" : IntToStr(user.tekananDarahDiastolik),
                 user.detakJantung == -1 ? "" : IntToStr(user.detakJantung),
                 user.saturasiOksigen == -1 ? "" : FloatToStr(user.saturasiOksigen),
-                user.kadarGulaDarah == -1 ? "" : FloatToStr(user.kadarGulaDarah),
+                user.kadarGulaDarah == -1 ? "" : IntToStr(user.kadarGulaDarah),
                 user.beratBadan == -1 ? "" : FloatToStr(user.beratBadan),
                 user.tinggiBadan == -1 ? "" : IntToStr(user.tinggiBadan),
                 user.kadarKolesterol == -1 ? "" : IntToStr(user.kadarKolesterol),

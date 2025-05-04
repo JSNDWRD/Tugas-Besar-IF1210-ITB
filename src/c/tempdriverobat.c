@@ -6,14 +6,14 @@
 #include "../header/kamus.h"
 
 int main(){
+    //cuma buat ngetest, sifatnya sementara, nanti disesuain lagi sama fitur lain
     ListObat inventory;
-    CreateListDin(&inventory, 25);
-    LoadObatFromCSV(&inventory, "obat.csv");
-    
+    CreateListDin(&inventory, 25);  
     Stack perut;
     CreateEmptyStack(&perut);
     Stack urutan;
-    CreateEmptyStack(&perut);
+    CreateEmptyStack(&urutan);
+    LoadObatFromCSV(&inventory, &urutan, "obat.csv");
 
     char input[50];
     scanf("%s", input);
@@ -29,8 +29,13 @@ int main(){
         }
         else if(strcmp(input,"MINUM_PENAWAR")==0){
             MinumPenawar(&inventory, &perut);
+            printf("Current isi inventory:\n");
+            printList(inventory);
+            printf("\n");
+            printf("Current isi perut:\n");
+            printStackObat(perut);
+            printf("\n");
         }
-        //blm bisa dipake, blm jadi
         else if(strcmp(input,"PULANGDOK")==0){
             PulangDok(inventory, urutan, perut);
         }

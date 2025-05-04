@@ -1,4 +1,5 @@
 #include "../header/manager.h"
+#include <stdio.h>
 
 void SelectionSort(UserList *userList, int n, int basedOn, int order) {
     int i, j, idMin;
@@ -285,7 +286,7 @@ void CariPasien(UserList *userList, Session *session) {
         else {
             char nama[MAX_USERNAME_LENGTH];
             printf("> Masukkan nama pasien: ");
-            scanf("%s", nama);
+            scanf(" %[^\n]", nama);
 
             int index;
             if (BinarySearchUser(&sortedList, nama, &index)) {
@@ -305,7 +306,7 @@ void CariPasien(UserList *userList, Session *session) {
     else if (pilihan == 3) {
         char penyakit[50];
         printf("> Masukkan nama penyakit: ");
-        scanf("%s", penyakit);
+        scanf(" %[^\n]", penyakit);
 
         // pasien dengan penyakit tsb
         UserList pasienList;

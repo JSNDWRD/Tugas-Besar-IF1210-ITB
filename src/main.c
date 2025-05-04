@@ -7,9 +7,9 @@
 int main() {
     UserList userList; // Daftar pengguna
     GetUsers(&userList);
-    char arrCommand[20][50] = {"HELP", "LOGIN", "LOGOUT", "REGISTER", "EXIT", "LUPA_PASSWORD", "LIHAT_USER", "LIHAT_PASIEN", "LIHAT_DOKTER"};
+    char arrCommand[20][50] = {"HELP", "LOGIN", "LOGOUT", "REGISTER", "EXIT", "LUPA_PASSWORD", "LIHAT_USER", "LIHAT_PASIEN", "LIHAT_DOKTER", "CARI_USER", "CARI_PASIEN", "CARI_DOKTER"};
     char input[50]; // Input command
-    enum Command { HELP=1, LOGIN, LOGOUT, REGISTER, EXIT, LUPA_PASSWORD, LIHAT_USER, LIHAT_PASIEN, LIHAT_DOKTER };
+    enum Command { HELP=1, LOGIN, LOGOUT, REGISTER, EXIT, LUPA_PASSWORD, LIHAT_USER, LIHAT_PASIEN, LIHAT_DOKTER, CARI_USER, CARI_PASIEN, CARI_DOKTER };
     Session session = {.loggedIn = 0};
 
     int command = 0;
@@ -66,7 +66,15 @@ int main() {
             case LIHAT_DOKTER:
                 LihatDokter(&userList,&session);
                 break;
-
+            case CARI_USER:
+                CariUser(&userList,&session);
+                break;
+            case CARI_PASIEN:
+                CariPasien(&userList, &session);
+                break;
+            case CARI_DOKTER:
+                CariDokter(&userList,&session);
+                break;
             default:
                 printf("Command tidak ditemukan.\n");
         }

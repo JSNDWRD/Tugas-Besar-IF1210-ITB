@@ -1,14 +1,7 @@
-#include "boolean.h"
-#include "listObat.h"
-#include <stdlib.h>
-#include <string.h>
+#include "../header/kamus.h"
+#include "../header/listObat.h"
 
-#define IDX_MIN 0
-#define IDX_UNDEF -1
-#define MAX_OBAT 100
-#define MAX_OBAT_LENGTH 50
-
-//BELUM FIX
+//MASIH BISA BERUBAH
 void CreateListDin(ListObat *l, int capacity){
     l->buffer = (Obat*) malloc(capacity * sizeof(Obat));
     l->capacity = capacity;
@@ -41,7 +34,7 @@ boolean isListFull(ListObat l){
 void readList(ListObat *l){}
 
 void printList(ListObat l){
-    printf("============ DAFTAR OBAT ============");
+    printf("============ DAFTAR OBAT ============\n");
     for(int i=0; i<l.nEff; i++){
         printf("%d. %s\n", i+1, l.buffer[i]);
     }
@@ -57,14 +50,24 @@ int indexOf(ListObat l, Obat val){
 }
 
 void insertLast(ListObat *l, Obat val){
-    if(!isFull(*l)){
+    if(!isListFull(*l)){
         strncpy(l->buffer[l->nEff], val, MAX_OBAT_LENGTH);
         l->nEff++;
     }
 }
 
+void insertAt(ListObat *l, Obat *val, int idx){
+    if(isIdxEff(*l,idx)){
+        l->nEff++;
+        for(int i=l->nEff-1; i>idx; i--){
+            strncpy(l->buffer[i],l->buffer[i-1],MAX_OBAT_LENGTH);
+        }
+        strncpy(l->buffer[idx], val, MAX_OBAT_LENGTH);
+    }
+}
+
 void deleteLast(ListObat *l, Obat *val){
-    if(!isEmpty(*l)){
+    if(!isListEmpty(*l)){
         strncpy(*val, l->buffer[l->nEff-1], MAX_OBAT_LENGTH);
         l->nEff--;
     }
@@ -72,7 +75,7 @@ void deleteLast(ListObat *l, Obat *val){
 
 void deleteAt(ListObat *l, Obat *val, int idx){
     if(isIdxEff(*l,idx)){
-        strncpy(*val, l->buffer[l->nEff-1], MAX_OBAT_LENGTH);
+        strncpy(*val, l->buffer[idx], MAX_OBAT_LENGTH);
         for(int i=idx; i<l->nEff-1; i++){
             strncpy(l->buffer[i],l->buffer[i+1],MAX_OBAT_LENGTH);
         }

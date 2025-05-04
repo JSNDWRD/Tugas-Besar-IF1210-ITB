@@ -5,6 +5,9 @@
 #include "auth.h"
 #include "user.h"
 
+// Membuat copy dari suatu string yang di lowercase
+void ToLower(char *str, char *target);
+
 // Make lowercase string -> untuk cek username
 void ToLowerCase(char *str);
 

@@ -407,7 +407,7 @@ void CariDokter(UserList *userList, Session *session) {
     }
 }
 
-int BinarySearchUser(UserList *userList, const char *username, int *index) {
+int BinarySearchUser(UserList *userList, char *username, int *index) {
     char target[MAX_USERNAME_LENGTH], currUser[MAX_USERNAME_LENGTH];
 
     ToLower(target, username);

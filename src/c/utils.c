@@ -1,5 +1,14 @@
 #include "../header/utils.h"
 
+
+void ToLower(char *target, char *str){
+    int i;
+    for (i = 0; str[i]; i++) {
+        target[i] = tolower(str[i]);
+    }
+    target[i] = '\0';
+}
+
 void ToLowerCase(char *str) {
     for (int i = 0; str[i]; i++) {
         str[i] = tolower(str[i]);

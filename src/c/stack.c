@@ -1,10 +1,5 @@
-#include "stack.h"
-#include "boolean.h"
-#include <string.h>
-#include <stdio.h>
-
-#define MAX_OBAT_LENGTH 50
-#define MAX_STACK_SIZE 100
+#include "../header/stack.h"
+#include "../header/kamus.h"
 
 void CreateEmptyStack(Stack *S){
     S->top=-1;
@@ -39,13 +34,13 @@ boolean isStackEqual(Stack S1, Stack S2){
 }
 
 void push(Stack *S, Obat val){
-    if(!isFull(*S)){
+    if(!isStackFull(*S)){
         S->top++;
         strncpy(S->obat[S->top], val, MAX_OBAT_LENGTH);
     }
 }
 void pop(Stack *S, Obat *val){
-    if(!isEmpty(*S)){
+    if(!isStackEmpty(*S)){
         strncpy(*val, S->obat[S->top], MAX_OBAT_LENGTH);
         S->top--;
     }

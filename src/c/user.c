@@ -189,7 +189,7 @@ void AddUser(UserList *userList, User newUser){
 }
 
 void LoadUsers(UserList *userList){
-    FILE *fUserList = fopen("./src/file/user.csv","r");
+    FILE *fUserList = fopen("file/user.csv","r");
 
     // Inisialisasi jumlah user
     int count = 0;
@@ -316,7 +316,7 @@ void LoadUsers(UserList *userList){
 }
 
 void SaveUsers(UserList userList){
-    FILE *fUserList = fopen("./src/file/user.csv","w");
+    FILE *fUserList = fopen("file/user.csv","w");
     fprintf(fUserList, "id,username,password,role,riwayatPenyakit,suhuTubuh,tekananDarahSistolik,tekananDarahDiastolik,detakJantung,saturasiOksigen,kadarGulaDarah,beratBadan,tinggiBadan,kadarKolesterol,kadarKolesterolLDL,trombosit\n");
     for (int i = 0; i < userList.count; i++) {
         User user = userList.users[i];

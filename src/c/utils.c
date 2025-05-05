@@ -45,14 +45,19 @@ void Help(Session session){
         } else if(strcmp(session.currentUser.role, "dokter") == 0){
             printf("Halo Dokter %s. Kamu memanggil command HELP. Kamu pasti sedang kebingungan. Berikut adalah hal-hal yang dapat kamu lakukan sekarang:\n\n",session.currentUser.username);
         }
-        if(strcmp(session.currentUser.role,"manager") == 0){ // Manager
-            printf("   1. LIHAT_USER: Melihat data seluruh pengguna\n   2. LIHAT_PASIEN: Melihat data seluruh pasien\n   3. LIHAT_DOKTER: Melihat data seluruh dokter\n   4. LOGOUT: Keluar dari akun yang sedang digunakan\n\n");
-        } else { // Fitur yang tersedia sekarang bagi pasien dan dokter
-            printf("   1. LOGOUT: Keluar dari akun yang sedang digunakan\n\n");
+        printf("   1. LOGOUT: Keluar dari akun yang sedang digunakan\n   2. LUPA_PASSWORD: Reset password akun\n");
+        if(strcmp(session.currentUser.role,"manager") == 0){
+            printf("   3. LIHAT_USER / LIHAT_PASIEN / LIHAT_DOKTER: Melihat data user secara ascending / descending berdasarkan Nama atau ID\n   4. CARI_USER / CARI_PASIEN / CARI_DOKTER: Mencari user secara spesifik berdasarkan Nama, ID, atau Penyakit (Khusus Pasien)\n");
+        } else if(strcmp(session.currentUser.role, "pasien") == 0){
+            // Belum tersedia fitur khusus untuk sekarang
+        } else if(strcmp(session.currentUser.role, "dokter") == 0){
+            // Belum tersedia fitur khusus untuk sekarang
         }
+        printf("   -> EXIT: Keluar dari dunia Nimons :D");
+        printf("\n");
     } else {
         printf("Kamu belum login sebagai role apapun. Silahkan login terlebih dahulu.\n\n");
-        printf("   1. LOGIN: Masuk ke dalam akun yang sudah terdaftar\n   2. REGISTER: Membuat akun baru\n   3. LUPA_PASSWORD: Reset password akun\n\n");
+        printf("   1. LOGIN: Masuk ke dalam akun yang sudah terdaftar\n   2. REGISTER: Membuat akun baru\n   3. LUPA_PASSWORD: Reset password akun\n   -> EXIT: Keluar dari dunia Nimons :D\n\n");
     }
     printf("Footnote:\n   1. Untuk menggunakan aplikasi, silahkan masukkan nama fungsi yang terdaftar\n   2. Jangan lupa untuk memasukkan input yang valid\n\n");
 }

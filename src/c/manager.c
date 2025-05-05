@@ -83,9 +83,11 @@ void LihatUser(UserList *userList, Session *session) {
 
         // copy userList to sortedList
         UserList sortedList;
-        sortedList.count = userList->count;
+        sortedList.count = 0;
         for (int i = 0; i < userList->count; i++) {
-            sortedList.users[i] = userList->users[i];
+            if (strcmp(userList->users[i].role, "manager") != 0) {
+            sortedList.users[sortedList.count++] = userList->users[i];
+            }
         }
 
         SelectionSort(&sortedList, sortedList.count, pil1, pil2);
@@ -356,6 +358,10 @@ void CariPasien(UserList *userList, Session *session) {
 }
 
 void CariDokter(UserList *userList, Session *session) {
+    if (!session->loggedIn || strcmp(session->currentUser.role, "manager") != 0) {
+        printf("Akses ditolak. Fitur ini hanya dapat diakses oleh manager.\n");
+        return;
+    }
     UserList dokterList;
     dokterList.count = 0;
 

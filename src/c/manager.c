@@ -1,4 +1,5 @@
 #include "../header/manager.h"
+#include <stdio.h>
 
 void SelectionSort(UserList *userList, int n, int basedOn, int order) {
     int i, j, idMin;
@@ -82,9 +83,11 @@ void LihatUser(UserList *userList, Session *session) {
 
         // copy userList to sortedList
         UserList sortedList;
-        sortedList.count = userList->count;
+        sortedList.count = 0;
         for (int i = 0; i < userList->count; i++) {
-            sortedList.users[i] = userList->users[i];
+            if (strcmp(userList->users[i].role, "manager") != 0) {
+            sortedList.users[sortedList.count++] = userList->users[i];
+            }
         }
 
         SelectionSort(&sortedList, sortedList.count, pil1, pil2);
@@ -285,7 +288,7 @@ void CariPasien(UserList *userList, Session *session) {
         else {
             char nama[MAX_USERNAME_LENGTH];
             printf("> Masukkan nama pasien: ");
-            scanf("%s", nama);
+            scanf(" %[^\n]", nama);
 
             int index;
             if (BinarySearchUser(&sortedList, nama, &index)) {
@@ -305,7 +308,7 @@ void CariPasien(UserList *userList, Session *session) {
     else if (pilihan == 3) {
         char penyakit[50];
         printf("> Masukkan nama penyakit: ");
-        scanf("%s", penyakit);
+        scanf(" %[^\n]", penyakit);
 
         // pasien dengan penyakit tsb
         UserList pasienList;
@@ -355,6 +358,10 @@ void CariPasien(UserList *userList, Session *session) {
 }
 
 void CariDokter(UserList *userList, Session *session) {
+    if (!session->loggedIn || strcmp(session->currentUser.role, "manager") != 0) {
+        printf("Akses ditolak. Fitur ini hanya dapat diakses oleh manager.\n");
+        return;
+    }
     UserList dokterList;
     dokterList.count = 0;
 
@@ -407,7 +414,7 @@ void CariDokter(UserList *userList, Session *session) {
     }
 }
 
-int BinarySearchUser(UserList *userList, const char *username, int *index) {
+int BinarySearchUser(UserList *userList, char *username, int *index) {
     char target[MAX_USERNAME_LENGTH], currUser[MAX_USERNAME_LENGTH];
 
     ToLower(target, username);

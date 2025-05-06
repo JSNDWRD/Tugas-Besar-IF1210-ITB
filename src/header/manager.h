@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include "auth.h"
 #include "user.h"
+#include "utils.h"
 
 // Hanya digunakan oleh manager, untuk melihat user, sort berdasarkan id atau nama.
 void LihatUser(UserList *userList, Session *session);
@@ -33,7 +34,7 @@ void CariPasien(UserList *userList, Session *session);
 void CariDokter(UserList *userList, Session *session);
 
 // searching user dengan binary search
-int BinarySearchUser(UserList *userList, const char *username, int *index);
+int BinarySearchUser(UserList *userList, char *username, int *index);
 
 
 #endif

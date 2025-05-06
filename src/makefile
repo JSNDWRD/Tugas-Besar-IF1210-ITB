@@ -1,74 +1,43 @@
-# This is a makefile for compiling your whole project.
-# It is used to compile all the source files in the src directory and link them together.
-# It is also used to clean up the build directory and remove all the object files and the executable.
-# The makefile is used to compile the project using the gcc compiler.
-
-# Things to explore:
-# - Linux, MacOS, WSL for Windows
-# - Makefile variables
-# - Makefile rules
-# - Makefile targets
-# - Makefile dependencies
-# - Makefile commands
-
-# ---------------------- Example makefile for a C project ----------------------
-
-# This is variable that specifies the compiler to use.
+# Compiler and flags
 CC = gcc
-# This is variable that specifies the compiler flags to use.
 CFLAGS = -g -Wall
-# This is variable that specifies the source files to compile.
-SRCS = $(wildcard *.c)
-# This is variable that specifies the object files to create.
-OBJS = $(SRCS:.c=.o)
-# This is variable that specifies the name of the executable file.
+
+# Directories
+CDIR = c
+BUILD_DIR = build
+CBUILD_DIR = $(BUILD_DIR)/c
+
+# Source and object files
+MAIN_SRCS = $(wildcard *.c)
+C_SRCS = $(wildcard $(CDIR)/*.c)
+
+MAIN_OBJS = $(patsubst %.c, $(BUILD_DIR)/%.o, $(MAIN_SRCS))
+C_OBJS = $(patsubst $(CDIR)/%.c, $(CBUILD_DIR)/%.o, $(C_SRCS))
+
+OBJS = $(MAIN_OBJS) $(C_OBJS)
+
+# Executable
 TARGET = main
-# This is variable that specifies target compile directory.
-TARGET_DIR = build
 
+# Default target
+all: prepare_dirs $(TARGET)
 
-# TODO: Explore best practices for makefiles
-# HINT: Do step by step compilation and linking (e.g. compile all .c files to .o files, then link them together to create the executable)
-# HINT: Specify output directory for object files and executable (e.g. build/) and ignore the build directory in the git repository
+# Prepare required directories
+prepare_dirs:
+	mkdir -p $(BUILD_DIR) $(CBUILD_DIR)
 
+# Linking
+$(TARGET): $(OBJS)
+	$(CC) $(CFLAGS) -o $@ $^
 
-# This is default target that is used to compile the project.
-main: main.c
-	@echo "Compiling the project..."
-	@echo "Compiling source files..."
-	@$(MAKE) compile
-	@echo "Linking object files..."
-	@$(MAKE) link
-	@echo "Build complete."
+# Compile main .c files
+$(BUILD_DIR)/%.o: %.c
+	$(CC) $(CFLAGS) -c $< -o $@
 
-# This target is used to compile all the source files in the src directory.
-# The -g option is used to generate debug information.
-# The -Wall option is used to enable all compiler warnings.
-# The -c option is used to compile the source files without linking them.
-# *.c: compile all C source files in the current directory
-compile:
-	mkdir -p build
-	$(CC) $(CFLAGS) -c $(SRCS) -o $(TARGET_DIR)/$(OBJS)
+# Compile c/*.c files
+$(CBUILD_DIR)/%.o: $(CDIR)/%.c
+	$(CC) $(CFLAGS) -c $< -o $@
 
-
-# This target is used to link the object files and create the executable.
-# The -o option specifies the output file name.
-link:
-	$(CC) $(CFLAGS) -o $(TARGET) $(TARGET_DIR)/$(OBJS)
-
-# This target is used to compile all the source files in the src directory and link them together.
+# Clean
 clean:
-	rm -rf build
-	rm -f $(TARGET)
-	rm -f *.o
-	rm -f *.out
-	rm -f *.exe
-	rm -f *.a
-	rm -f *.so
-	rm -f *.dll
-	rm -f *.dSYM
-	rm -f *.pdb
-	rm -f *.ilk
-	rm -f *.idb
-	rm -f *.lib
-	rm -f *.exp
+	rm -rf $(BUILD_DIR) $(TARGET)

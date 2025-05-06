@@ -3,26 +3,35 @@
 #include "./header/auth.h"
 #include "./header/utils.h"
 #include "./header/manager.h"
+#include "./header/hospital.h"
+#include "./header/command.h"
 
 int main() {
     UserList userList; // Daftar pengguna
     LoadUsers(&userList);
-    char arrCommand[20][50] = {"HELP", "LOGIN", "LOGOUT", "REGISTER", "EXIT", "LUPA_PASSWORD", "LIHAT_USER", "LIHAT_PASIEN", "LIHAT_DOKTER"};
-    char input[50]; // Input command
-    enum Command { HELP=1, LOGIN, LOGOUT, REGISTER, EXIT, LUPA_PASSWORD, LIHAT_USER, LIHAT_PASIEN, LIHAT_DOKTER };
-    Session session = {.loggedIn = 0};
 
+    CommandList commandList; // Daftar command yang dapat digunakan
+
+    const char *COMMAND_READY[COMMAND_CAPACITY] = {
+        "HELP", "LOGIN", "LOGOUT", "REGISTER", "EXIT", "LUPA_PASSWORD", "LIHAT_USER", "LIHAT_PASIEN", "LIHAT_DOKTER", "CARI_USER", "CARI_PASIEN", "CARI_DOKTER"
+    };
+    enum Command { HELP=1, LOGIN, LOGOUT, REGISTER, EXIT, LUPA_PASSWORD, LIHAT_USER, LIHAT_PASIEN, LIHAT_DOKTER, CARI_USER, CARI_PASIEN, CARI_DOKTER };
+
+    CreateCommandList(&commandList,COMMAND_READY); // Membuat List Statik yang berisikan command yang tersedia
+    
+    Session session = {.loggedIn = 0}; // Ketika program mulai, session adalah logged out
     int command = 0;
-    int commandCount = sizeof(arrCommand) / sizeof(arrCommand[0]);
+    char input[50]; // Input command
     do {
         int valid = 0;
         do {
             printf("\n>>> Input Command: ");
             scanf("%s", input);
             ToUpperCase(input);
-            for (int i = 0; i < commandCount; i++) {
-                if (strcmp(input, arrCommand[i]) == 0) {
+            for (int i = 0; i < COMMAND_CAPACITY; i++) {
+                if (strcmp(input, ELMTNAME(commandList,i)) == 0) {
                     valid = 1;
+                    command = ELMTKEY(commandList,i);
                     break;
                 }
             }
@@ -31,12 +40,12 @@ int main() {
             }
         } while(valid == 0);
 
-        for (int i = 0; i < commandCount; i++) {
-            if (strcmp(input, arrCommand[i]) == 0) {
-                command = i + 1;
-                break;
-            }
-        }
+        // for (int i = 0; i < COMMAND_CAPACITY; i++) {
+        //     if (strcmp(input, commandList.command[i].name) == 0) {
+        //         command = i + 1;
+        //         break;
+        //     }
+        // }
 
         switch (command) {
             case HELP:
@@ -66,7 +75,15 @@ int main() {
             case LIHAT_DOKTER:
                 LihatDokter(&userList,&session);
                 break;
-
+            case CARI_USER:
+                CariUser(&userList,&session);
+                break;
+            case CARI_PASIEN:
+                CariPasien(&userList, &session);
+                break;
+            case CARI_DOKTER:
+                CariDokter(&userList,&session);
+                break;
             default:
                 printf("Command tidak ditemukan.\n");
         }

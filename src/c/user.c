@@ -5,22 +5,22 @@ void CreateUser(User *user,int id, char *username, char *password, char *role, c
     float suhuTubuh, int tekananDarahSistolik, int tekananDarahDiastolik, int detakJantung,
     float saturasiOksigen, int kadarGulaDarah, float beratBadan, int tinggiBadan,
     int kadarKolesterol, int kadarKolesterolLDL, int trombosit) {
-user->id = id;
-strcpy(user->username, username);
-strcpy(user->password, password);
-strcpy(user->role, role);
-strcpy(user->riwayatPenyakit, riwayatPenyakit);
-user->suhuTubuh = suhuTubuh;
-user->tekananDarahSistolik = tekananDarahSistolik;
-user->tekananDarahDiastolik = tekananDarahDiastolik;
-user->detakJantung = detakJantung;
-user->saturasiOksigen = saturasiOksigen;
-user->kadarGulaDarah = kadarGulaDarah;
-user->beratBadan = beratBadan;
-user->tinggiBadan = tinggiBadan;
-user->kadarKolesterol = kadarKolesterol;
-user->kadarKolesterolLDL = kadarKolesterolLDL;
-user->trombosit = trombosit;
+    user->id = id;
+    strcpy(user->username, username);
+    strcpy(user->password, password);
+    strcpy(user->role, role);
+    strcpy(user->riwayatPenyakit, riwayatPenyakit);
+    user->suhuTubuh = suhuTubuh;
+    user->tekananDarahSistolik = tekananDarahSistolik;
+    user->tekananDarahDiastolik = tekananDarahDiastolik;
+    user->detakJantung = detakJantung;
+    user->saturasiOksigen = saturasiOksigen;
+    user->kadarGulaDarah = kadarGulaDarah;
+    user->beratBadan = beratBadan;
+    user->tinggiBadan = tinggiBadan;
+    user->kadarKolesterol = kadarKolesterol;
+    user->kadarKolesterolLDL = kadarKolesterolLDL;
+    user->trombosit = trombosit;
 }
 
 int GetID(User *user) {

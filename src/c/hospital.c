@@ -185,6 +185,35 @@ void LihatRuangan(Matrix *denahHospital, const char *input, UserList userlist) {
     printf("------------------------------\n");
 }
 
-void saveConfig(Matrix denahHospital){
-    
+void saveConfig(Matrix denahHospital) {
+    FILE *file = fopen("config.txt", "w"); // bisa sesuaikan path jika perlu
+    if (file == NULL) {
+        perror("Gagal membuka file config.txt untuk menulis");
+        return;
+    }
+
+    // Mengisi baris 1: jumlah baris dan kolom 
+    fprintf(file, "%d %d\n", denahHospital.rows, denahHospital.cols);
+
+    // Mengisi baris 2: kapasitas ruangan
+    fprintf(file, "%d\n", denahHospital.data[0][0].kapasitas);
+
+    // Mengisi baris 3-8 : isi tiap ruangan denagn id dokter dan pasien
+    // karena ruangan masih statik, jadi isi ruangan berada pada baris 3-8 
+    for (int i = 0; i < denahHospital.rows; i++) {
+        for (int j = 0; j < denahHospital.cols; j++) {
+            Ruangan r = denahHospital.data[i][j];
+            if (r.dokter == -1) {
+                fprintf(file, "0\n");  // jika tidak ada dokter tulis 0 saja pada baris tanpa id pasien
+            } else { // jika ada dokter di ruangan itu
+                fprintf(file, "%d", r.dokter);
+                for (int k = 0; k < r.jumlahpasien; k++) {
+                    fprintf(file, " %d", r.pasien[k]);
+                }
+                fprintf(file, "\n");
+            }
+        }
+    }
+    fclose(file);
+    printf("Data berhasil disimpan ke config.txt\n");
 }

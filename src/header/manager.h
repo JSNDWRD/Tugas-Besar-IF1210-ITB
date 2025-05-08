@@ -42,10 +42,9 @@ User GetUserAt(UserList *userList, int idx);
 // Set user in UserList by index
 void SetUserAt(UserList *userList, int idx, User user);
 
-// Utility: Add user to UserList (if not full)
+// Add user to UserList (if not full)
 int AppendUser(UserList *userList, User user);
 
-// Utility: Find user index by username (case-insensitive)
-int FindUserIndexByUsername(UserList *userList, const char *username);
+
 
 #endif

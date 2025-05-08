@@ -186,9 +186,9 @@ void LihatRuangan(Matrix *denahHospital, const char *input, UserList userlist) {
 }
 
 void saveConfig(Matrix denahHospital) {
-    FILE *file = fopen("config.txt", "w"); // bisa sesuaikan path jika perlu
+    FILE *file = fopen("config.txt", "w"); 
     if (file == NULL) {
-        perror("Gagal membuka file config.txt untuk menulis");
+        perror("Gagal membuka file config.txt");
         return;
     }
 

@@ -36,5 +36,15 @@ void CariDokter(UserList *userList, Session *session);
 // searching user dengan binary search
 int BinarySearchUser(UserList *userList, char *username, int *index);
 
+// Get user from UserList by index
+User GetUserAt(UserList *userList, int idx);
+
+// Set user in UserList by index
+void SetUserAt(UserList *userList, int idx, User user);
+
+// Add user to UserList (if not full)
+int AppendUser(UserList *userList, User user);
+
+
 
 #endif

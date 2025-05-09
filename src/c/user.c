@@ -319,7 +319,12 @@ void LoadUsers(UserList *userList, char *inputFolder){
 }
 
 void SaveUsers(UserList userList){
-    FILE *fUserList = fopen("file/user.csv","w");
+    char inputFolder[100];
+    printf("\nMasukkan nama folder: ");
+    scanf(" %[^\n]s",inputFolder);
+    strcat(inputFolder,"/user.csv");
+    printf("%s",inputFolder);
+    FILE *fUserList = fopen(inputFolder,"w");
     fprintf(fUserList, "id,username,password,role,riwayatPenyakit,suhuTubuh,tekananDarahSistolik,tekananDarahDiastolik,detakJantung,saturasiOksigen,kadarGulaDarah,beratBadan,tinggiBadan,kadarKolesterol,kadarKolesterolLDL,trombosit\n");
     for (int i = 0; i < userList.count; i++) {
         User user = userList.users[i];

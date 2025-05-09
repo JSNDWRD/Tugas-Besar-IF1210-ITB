@@ -6,9 +6,9 @@
 #include "./header/hospital.h"
 #include "./header/command.h"
 
-int main() {
+int main(int argc, char* argv[]) {
     UserList userList; // Daftar pengguna
-    LoadUsers(&userList);
+    LoadUsers(&userList,argv[1]);
 
     CommandList commandList; // Daftar command yang dapat digunakan
 

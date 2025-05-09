@@ -114,7 +114,7 @@ void LihatDenah(Matrix *denahHospital) {
     printf("\n");
 }
 
-void UbahInputMatrix(char *input, int *row, int *col) {
+void UbahInput(char *input, int *row, int *col) {
     int i = 0;
     while (input[i] != '\0') {
         // Cek jika ada huruf kapital diikuti angka (contoh: A1, B12)

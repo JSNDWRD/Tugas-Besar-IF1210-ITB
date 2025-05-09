@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <string.h>
 #include "user.h"
+#include "utils.h"
 #include <ctype.h>
 
 // Untuk login, register, dan logout
@@ -11,6 +12,8 @@
 
 #define MAX_USERS 100
 #define MAX_SET_SIZE 200
+
+#define MAX_UNIQUE_CODE 50
 
 // Implementasi Set
 typedef struct {
@@ -27,15 +30,19 @@ void InsertSet(Set *set, char *value);
 // Cek apakah value sudah ada di Set
 int IsInSet(Set *set, char *value);  
 
-// Make lowercase string -> untuk cek username
-void ToLowerCase(char *str);
-
 // Login user
 void Login(UserList *userList, Session *session);
 
-// Daftar user 
+// Daftar user, khusus pasien
 void RegisterUser(UserList *userList, Session *session);
 
+// Menambahkan user, digunakan manager
+void TambahDokter(UserList *userList, Session *session);
+
+// Logout user
 void Logout(Session *session);
+
+void ResetPassword(UserList *userList, Session *session);
+
 
 #endif

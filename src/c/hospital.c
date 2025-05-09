@@ -160,7 +160,7 @@ void LihatRuangan(Matrix *denahHospital, const char *input, UserList userlist) {
             break;
         }
     }
-    if(strcmp(dokter,"Tidak Ada")){
+    if(strcmp(dokter,"Tidak Ada") == 0){
         printf("Dokter     : -\n");
     }else{
         printf("Dokter     : %s\n", dokter);

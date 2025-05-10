@@ -1,8 +1,8 @@
-#include "hospital.h"
+#include "../header/hospital.h"
 
-void LoadConfig(Matrix *denahHospital){
-    
-    FILE *fDenah = fopen("./src/file/config.txt","r");
+void LoadConfig(Matrix *denahHospital, char *inputFolder){
+    strcat(inputFolder,"/config.txt");
+    FILE *fDenah = fopen(inputFolder,"r");
 
 
     if (fDenah == NULL) {
@@ -43,7 +43,7 @@ void LoadConfig(Matrix *denahHospital){
     }
 
     // memeriksa baris ke 3-8 untuk mendapatkan id dosen,jumlah pasien, id pasien
-    int index = 0;
+    // int index = 0;
     for (int i = 0; i < denahHospital->rows; i++) {
         for(int j=0; j<denahHospital->cols;j++){
             /* array angka untuk menyimpan id sementara dari dokter dan para pasien
@@ -185,7 +185,7 @@ void LihatRuangan(Matrix *denahHospital, char *input, UserList userlist) {
     printf("------------------------------\n");
 }
 
-void saveConfig(Matrix denahHospital) {
+void SaveConfig(Matrix denahHospital) {
     FILE *file = fopen("config.txt", "w"); 
     if (file == NULL) {
         perror("Gagal membuka file config.txt");

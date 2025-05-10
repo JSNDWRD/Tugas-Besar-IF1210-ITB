@@ -36,6 +36,9 @@ void Login(UserList *userList, Session *session);
 // Daftar user, khusus pasien
 void RegisterUser(UserList *userList, Session *session);
 
+// Menambahkan user, digunakan manager
+void TambahDokter(UserList *userList, Session *session);
+
 // Logout user
 void Logout(Session *session);
 

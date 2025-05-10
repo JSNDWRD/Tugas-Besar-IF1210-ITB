@@ -188,14 +188,17 @@ void AddUser(UserList *userList, User newUser){
     userList->count++;
 }
 
-void LoadUsers(UserList *userList){
-    FILE *fUserList = fopen("file/user.csv","r");
+void LoadUsers(UserList *userList, char *inputFolder){
+    char folderName[100];
+    strcpy(folderName,inputFolder);
+    strcat(inputFolder,"/user.csv");
+    FILE *fUserList = fopen(inputFolder,"r");
 
     // Inisialisasi jumlah user
     int count = 0;
 
     if (fUserList == NULL) {
-        perror("FILE user.csv kosong\n");
+        printf("Folder \"%s\" tidak ditemukan.\n",folderName);
     }
 
     char baris[1024]; 
@@ -316,7 +319,12 @@ void LoadUsers(UserList *userList){
 }
 
 void SaveUsers(UserList userList){
-    FILE *fUserList = fopen("file/user.csv","w");
+    char inputFolder[100];
+    printf("\nMasukkan nama folder: ");
+    scanf(" %[^\n]s",inputFolder);
+    strcat(inputFolder,"/user.csv");
+    printf("%s",inputFolder);
+    FILE *fUserList = fopen(inputFolder,"w");
     fprintf(fUserList, "id,username,password,role,riwayatPenyakit,suhuTubuh,tekananDarahSistolik,tekananDarahDiastolik,detakJantung,saturasiOksigen,kadarGulaDarah,beratBadan,tinggiBadan,kadarKolesterol,kadarKolesterolLDL,trombosit\n");
     for (int i = 0; i < userList.count; i++) {
         User user = userList.users[i];

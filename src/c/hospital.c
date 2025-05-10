@@ -139,6 +139,8 @@ void UbahInput(char *input, int *row, int *col) {
 void LihatRuangan(Matrix *denahHospital, char *input, UserList userlist) {
     int row, col;
     UbahInput(input, &row, &col);
+    printf("%d %d",row,col);
+    printf("%d",denahHospital->data[row][col].kapasitas);
 
     // Validasi posisi
     if (!(isRowValid(row, *denahHospital)) || !(isColsValid(col, *denahHospital))) {
@@ -148,6 +150,10 @@ void LihatRuangan(Matrix *denahHospital, char *input, UserList userlist) {
 
     // variable r yang menyimpan struktur data di ruangan yang sesuai input)
     Ruangan *r = GetElement(denahHospital, row, col);
+    if (r == NULL) {
+        printf("Ruangan tidak ditemukan.\n");
+        return;
+    }
 
     printf("--- Detail Ruangan %s ---\n", r->namaruangan);
     printf("Kapasitas  : %d\n", r->kapasitas);

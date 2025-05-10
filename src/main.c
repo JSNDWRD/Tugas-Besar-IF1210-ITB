@@ -3,22 +3,22 @@
 #include "./header/auth.h"
 #include "./header/utils.h"
 #include "./header/manager.h"
-// #include "./header/hospital.h"
+#include "./header/hospital.h"
 #include "./header/command.h"
 
 int main(int argc, char* argv[]) {
     UserList userList; // Daftar pengguna
     LoadUsers(&userList,argv[1]);
 
-    // Matrix denahRumahSakit; // Denah rumah sakit
-    // LoadConfig(&denahRumahSakit,argv[1]);
+    Matrix denahRumahSakit; // Denah rumah sakit
+    LoadConfig(&denahRumahSakit,argv[1]);
 
     CommandList commandList; // Daftar command yang dapat digunakan
 
     const char *COMMAND_READY[COMMAND_CAPACITY] = {
-        "HELP", "LOGIN", "LOGOUT", "REGISTER", "EXIT", "LUPA_PASSWORD", "LIHAT_USER", "LIHAT_PASIEN", "LIHAT_DOKTER", "CARI_USER", "CARI_PASIEN", "CARI_DOKTER", "TAMBAH_DOKTER", "LIHAT_DENAH"
+        "HELP", "LOGIN", "LOGOUT", "REGISTER", "EXIT", "LUPA_PASSWORD", "LIHAT_USER", "LIHAT_PASIEN", "LIHAT_DOKTER", "CARI_USER", "CARI_PASIEN", "CARI_DOKTER", "TAMBAH_DOKTER", "LIHAT_DENAH", "LIHAT_RUANGAN"
     };
-    enum Command { HELP=1, LOGIN, LOGOUT, REGISTER, EXIT, LUPA_PASSWORD, LIHAT_USER, LIHAT_PASIEN, LIHAT_DOKTER, CARI_USER, CARI_PASIEN, CARI_DOKTER, TAMBAH_DOKTER, LIHAT_DENAH };
+    enum Command { HELP=1, LOGIN, LOGOUT, REGISTER, EXIT, LUPA_PASSWORD, LIHAT_USER, LIHAT_PASIEN, LIHAT_DOKTER, CARI_USER, CARI_PASIEN, CARI_DOKTER, TAMBAH_DOKTER, LIHAT_DENAH, LIHAT_RUANGAN };
 
     CreateCommandList(&commandList,COMMAND_READY); // Membuat List Statik yang berisikan command yang tersedia
     
@@ -29,10 +29,17 @@ int main(int argc, char* argv[]) {
         int valid = 0;
         do {
             printf("\n>>> Input Command: ");
-            scanf("%s", input);
-            ToUpperCase(input);
+            scanf(" %[^\n]s", input);
+            char commandAwal[50];
+            int i = 0;
+            while(input[i] != '\0' && input[i] != ' ' && i < sizeof(commandAwal)-1){
+                commandAwal[i] = input[i];
+                i++;
+            }
+            commandAwal[i] = '\0';
+            ToUpperCase(commandAwal);
             for (int i = 0; i < COMMAND_CAPACITY; i++) {
-                if (strcmp(input, ELMTNAME(commandList,i)) == 0) {
+                if (strcmp(commandAwal, ELMTNAME(commandList,i)) == 0) {
                     valid = 1;
                     command = ELMTKEY(commandList,i);
                     break;
@@ -91,7 +98,36 @@ int main(int argc, char* argv[]) {
                 TambahDokter(&userList,&session);
                 break;
             case LIHAT_DENAH:
-                // LihatDenah(&denahRumahSakit);
+                if(session.loggedIn != 1){
+                    printf("Anda harus login terlebih dahulu!");
+                } else {
+                    LihatDenah(&denahRumahSakit);
+                }
+                break;
+            case LIHAT_RUANGAN:
+                if(session.loggedIn == 1){
+                    char ruangan[10];
+                    int i = 0, j = 0;
+                    while(input[i] != '\0' && input[i] != ' '){
+                        i++;
+                    }
+                    if(input[i] == ' '){
+                        i++;
+                    }
+                    while(input[i] != '\0' && j < sizeof(ruangan)-1){
+                        ruangan[j] = input[i];
+                        i++;
+                        j++;
+                    }
+                    ruangan[j] = '\0';
+                    if(ruangan[0] == '\0'){
+                        printf("Ruangan tidak ditemukan.\n");
+                    } else {
+                        LihatRuangan(&denahRumahSakit, ruangan, userList);
+                    }
+                }  else {
+                    printf("Anda harus login terlebih dahulu!");
+                }
                 break;
             default:
                 printf("Command tidak ditemukan.\n");

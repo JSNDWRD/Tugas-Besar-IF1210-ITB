@@ -1,9 +1,7 @@
 // #include "../header/hospital.h"
 
-// void LoadConfig(Matrix *denahHospital, char *inputFolder){
-//     strcat(inputFolder,"/config.txt");
-//     FILE *fDenah = fopen(inputFolder,"r");
-
+void LoadConfig(Matrix *denahHospital, char *inputFolder){
+    FILE *fDenah = fopen("file/config.txt", "r");
 
 //     if (fDenah == NULL) {
 //         perror("FILE config.txt kosong\n");
@@ -14,21 +12,25 @@
 //     // memeriksa baris pertama yang berisi baris dan kolom 
 //     fgets(baris,sizeof(baris),fDenah);
 
-//     int i = 0,count = 0,temp=0;
-//     while(baris[i] != '\0' && baris[i] != '\n'){
-//         if(baris[i] >= '0' && baris[i] <= '9'){
-//             temp = temp * 10 + (baris[i] - '0');
-//         }else{
-//             if(count == 0) denahHospital->rows = temp;
-//             else denahHospital->cols = temp;
-//             count ++;
-//         }
-//         i++;
-//     }
+    int i = 0,count = 0,temp=0;
+    while(baris[i] != '\0' && baris[i] != '\n'){
+        if(baris[i] >= '0' && baris[i] <= '9'){
+            temp = temp * 10 + (baris[i] - '0');
+        }else{
+            if(count == 0) denahHospital->rows = temp;
+            else denahHospital->cols = temp;
+            count ++;
+            temp = 0;
+        }
+        i++;
+    }
+
+    // isi nama ruangan sesuai kolom dan baris
+    InisialisasiNamaRuangan(denahHospital);
 
 
-//     // memeriksa baris ke dua yg berisi kapasitas
-//     fgets(baris,sizeof(baris),fDenah);
+    // memeriksa baris ke dua yg berisi kapasitas
+    fgets(baris,sizeof(baris),fDenah);
 
 //     int kapasitas = 0,j = 0;
 //     while (baris[j] >= '0' && baris[j] <= '9') {
@@ -83,12 +85,12 @@
 //     int lebar = denahHospital->cols;
 //     int panjang = denahHospital->rows;
 
-//     // Header kolom angka
-//     printf("   ");
-//     for (int j = 0; j < lebar; j++) {
-//         printf("     %d", j + 1);
-//     }
-//     printf("\n");
+    // Header kolom angka
+    printf(" ");
+    for (int j = 0; j < lebar; j++) {
+        printf("     %d", j + 1);
+    }
+    printf("\n");
 
 //     for (int i = 0; i < panjang; i++) {
 //         // Garis atas
@@ -114,37 +116,34 @@
 //     printf("\n");
 // }
 
-// void UbahInput(char *input, int *row, int *col) {
-//     int i = 0;
-//     while (input[i] != '\0') {
-//         // Cek jika ada huruf kapital diikuti angka (contoh: A1, B12)
-//         if (input[i] >= 'A' && input[i] <= 'Z' && input[i + 1] >= '0' && input[i + 1] <= '9') {
-//             *row = input[i] - 'A'; // konversi huruf ke indeks baris
-//             i++;
-//             *col = 0;
+void UbahInput(char *input, int *row, int *col) {
+    *row = -1;
+    *col = -1;
+    
+    if (input == NULL || strlen(input) < 2) return;
 
-//             // baca angka setelah huruf
-//             while (input[i] >= '0' && input[i] <= '9') {
-//                 *col = (*col) * 10 + (input[i] - '0');
-//                 i++;
-//             }
+    // First character should be a letter (A-Z)
+    if (input[0] >= 'A' && input[0] <= 'Z') {
+        *row = input[0] - 'A';
+    } else if (input[0] >= 'a' && input[0] <= 'z') {
+        *row = input[0] - 'a';
+    } else {
+        return;  // Invalid row
+    }
 
-//             (*col)--; // ubah sesuai index dari 0 (misal input A1 -> index kolom 0)
-//             return;
-//         }
-//         i++;
-//     }
-// }
+    // Rest should be numbers
+    *col = 0;
+    int i = 1;
+    while (input[i] >= '0' && input[i] <= '9') {
+        *col = (*col) * 10 + (input[i] - '0');
+        i++;
+    }
+    *col -= 1;  // Convert to 0-based index
+}
 
-// void LihatRuangan(Matrix *denahHospital, const char *input, UserList userlist) {
-//     int row, col;
-//     UbahInputMatrix(input, &row, &col);
-
-//     // Validasi posisi
-//     if (!(isRowValid(row, *denahHospital)) || !(isColsValid(col, *denahHospital))) {
-//         printf("Ruangan tidak ditemukan.\n");
-//         return;
-//     }
+void LihatRuangan(Matrix *denahHospital, char *input, UserList userList) {
+    int row, col;
+    UbahInput(input, &row, &col);
 
 //     // variable r yang menyimpan struktur data di ruangan yang sesuai input)
 //     Ruangan *r = GetElement(denahHospital, row, col);
@@ -152,35 +151,37 @@
 //     printf("--- Detail Ruangan %s ---\n", r->namaRuangan);
 //     printf("Kapasitas  : %d\n", r->kapasitas);
 
-//     char dokter[MAX_USERNAME_LENGTH] = "Tidak Ada";
-//     //Cari userlist dengan role dokter dan id yang sesuai
-//     for (int i = 0; i < userlist.count; i++) {
-//         if (userlist.users[i].id == r->dokter && strcmp(userlist.users[i].role, "dokter") == 0) {
-//             strcpy(dokter, userlist.users[i].username);
-//             break;
-//         }
-//     }
-//     if(strcmp(dokter,"Tidak Ada") == 0){
-//         printf("Dokter     : -\n");
-//     }else{
-//         printf("Dokter     : %s\n", dokter);
-//     }
+    char dokter[MAX_USERNAME_LENGTH] = "Tidak Ada";
+    //Cari userList dengan role dokter dan id yang sesuai
+    for (int i = 0; i < userList.count; i++) {
+        if (userList.users[i].id == r->dokter && strcmp(userList.users[i].role, "dokter") == 0) {
+            strcpy(dokter, userList.users[i].username);
+            break;
+        }
+    }
+    if(strcmp(dokter,"Tidak Ada") == 0){
+        printf("Dokter     : -\n");
+    }else{
+        printf("Dokter     : %s\n", dokter);
+    }
 
-//     if (r->jumlahPasien == 0) {
-//         printf("  Tidak ada pasien di dalam ruangan saat ini.\n");
-//     } else {
-//         // cari setiap pasien di dalam ruangan yang sesuai
-//         for (int i = 0; i < r->jumlahPasien; i++) {
-//             char pasien[MAX_USERNAME_LENGTH];
-//             for (int j = 0; j < userlist.count; j++) {
-//                 if (userlist.users[j].id == r->pasien[i] && strcmp(userlist.users[j].role, "pasien") == 0) {
-//                     strcpy(pasien, userlist.users[j].username);
-//                     break;
-//                 }
-//             }
-//             printf("  %d. %s\n", i + 1, pasien);
-//         }
-//     }
+
+    if ((r->jumlahpasien == 0) || strcmp(dokter,"Tidak Ada") == 0){
+        printf("  Tidak ada pasien di dalam ruangan saat ini.\n");
+    } else {
+        // cari setiap pasien di dalam ruangan yang sesuai
+        printf("Pasien di dalam ruangan : \n");
+        for (int i = 0; i < r->jumlahpasien; i++) {
+            char pasien[MAX_USERNAME_LENGTH];
+            for (int j = 0; j < userList.count; j++) {
+                if (userList.users[j].id == r->pasien[i] && strcmp(userList.users[j].role, "pasien") == 0) {
+                    strcpy(pasien, userList.users[j].username);
+                    break;
+                }
+            }
+            printf("  %d. %s\n", i + 1, pasien);
+        }
+    }
 
 //     printf("------------------------------\n");
 // }

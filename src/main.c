@@ -98,27 +98,35 @@ int main(int argc, char* argv[]) {
                 TambahDokter(&userList,&session);
                 break;
             case LIHAT_DENAH:
-                LihatDenah(&denahRumahSakit);
+                if(session.loggedIn != 1){
+                    printf("Anda harus login terlebih dahulu!");
+                } else {
+                    LihatDenah(&denahRumahSakit);
+                }
                 break;
             case LIHAT_RUANGAN:
-                char ruangan[10];
-                int i = 0, j = 0;
-                while(input[i] != '\0' && input[i] != ' '){
-                    i++;
-                }
-                if(input[i] == ' '){
-                    i++;
-                }
-                while(input[i] != '\0' && j < sizeof(ruangan)-1){
-                    ruangan[j] = input[i];
-                    i++;
-                    j++;
-                }
-                ruangan[j] = '\0';
-                if(ruangan[0] == '\0'){
-                    printf("Ruangan tidak ditemukan.\n");
-                } else {
-                    LihatRuangan(&denahRumahSakit, ruangan, userList);
+                if(session.loggedIn == 1){
+                    char ruangan[10];
+                    int i = 0, j = 0;
+                    while(input[i] != '\0' && input[i] != ' '){
+                        i++;
+                    }
+                    if(input[i] == ' '){
+                        i++;
+                    }
+                    while(input[i] != '\0' && j < sizeof(ruangan)-1){
+                        ruangan[j] = input[i];
+                        i++;
+                        j++;
+                    }
+                    ruangan[j] = '\0';
+                    if(ruangan[0] == '\0'){
+                        printf("Ruangan tidak ditemukan.\n");
+                    } else {
+                        LihatRuangan(&denahRumahSakit, ruangan, userList);
+                    }
+                }  else {
+                    printf("Anda harus login terlebih dahulu!");
                 }
                 break;
             default:

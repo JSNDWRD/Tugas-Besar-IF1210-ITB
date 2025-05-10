@@ -118,7 +118,6 @@ int main(int argc, char* argv[]) {
                 if(ruangan[0] == '\0'){
                     printf("Ruangan tidak ditemukan.\n");
                 } else {
-                    printf("%s",ruangan);
                     LihatRuangan(&denahRumahSakit, ruangan, userList);
                 }
                 break;

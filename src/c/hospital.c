@@ -140,7 +140,6 @@ void LihatRuangan(Matrix *denahHospital, char *input, UserList userList) {
     int row, col;
     UbahInput(input, &row, &col);
     printf("%d %d",row,col);
-    printf("%d",denahHospital->data[row][col].kapasitas);
 
     // Validasi posisi
     if (!(isRowValid(row, *denahHospital)) || !(isColsValid(col, *denahHospital))) {

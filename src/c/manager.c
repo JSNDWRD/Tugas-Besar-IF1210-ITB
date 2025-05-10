@@ -38,16 +38,45 @@ void SelectionSort(UserList *userList, int n, int basedOn, int order) {
     }
 }
 
-void PrintPilihan(int *pil1, int *pil2) {
-    printf("Urutkan berdasarkan:\n");
-    printf("   1. ID\n");
-    printf("   2. Nama\n> Pilihan: ");
-    scanf("%d", pil1);
+void CariPilihan(int *pil) {
+    *pil = 0;
 
-    printf("Urutkan secara:\n");
-    printf("   1. Ascending\n");
-    printf("   2. Descending\n> Pilihan: ");
-    scanf("%d", pil2);
+    do {  // validasi input
+        printf("Cari berdasarkan:\n");
+        printf("   1. ID\n");
+        printf("   2. Nama\n> Pilihan: ");
+        scanf("%d", pil);
+        if (*pil < 1) {
+            printf("Pilihan tidak valid. Silakan masukkan 1 atau 2.\n\n");
+        }
+    } while (*pil < 1 || *pil > 2);
+}
+
+void PrintPilihan(int *pil1, int *pil2) {
+    *pil1 = 0;
+    *pil2 = 0;
+
+    do {  // validasi input 1
+        printf("Urutkan berdasarkan:\n");
+        printf("   1. ID\n");
+        printf("   2. Nama\n> Pilihan: ");
+        scanf("%d", pil1);
+        if (*pil1 < 1 || *pil1 > 2) {
+            printf("Pilihan tidak valid. Silakan masukkan 1 atau 2.\n\n");
+        }
+    } while (*pil1 < 1 || *pil1 > 2);
+
+    printf("\n");
+
+    do {  // validasi input 2
+        printf("Urutkan secara:\n");
+        printf("   1. Ascending\n");
+        printf("   2. Descending\n> Pilihan: ");
+        scanf("%d", pil2);
+        if (*pil2 < 1 || *pil2 > 2) {
+            printf("Pilihan tidak valid. Silakan masukkan 1 atau 2.\n\n");
+        }
+    } while (*pil2 < 1 || *pil2 > 2);
 }
 
 void PrintList(UserList *userList, int basedOn, int order) {
@@ -83,7 +112,7 @@ void LihatUser(UserList *userList, Session *session) {
         return;
     }
     else {
-        int pil1 = 0, pil2 = 0;  // pil1 = sort by, pil2 = asc/desc
+        int pil1, pil2;  // pil1 = sort by, pil2 = asc/desc
         PrintPilihan(&pil1, &pil2);
 
         // copy userList to sortedList
@@ -107,7 +136,7 @@ void LihatPasien(UserList *userList, Session *session) {
         return;
     }
 
-    int pil1 = 0, pil2 = 0;
+    int pil1, pil2;
     PrintPilihan(&pil1, &pil2);
 
     // filter hanya pasien
@@ -123,8 +152,10 @@ void LihatPasien(UserList *userList, Session *session) {
     SelectionSort(&sortedList, sortedList.count, pil1, pil2);
     
     printf("Menampilkan daftar pasien dengan ");
+
     if (pil1 == 1) printf("ID ");
     else if (pil1 == 2) printf("Nama ");
+
     if (pil2 == 1) printf("terurut ascending:\n");
     else if (pil2 == 2) printf("terurut descending:\n");
 
@@ -145,7 +176,7 @@ void LihatDokter(UserList *userList, Session *session) {
         return;
     }
 
-    int pil1 = 0, pil2 = 0;
+    int pil1, pil2;
     PrintPilihan(&pil1, &pil2);
 
     // filter hanya dokter
@@ -161,10 +192,13 @@ void LihatDokter(UserList *userList, Session *session) {
     SelectionSort(&sortedList, sortedList.count, pil1, pil2);
 
     printf("Menampilkan daftar dokter dengan ");
+
     if (pil1 == 1) printf("ID ");
     else if (pil1 == 2) printf("Nama ");
+
     if (pil2 == 1) printf("terurut ascending:\n");
     else if (pil2 == 2) printf("terurut descending:\n");
+    
     printf("ID | Nama\n");
     printf("------------------\n");
     for (int i = 0; i < sortedList.count; i++) {
@@ -189,14 +223,8 @@ void CariUser(UserList *userList, Session *session) {
         AppendUser(&sortedList, GetUserAt(userList, i));
     }
 
-    int pilihan = 0;
-    printf("Urutkan berdasarkan:\n");
-    printf("   1. ID\n");
-    printf("   2. Nama\n> Pilihan: ");
-    do {
-        scanf("%d", &pilihan);
-        printf("> Pilihan: ");
-    } while(pilihan != 1 && pilihan != 2);
+    int pilihan;
+    CariPilihan(&pilihan);  // validasi input
 
     if (pilihan == 1) {
         int idInput;
@@ -248,7 +276,6 @@ void CariUser(UserList *userList, Session *session) {
         else {
             printf("Tidak ditemukan user dengan nama \"%s\".\n", nama);
         }
-
     } 
     else {
         printf("Pilihan tidak valid.\n");
@@ -273,15 +300,15 @@ void CariPasien(UserList *userList, Session *session) {
     }
 
     int pilihan;
-    printf("Cari berdasarkan?\n");
-    printf("1. ID\n");
-    printf("2. Nama\n");
-    printf("3. Penyakit\n");
-    printf("> Pilihan: ");
-   do {
+    do {  // validasi input
+        printf("Cari berdasarkan:\n");
+        printf("   1. ID\n");
+        printf("   2. Nama\n> Pilihan: ");
         scanf("%d", &pilihan);
-         printf("> Pilihan: ");
-    } while(pilihan != 1 && pilihan != 2 && pilihan != 3);
+        if (pilihan < 1) {
+            printf("Pilihan tidak valid. Silakan masukkan 1 atau 2.\n\n");
+        }
+    } while (pilihan < 1 || pilihan > 2);
 
     if (pilihan == 1 || pilihan == 2) {
         // mirip cari user
@@ -348,18 +375,28 @@ void CariPasien(UserList *userList, Session *session) {
         }
 
         int pilihSort;
-        printf("Urutkan berdasarkan?\n");
-        printf("1. ID\n");
-        printf("2. Nama\n");
-        printf("> Pilihan: ");
-        scanf("%d", &pilihSort);
+        do {  // validasi input 1
+            printf("Urutkan berdasarkan:\n");
+            printf("   1. ID\n");
+            printf("   2. Nama\n> Pilihan: ");
+            scanf("%d", &pilihSort);
+            if (pilihSort < 1 || pilihSort > 2) {
+                printf("Pilihan tidak valid. Silakan masukkan 1 atau 2.\n\n");
+            }
+        } while (pilihSort < 1 || pilihSort > 2);
+
+        printf("\n");
 
         int urut;
-        printf("Urutan sort %s?\n", pilihSort == 1 ? "ID" : "Nama");
-        printf("1. Ascending\n");
-        printf("2. Descending\n");
-        printf("> Pilihan: ");
-        scanf("%d", &urut);
+        do {  // validasi input 2
+            printf("Urutan sort %s?\n", pilihSort == 1? "ID" : "Nama");
+            printf("   1. Ascending\n");
+            printf("   2. Descending\n> Pilihan: ");
+            scanf("%d", &urut);
+            if (urut < 1 || urut > 2) {
+                printf("Pilihan tidak valid. Silakan masukkan 1 atau 2.\n\n");
+            }
+        } while (urut < 1 || urut > 2);
 
         SelectionSort(&pasienList, pasienList.count, pilihSort, urut == 1 ? 1 : 0);
 
@@ -396,13 +433,7 @@ void CariDokter(UserList *userList, Session *session) {
     }
 
     int pilihan;
-    printf("Cari berdasarkan?\n");
-    printf("1. ID\n");
-    printf("2. Nama\n>>> Pilihan: ");
-    do {
-        scanf("%d", &pilihan);
-        printf("> Pilihan: ");
-    } while(pilihan != 1 && pilihan != 2);
+    CariPilihan(&pilihan);
 
     SelectionSort(&dokterList, dokterList.count, pilihan, 1);
 

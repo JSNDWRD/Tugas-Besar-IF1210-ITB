@@ -340,7 +340,7 @@ void SaveUsers(UserList userList, char* inputFolder){
                 user.tinggiBadan == -1 ? "" : IntToStr(user.tinggiBadan),
                 user.kadarKolesterol == -1 ? "" : IntToStr(user.kadarKolesterol),
                 user.kadarKolesterolLDL == -1 ? "" : IntToStr(user.kadarKolesterolLDL),
-                user.trombosit == -1 ? "" : IntToStr(user.trombosit));
+                user.trombosit == -1 || user.trombosit == 0 ? "" : IntToStr(user.trombosit));
     }
     fclose(fUserList);
 }

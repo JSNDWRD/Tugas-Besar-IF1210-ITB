@@ -20,6 +20,7 @@ void LoadConfig(Matrix *denahHospital, char *inputFolder){
             if(count == 0) denahHospital->rows = temp;
             else denahHospital->cols = temp;
             count ++;
+            temp = 0;
         }
         i++;
     }
@@ -83,7 +84,7 @@ void LihatDenah(Matrix *denahHospital) {
     int panjang = denahHospital->rows;
 
     // Header kolom angka
-    printf("   ");
+    printf(" ");
     for (int j = 0; j < lebar; j++) {
         printf("     %d", j + 1);
     }

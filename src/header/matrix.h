@@ -16,7 +16,7 @@ typedef struct
   int jumlahpasien; 
   int dokter; // menyimpan id dokter yang ada di ruangan
   int kapasitas; // kapasitas ruangan
-  char namaruangan[6]; //menyimpana nama ruangan (contoh : A1,B2,dll)
+  char namaruangan[12]; //menyimpana nama ruangan (contoh : A1,B2,dll)
 }Ruangan;
 
 

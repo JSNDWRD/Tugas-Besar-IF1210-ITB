@@ -3,15 +3,15 @@
 #include "./header/auth.h"
 #include "./header/utils.h"
 #include "./header/manager.h"
-#include "./header/hospital.h"
+// #include "./header/hospital.h"
 #include "./header/command.h"
 
 int main(int argc, char* argv[]) {
     UserList userList; // Daftar pengguna
     LoadUsers(&userList,argv[1]);
 
-    Matrix denahRumahSakit; // Denah rumah sakit
-    LoadConfig(&denahRumahSakit,argv[1]);
+    // Matrix denahRumahSakit; // Denah rumah sakit
+    // LoadConfig(&denahRumahSakit,argv[1]);
 
     CommandList commandList; // Daftar command yang dapat digunakan
 
@@ -91,7 +91,7 @@ int main(int argc, char* argv[]) {
                 TambahDokter(&userList,&session);
                 break;
             case LIHAT_DENAH:
-                LihatDenah(&denahRumahSakit);
+                // LihatDenah(&denahRumahSakit);
                 break;
             default:
                 printf("Command tidak ditemukan.\n");

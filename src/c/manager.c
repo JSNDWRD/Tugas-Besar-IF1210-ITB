@@ -193,7 +193,10 @@ void CariUser(UserList *userList, Session *session) {
     printf("Urutkan berdasarkan:\n");
     printf("   1. ID\n");
     printf("   2. Nama\n> Pilihan: ");
-    scanf("%d", &pilihan);
+    do {
+        scanf("%d", &pilihan);
+        printf("> Pilihan: ");
+    } while(pilihan != 1 && pilihan != 2);
 
     if (pilihan == 1) {
         int idInput;
@@ -275,7 +278,10 @@ void CariPasien(UserList *userList, Session *session) {
     printf("2. Nama\n");
     printf("3. Penyakit\n");
     printf("> Pilihan: ");
-    scanf("%d", &pilihan);
+   do {
+        scanf("%d", &pilihan);
+         printf("> Pilihan: ");
+    } while(pilihan != 1 && pilihan != 2 && pilihan != 3);
 
     if (pilihan == 1 || pilihan == 2) {
         // mirip cari user
@@ -393,7 +399,10 @@ void CariDokter(UserList *userList, Session *session) {
     printf("Cari berdasarkan?\n");
     printf("1. ID\n");
     printf("2. Nama\n>>> Pilihan: ");
-    scanf("%d", &pilihan);
+    do {
+        scanf("%d", &pilihan);
+        printf("> Pilihan: ");
+    } while(pilihan != 1 && pilihan != 2);
 
     SelectionSort(&dokterList, dokterList.count, pilihan, 1);
 

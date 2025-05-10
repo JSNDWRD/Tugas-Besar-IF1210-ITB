@@ -84,13 +84,14 @@ int main(int argc, char* argv[]) {
                 } while(strcmp(simpan, "y") != 0 && strcmp(simpan, "n") != 0);
                 if(strcmp(simpan,"y") == 0){
                     char command[256];
-                    char inputFolder[100];
+                    char inputFolder[100], inputFolderCopy[100];
                     printf("\nMasukkan nama folder: ");
                     scanf("%s",inputFolder);
+                    strcpy(inputFolderCopy,inputFolder);
                     sprintf(command, "[ -d %s ] || mkdir %s", inputFolder, inputFolder);
                     system(command);
                     SaveUsers(userList, inputFolder);
-                    // SaveConfig(denahRumahSakit);
+                    // SaveConfig(denahRumahSakit, inputFolderCopy); // SaveConfig masih dalam progress
                 }
                 break;
             case LIHAT_USER:

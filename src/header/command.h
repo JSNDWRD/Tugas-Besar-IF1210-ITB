@@ -23,8 +23,10 @@ typedef struct {
 #define ELMTNAME(l,i) (l).command[(i)].name
 
 /* KONSTRUKTOR */
-void CreateCommandList(CommandList *commandList, const char *COMMAND_READY[]);
+
 /* Membuat List Statik yang berisikan command yang dapat digunakan */
+void CreateCommandList(CommandList *commandList, const char *COMMAND_READY[]);
+
 
 
 #endif

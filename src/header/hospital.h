@@ -5,13 +5,14 @@
 #include "matrix.h"
 #include "user.h"
 
-void LoadConfig(Matrix *denahHospital, char *inputFolder);
 /* Membaca file eksternal dan memasukkan data config ke dalam denahHospital */
+void LoadConfig(Matrix *denahHospital, char *inputFolder);
 
-void UbahInput(const char *input, int *row, int *col);
 /*Menentukan baris dan kolom yang sesuai dengan input ruangan */
+void UbahInput(const char *input, int *row, int *col);
 
-void SaveConfig(Matrix denahHospital);
 /* Menyimpan matrix denahHospital ke dalam file eksternal config.txt */
+void SaveConfig(Matrix denahHospital);
+
 
 #endif

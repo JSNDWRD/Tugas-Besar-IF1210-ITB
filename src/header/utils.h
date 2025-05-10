@@ -27,7 +27,5 @@ void Help(Session session);
 // Untuk fitur reset password
 void RunLenEncode(char* str, char* encoded);
 
-/* F18 - Exit */
-void Exit();
 
 #endif

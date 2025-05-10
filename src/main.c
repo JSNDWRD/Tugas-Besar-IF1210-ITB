@@ -29,10 +29,17 @@ int main(int argc, char* argv[]) {
         int valid = 0;
         do {
             printf("\n>>> Input Command: ");
-            scanf("%s", input);
+            scanf(" %[^\n]s", input);
             ToUpperCase(input);
+            char commandAwal[50];
+            int i = 0;
+            while(input[i] != '\0' && input[i] != ' ' && i < sizeof(commandAwal)-1){
+                commandAwal[i] = input[i];
+                i++;
+            }
+            commandAwal[i] = '\0';
             for (int i = 0; i < COMMAND_CAPACITY; i++) {
-                if (strcmp(input, ELMTNAME(commandList,i)) == 0) {
+                if (strcmp(commandAwal, ELMTNAME(commandList,i)) == 0) {
                     valid = 1;
                     command = ELMTKEY(commandList,i);
                     break;
@@ -92,6 +99,27 @@ int main(int argc, char* argv[]) {
                 break;
             case LIHAT_DENAH:
                 LihatDenah(&denahRumahSakit);
+                break;
+            case LIHAT_RUANGAN:
+                char ruangan[10];
+                int i = 0, j = 0;
+                while(input[i] != '\0' && input[i] != ' '){
+                    i++;
+                }
+                if(input[i] == ' '){
+                    i++;
+                }
+                while(input[i] != '\0' && j < sizeof(ruangan)-1){
+                    ruangan[j] = input[i];
+                    i++;
+                    j++;
+                }
+                ruangan[j] = '\0';
+                if(ruangan[0] == '\0'){
+                    printf("Ruangan tidak ditemukan.");
+                } else {
+                    LihatRuangan(&denahRumahSakit, ruangan, userList);
+                }
                 break;
             default:
                 printf("Command tidak ditemukan.\n");

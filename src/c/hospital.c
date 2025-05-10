@@ -136,7 +136,7 @@ void UbahInput(char *input, int *row, int *col) {
     }
 }
 
-void LihatRuangan(Matrix *denahHospital, char *input, UserList userlist) {
+void LihatRuangan(Matrix *denahHospital, char *input, UserList userList) {
     int row, col;
     UbahInput(input, &row, &col);
     printf("%d %d",row,col);
@@ -159,10 +159,10 @@ void LihatRuangan(Matrix *denahHospital, char *input, UserList userlist) {
     printf("Kapasitas  : %d\n", r->kapasitas);
 
     char dokter[MAX_USERNAME_LENGTH] = "Tidak Ada";
-    //Cari userlist dengan role dokter dan id yang sesuai
-    for (int i = 0; i < userlist.count; i++) {
-        if (userlist.users[i].id == r->dokter && strcmp(userlist.users[i].role, "dokter") == 0) {
-            strcpy(dokter, userlist.users[i].username);
+    //Cari userList dengan role dokter dan id yang sesuai
+    for (int i = 0; i < userList.count; i++) {
+        if (userList.users[i].id == r->dokter && strcmp(userList.users[i].role, "dokter") == 0) {
+            strcpy(dokter, userList.users[i].username);
             break;
         }
     }
@@ -178,9 +178,9 @@ void LihatRuangan(Matrix *denahHospital, char *input, UserList userlist) {
         // cari setiap pasien di dalam ruangan yang sesuai
         for (int i = 0; i < r->jumlahpasien; i++) {
             char pasien[MAX_USERNAME_LENGTH];
-            for (int j = 0; j < userlist.count; j++) {
-                if (userlist.users[j].id == r->pasien[i] && strcmp(userlist.users[j].role, "pasien") == 0) {
-                    strcpy(pasien, userlist.users[j].username);
+            for (int j = 0; j < userList.count; j++) {
+                if (userList.users[j].id == r->pasien[i] && strcmp(userList.users[j].role, "pasien") == 0) {
+                    strcpy(pasien, userList.users[j].username);
                     break;
                 }
             }

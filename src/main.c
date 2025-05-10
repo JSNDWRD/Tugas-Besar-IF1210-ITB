@@ -30,7 +30,6 @@ int main(int argc, char* argv[]) {
         do {
             printf("\n>>> Input Command: ");
             scanf(" %[^\n]s", input);
-            ToUpperCase(input);
             char commandAwal[50];
             int i = 0;
             while(input[i] != '\0' && input[i] != ' ' && i < sizeof(commandAwal)-1){
@@ -38,6 +37,7 @@ int main(int argc, char* argv[]) {
                 i++;
             }
             commandAwal[i] = '\0';
+            ToUpperCase(commandAwal);
             for (int i = 0; i < COMMAND_CAPACITY; i++) {
                 if (strcmp(commandAwal, ELMTNAME(commandList,i)) == 0) {
                     valid = 1;
@@ -116,7 +116,7 @@ int main(int argc, char* argv[]) {
                 }
                 ruangan[j] = '\0';
                 if(ruangan[0] == '\0'){
-                    printf("Ruangan tidak ditemukan.");
+                    printf("Ruangan tidak ditemukan.\n");
                 } else {
                     printf("%s",ruangan);
                     LihatRuangan(&denahRumahSakit, ruangan, userList);

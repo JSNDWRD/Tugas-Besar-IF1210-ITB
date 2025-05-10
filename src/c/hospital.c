@@ -138,7 +138,6 @@ void UbahInput(char *input, int *row, int *col) {
 
 void LihatRuangan(Matrix *denahHospital, char *input, UserList userList) {
     int row, col;
-    printf("%s",input);
     UbahInput(input, &row, &col);
 
     // Validasi posisi

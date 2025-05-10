@@ -15,11 +15,11 @@ void CreateMatrix(int rows, int cols, Matrix *M){
 }
 
 bool isRowValid(int rows,Matrix M){
-    return (rows >= 0 || rows < M.rows);
+    return (rows >= 0 && rows < M.rows);
 }
   
 bool isColsValid(int cols,Matrix M){
-    return (cols >= 0 || cols < M.cols);
+    return (cols >= 0 && cols < M.cols);
 }
 
 int GetRows(Matrix M){

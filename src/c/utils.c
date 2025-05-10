@@ -1,23 +1,31 @@
 #include "../header/utils.h"
 
 
-void ToLower(char *target, char *str){
+void ToLower(char *target, char *str) {
     int i;
     for (i = 0; str[i]; i++) {
-        target[i] = tolower(str[i]);
+        if (str[i] >= 'A' && str[i] <= 'Z') {
+            target[i] = str[i] + ('a' - 'A');
+        } else {
+            target[i] = str[i];
+        }
     }
     target[i] = '\0';
 }
 
 void ToLowerCase(char *str) {
     for (int i = 0; str[i]; i++) {
-        str[i] = tolower(str[i]);
+        if (str[i] >= 'A' && str[i] <= 'Z') {
+            str[i] += ('a' - 'A');
+        }
     }
 }
 
 void ToUpperCase(char *str) {
     for (int i = 0; str[i]; i++) {
-        str[i] = toupper(str[i]);
+        if (str[i] >= 'a' && str[i] <= 'z') {
+            str[i] -= ('a' - 'A');
+        }
     }
 }
 
@@ -86,17 +94,4 @@ void RunLenEncode(char* str, char* encoded) {
     }
 
     encoded[index] = '\0'; // null-terminate string
-}
-
-
-void Exit(UserList userList){
-    char input[10];
-    do {
-        printf("Apakah Anda mau melakukan penyimpanan file yang sudah diubah? (y/n) ");
-        scanf("%s", input);
-        ToLowerCase(input); // Ubah ke huruf kecil
-    } while(strcmp(input, "y") != 0 && strcmp(input, "n") != 0);
-    if(strcmp(input,"y") == 0){ // Simpan Perubahan
-        SaveUsers(userList);
-    }
 }

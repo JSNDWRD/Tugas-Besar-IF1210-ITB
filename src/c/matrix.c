@@ -58,4 +58,3 @@ void InisialisasiNamaRuangan(Matrix *M) {
         }
     }
 }
-

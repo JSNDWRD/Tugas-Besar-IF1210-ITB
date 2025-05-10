@@ -33,8 +33,11 @@ void CariPasien(UserList *userList, Session *session);
 // Cari dokter dengan binary search
 void CariDokter(UserList *userList, Session *session);
 
-// searching user dengan binary search
-int BinarySearchUser(UserList *userList, char *username, int *index);
+// searching user dengan binary search -> untuk search ID
+int BinarySearchUser(UserList *userList, int id, int *index);
+
+// searching user dengan sequence search -> untuk search username
+int SequenceSearchUser(UserList *userList, char *username, int *index);
 
 // Get user from UserList by index
 User GetUserAt(UserList *userList, int idx);

@@ -8,10 +8,12 @@
 
 int main(int argc, char* argv[]) {
     UserList userList; // Daftar pengguna
+    char folder[50];
+    strcpy(folder,argv[1]);
     LoadUsers(&userList,argv[1]);
 
     Matrix denahRumahSakit; // Denah rumah sakit
-    LoadConfig(&denahRumahSakit,argv[1]);
+    LoadConfig(&denahRumahSakit,folder);
 
     CommandList commandList; // Daftar command yang dapat digunakan
 
@@ -74,7 +76,22 @@ int main(int argc, char* argv[]) {
                 ResetPassword(&userList, &session);
                 break;
             case EXIT:
-                Exit(userList);
+                char input[10];
+                do {
+                    printf("Apakah Anda mau melakukan penyimpanan file yang sudah diubah? (y/n) ");
+                    scanf("%s", input);
+                    ToLowerCase(input); // Ubah ke huruf kecil
+                } while(strcmp(input, "y") != 0 && strcmp(input, "n") != 0);
+                if(strcmp(input,"y") == 0){ // Simpan Perubahan
+                    char command[256];
+                    const char inputFolder[100];
+                    printf("\nMasukkan nama folder: ");
+                    scanf("%s",inputFolder);
+                    sprintf(command, "[ -d %s ] || mkdir %s", inputFolder, inputFolder);
+                    system(command);
+                    SaveUsers(userList, inputFolder);
+                    // SaveConfig(denahRumahSakit);
+                }
                 break;
             case LIHAT_USER:
                 LihatUser(&userList,&session);
@@ -120,11 +137,11 @@ int main(int argc, char* argv[]) {
                         j++;
                     }
                     ruangan[j] = '\0';
-                    if(ruangan[0] == '\0'){
-                        printf("Ruangan tidak ditemukan.\n");
-                    } else {
+                    // if(ruangan[0] == '\0'){
+                    //     printf("Ruangan tidak ditemukan.\n");
+                    // } else {
                         LihatRuangan(&denahRumahSakit, ruangan, userList);
-                    }
+                    // }
                 }  else {
                     printf("Anda harus login terlebih dahulu!");
                 }

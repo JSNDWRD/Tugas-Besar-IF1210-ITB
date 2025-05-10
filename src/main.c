@@ -84,7 +84,7 @@ int main(int argc, char* argv[]) {
                 } while(strcmp(input, "y") != 0 && strcmp(input, "n") != 0);
                 if(strcmp(input,"y") == 0){ // Simpan Perubahan
                     char command[256];
-                    const char inputFolder[100];
+                    char inputFolder[100];
                     printf("\nMasukkan nama folder: ");
                     scanf("%s",inputFolder);
                     sprintf(command, "[ -d %s ] || mkdir %s", inputFolder, inputFolder);

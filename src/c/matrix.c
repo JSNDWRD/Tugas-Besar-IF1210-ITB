@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "matrix.h"
+#include "../header/matrix.h"
 /* Konstruktor */
 void CreateMatrix(int rows, int cols, Matrix *M){
     M->rows = rows;

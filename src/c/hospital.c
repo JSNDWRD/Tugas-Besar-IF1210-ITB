@@ -154,8 +154,12 @@ void LihatRuangan(Matrix *denahHospital, char *input, UserList userList) {
     char dokter[MAX_USERNAME_LENGTH] = "Tidak Ada";
     //Cari userList dengan role dokter dan id yang sesuai
     for (int i = 0; i < userList.count; i++) {
-        if (userList.users[i].id == r->dokter && strcmp(userList.users[i].role, "dokter") == 0) {
-            strcpy(dokter, userList.users[i].username);
+        if (userList.users[i].id == r->dokter){
+            if(strcmp(userList.users[i].role, "dokter") == 0) {
+                strcpy(dokter, userList.users[i].username);
+            }else {
+                printf("ID %d bukanlah id dokter\n",userList.users[i].id);
+            }
             break;
         }
     }
@@ -175,7 +179,11 @@ void LihatRuangan(Matrix *denahHospital, char *input, UserList userList) {
             char pasien[MAX_USERNAME_LENGTH];
             for (int j = 0; j < userList.count; j++) {
                 if (userList.users[j].id == r->pasien[i] && strcmp(userList.users[j].role, "pasien") == 0) {
-                    strcpy(pasien, userList.users[j].username);
+                    if(strcmp(userList.users[j].role, "pasien") == 0){
+                        strcpy(pasien, userList.users[j].username);
+                    }else{
+                        printf("ID %d bukanlah id pasien\n",userList.users[j].id);
+                    }
                     break;
                 }
             }

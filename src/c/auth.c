@@ -59,8 +59,49 @@ void Login(UserList *userList, Session *session) {
     printf("Tidak ada Manager, Dokter, atau pun Pasien yang bernama %s!\n", usernameInput);
 }
 
-// Register user baru
+// Register dokter baru khusus manager
 // Username case insensitive, jadi tidak bisa ada username yang sama, tapi case nya beda
+void TambahDokter(UserList *userList, Session *session) {
+    if (strcmp(session->currentUser.role,"manager") != 0) {
+        printf("Anda bukan manager!\n");
+        return;
+    }
+
+    char username[MAX_USERNAME_LENGTH], password[MAX_PASSWORD_LENGTH];
+
+    printf("Username baru: ");
+    scanf("%s", username);
+    printf("Password baru: ");
+    scanf("%s", password);
+
+    // Buat set untuk cek username unik
+    Set usernameSet = CreateNewSet();
+
+    for (int i = 0; i < userList->count; i++) {
+        char lowered[MAX_USERNAME_LENGTH];
+        if(strcmp(userList->users[i].role,"dokter") == 0){
+            strcpy(lowered, userList->users[i].username);
+            ToLowerCase(lowered);
+            InsertSet(&usernameSet, lowered);
+        }
+    }
+
+    char usernameLowered[MAX_USERNAME_LENGTH];
+    strcpy(usernameLowered, username);
+    ToLowerCase(usernameLowered);
+
+    if (IsInSet(&usernameSet, usernameLowered)) {
+        printf("Sudah ada dokter dengan nama %s!\n", username);
+        return;
+    }
+
+    // Jika username unik, buat user baru
+    User newUser;
+    CreateUser(&newUser,userList->count+1, username, password, "dokter", "-", -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
+    AddUser(userList, newUser);
+    printf("\nDokter %s berhasil ditambahkan!\n",newUser.username);
+}
+
 void RegisterUser(UserList *userList, Session *session) {
     if (session->loggedIn) {
         printf("Logout dulu sebelum register!\n");
@@ -89,7 +130,7 @@ void RegisterUser(UserList *userList, Session *session) {
     ToLowerCase(usernameLowered);
 
     if (IsInSet(&usernameSet, usernameLowered)) {
-        printf("Registrasi gagal! Pasien dengan nama %s sudah terdaftar.\n", username);
+        printf("Registrasi gagal! User dengan nama %s sudah terdaftar.\n", username);
         return;
     }
 

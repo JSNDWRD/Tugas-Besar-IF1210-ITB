@@ -47,7 +47,7 @@ void Help(Session session){
         }
         printf("   1. LOGOUT: Keluar dari akun yang sedang digunakan\n   2. LUPA_PASSWORD: Reset password akun\n");
         if(strcmp(session.currentUser.role,"manager") == 0){
-            printf("   3. LIHAT_USER / LIHAT_PASIEN / LIHAT_DOKTER: Melihat data user secara ascending / descending berdasarkan Nama atau ID\n   4. CARI_USER / CARI_PASIEN / CARI_DOKTER: Mencari user secara spesifik berdasarkan Nama, ID, atau Penyakit (Khusus Pasien)\n");
+            printf("   3. LIHAT_USER / LIHAT_PASIEN / LIHAT_DOKTER: Melihat data user secara ascending / descending berdasarkan Nama atau ID\n   4. CARI_USER / CARI_PASIEN / CARI_DOKTER: Mencari user secara spesifik berdasarkan Nama, ID, atau Penyakit (Khusus Pasien)\n   5. TAMBAH_DOKTER: Menambahkan dokter baru di rumah sakit\n");
         } else if(strcmp(session.currentUser.role, "pasien") == 0){
             // Belum tersedia fitur khusus untuk sekarang
         } else if(strcmp(session.currentUser.role, "dokter") == 0){

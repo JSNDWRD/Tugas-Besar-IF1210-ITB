@@ -25,6 +25,9 @@ void LoadConfig(Matrix *denahHospital, char *inputFolder){
         i++;
     }
 
+    // isi nama ruangan sesuai kolom dan baris
+    InisialisasiNamaRuangan(denahHospital);
+
 
     // memeriksa baris ke dua yg berisi kapasitas
     fgets(baris,sizeof(baris),fDenah);
@@ -79,7 +82,6 @@ void LoadConfig(Matrix *denahHospital, char *inputFolder){
 }
 /* Membaca file eksternal dan memasukkan data config ke dalam denahHospital */
 void LihatDenah(Matrix *denahHospital) {
-    InisialisasiNamaRuangan(denahHospital);
     int lebar = denahHospital->cols;
     int panjang = denahHospital->rows;
 
@@ -115,44 +117,36 @@ void LihatDenah(Matrix *denahHospital) {
 }
 
 void UbahInput(char *input, int *row, int *col) {
-    int i = 0;
-    while (input[i] != '\0') {
-        // Cek jika ada huruf kapital diikuti angka (contoh: A1, B12)
-        if (input[i] >= 'A' && input[i] <= 'Z' && input[i + 1] >= '0' && input[i + 1] <= '9') {
-            *row = input[i] - 'A'; // konversi huruf ke indeks baris
-            i++;
-            *col = 0;
+    *row = -1;
+    *col = -1;
+    
+    if (input == NULL || strlen(input) < 2) return;
 
-            // baca angka setelah huruf
-            while (input[i] >= '0' && input[i] <= '9') {
-                *col = (*col) * 10 + (input[i] - '0');
-                i++;
-            }
+    // First character should be a letter (A-Z)
+    if (input[0] >= 'A' && input[0] <= 'Z') {
+        *row = input[0] - 'A';
+    } else if (input[0] >= 'a' && input[0] <= 'z') {
+        *row = input[0] - 'a';
+    } else {
+        return;  // Invalid row
+    }
 
-            (*col)--; // ubah sesuai index dari 0 (misal input A1 -> index kolom 0)
-            return;
-        }
+    // Rest should be numbers
+    *col = 0;
+    int i = 1;
+    while (input[i] >= '0' && input[i] <= '9') {
+        *col = (*col) * 10 + (input[i] - '0');
         i++;
     }
+    *col -= 1;  // Convert to 0-based index
 }
 
 void LihatRuangan(Matrix *denahHospital, char *input, UserList userList) {
     int row, col;
     UbahInput(input, &row, &col);
-    printf("%d %d",row,col);
-
-    // Validasi posisi
-    if (!(isRowValid(row, *denahHospital)) || !(isColsValid(col, *denahHospital))) {
-        printf("Ruangan tidak ditemukan.\n");
-        return;
-    }
 
     // variable r yang menyimpan struktur data di ruangan yang sesuai input)
     Ruangan *r = GetElement(denahHospital, row, col);
-    if (r == NULL) {
-        printf("Ruangan tidak ditemukan.\n");
-        return;
-    }
 
     printf("--- Detail Ruangan %s ---\n", r->namaruangan);
     printf("Kapasitas  : %d\n", r->kapasitas);
@@ -171,10 +165,12 @@ void LihatRuangan(Matrix *denahHospital, char *input, UserList userList) {
         printf("Dokter     : %s\n", dokter);
     }
 
-    if (r->jumlahpasien == 0) {
+
+    if ((r->jumlahpasien == 0) || strcmp(dokter,"Tidak Ada") == 0){
         printf("  Tidak ada pasien di dalam ruangan saat ini.\n");
     } else {
         // cari setiap pasien di dalam ruangan yang sesuai
+        printf("Pasien di dalam ruangan : \n");
         for (int i = 0; i < r->jumlahpasien; i++) {
             char pasien[MAX_USERNAME_LENGTH];
             for (int j = 0; j < userList.count; j++) {

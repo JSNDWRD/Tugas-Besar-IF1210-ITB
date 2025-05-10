@@ -318,18 +318,24 @@ void LoadUsers(UserList *userList, char *inputFolder){
     // }
 }
 
-void SaveUsers(UserList userList){
+void SaveUsers(UserList userList) {
     char inputFolder[100];
     printf("\nMasukkan nama folder: ");
-    scanf(" %[^\n]s",inputFolder);
-    strcat(inputFolder,"/user.csv");
-    printf("%s",inputFolder);
-    FILE *fUserList = fopen(inputFolder,"w");
+    scanf(" %[^\n]s", inputFolder);
+
+    // Attempt to create the folder using system command
+    char command[150];
+    sprintf(command, "mkdir %s > /dev/null 2>&1", inputFolder);
+    system(command);
+
+    strcat(inputFolder, "/user.csv");
+    FILE *fUserList = fopen(inputFolder, "w");
+
     fprintf(fUserList, "id,username,password,role,riwayatPenyakit,suhuTubuh,tekananDarahSistolik,tekananDarahDiastolik,detakJantung,saturasiOksigen,kadarGulaDarah,beratBadan,tinggiBadan,kadarKolesterol,kadarKolesterolLDL,trombosit\n");
     for (int i = 0; i < userList.count; i++) {
         User user = userList.users[i];
         fprintf(fUserList, "%d,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s\n",
-                user.id, // Always write the ID
+                user.id,
                 user.username,
                 user.password,
                 user.role,

@@ -8,7 +8,7 @@
 void LoadConfig(Matrix *denahHospital, char *inputFolder);
 /* Membaca file eksternal dan memasukkan data config ke dalam denahHospital */
 
-void UbahInput(const char *input, int *row, int *col);
+void UbahInput(char *input, int *row, int *col);
 /*Menentukan baris dan kolom yang sesuai dengan input ruangan */
 
 void LihatDenah(Matrix *denahHospital);

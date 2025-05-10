@@ -138,7 +138,7 @@ void UbahInput(char *input, int *row, int *col) {
 
 void LihatRuangan(Matrix *denahHospital, char *input, UserList userlist) {
     int row, col;
-    UbahInputMatrix(input, &row, &col);
+    UbahInput(input, &row, &col);
 
     // Validasi posisi
     if (!(isRowValid(row, *denahHospital)) || !(isColsValid(col, *denahHospital))) {

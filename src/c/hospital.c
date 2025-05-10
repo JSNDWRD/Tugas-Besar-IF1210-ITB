@@ -80,6 +80,7 @@ void LoadConfig(Matrix *denahHospital, char *inputFolder){
 }
 /* Membaca file eksternal dan memasukkan data config ke dalam denahHospital */
 void LihatDenah(Matrix *denahHospital) {
+    InisialisasiNamaRuangan(&denahHospital);
     int lebar = denahHospital->cols;
     int panjang = denahHospital->rows;
 

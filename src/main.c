@@ -31,7 +31,7 @@ int main(int argc, char* argv[]) {
         int valid = 0;
         do {
             printf("\n>>> Input Command: ");
-            scanf(" %[^\n]s", input);
+            scanf(" %[^\n]", input);
             char commandAwal[50];
             int i = 0;
             while(input[i] != '\0' && input[i] != ' ' && i < sizeof(commandAwal)-1){
@@ -76,13 +76,13 @@ int main(int argc, char* argv[]) {
                 ResetPassword(&userList, &session);
                 break;
             case EXIT:
-                char input[10];
+                char simpan[10];
                 do {
                     printf("Apakah Anda mau melakukan penyimpanan file yang sudah diubah? (y/n) ");
-                    scanf("%s", input);
-                    ToLowerCase(input); // Ubah ke huruf kecil
-                } while(strcmp(input, "y") != 0 && strcmp(input, "n") != 0);
-                if(strcmp(input,"y") == 0){ // Simpan Perubahan
+                    scanf("%s", simpan);
+                    ToLowerCase(simpan); // Ubah ke huruf kecil
+                } while(strcmp(simpan, "y") != 0 && strcmp(simpan, "n") != 0);
+                if(strcmp(simpan,"y") == 0){
                     char command[256];
                     char inputFolder[100];
                     printf("\nMasukkan nama folder: ");

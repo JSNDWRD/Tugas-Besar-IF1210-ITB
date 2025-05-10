@@ -121,25 +121,22 @@ void UbahInput(char *input, int *row, int *col) {
     *row = -1;
     *col = -1;
     
-    if (input == NULL || strlen(input) < 2) return;
-
-    // First character should be a letter (A-Z)
+    // isi variabel baris
     if (input[0] >= 'A' && input[0] <= 'Z') {
         *row = input[0] - 'A';
     } else if (input[0] >= 'a' && input[0] <= 'z') {
         *row = input[0] - 'a';
     } else {
-        return;  // Invalid row
+        return;
     }
 
-    // Rest should be numbers
     *col = 0;
     int i = 1;
     while (input[i] >= '0' && input[i] <= '9') {
         *col = (*col) * 10 + (input[i] - '0');
         i++;
     }
-    *col -= 1;  // Convert to 0-based index
+    *col -= 1;
 }
 
 void LihatRuangan(Matrix *denahHospital, char *input, UserList userList) {

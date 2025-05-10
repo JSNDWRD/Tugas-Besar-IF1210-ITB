@@ -318,13 +318,7 @@ void LoadUsers(UserList *userList, char *inputFolder){
     // }
 }
 
-void SaveUsers(UserList userList){
-    char command[256];
-    char inputFolder[100];
-    printf("\nMasukkan nama folder: ");
-    scanf("%s",inputFolder);
-    sprintf(command, "[ -d %s ] || mkdir %s", inputFolder, inputFolder);
-    system(command);
+void SaveUsers(UserList userList, char* inputFolder){
     strcat(inputFolder,"/user.csv");
     FILE *fUserList = fopen(inputFolder,"w");
     fprintf(fUserList, "id,username,password,role,riwayatPenyakit,suhuTubuh,tekananDarahSistolik,tekananDarahDiastolik,detakJantung,saturasiOksigen,kadarGulaDarah,beratBadan,tinggiBadan,kadarKolesterol,kadarKolesterolLDL,trombosit\n");

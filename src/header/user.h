@@ -163,6 +163,6 @@ void AddUser(UserList *userList, User newUser);
 void LoadUsers(UserList *userList, char *inputFolder);
 
 /* Menyimpan array userList ke dalam file eksternal user.csv */
-void SaveUsers(UserList userList);
+void SaveUsers(UserList userList, char* inputFolder);
 
 #endif

@@ -5,7 +5,6 @@
 #include <string.h>
 #include "user.h"
 #include "utils.h"
-#include <ctype.h>
 
 // Untuk login, register, dan logout
 // Nanti bagian login, etc. di user.h dihapus

@@ -1,7 +1,8 @@
 #include "../header/hospital.h"
 
 void LoadConfig(Matrix *denahHospital, char *inputFolder){
-    FILE *fDenah = fopen("file/config.txt", "r");
+    strcat(inputFolder,"/config.txt");
+    FILE *fDenah = fopen(inputFolder,"r");
 
     if (fDenah == NULL) {
         perror("FILE config.txt kosong\n");
@@ -195,7 +196,7 @@ void LihatRuangan(Matrix *denahHospital, char *input, UserList userList) {
 }
 
 void SaveConfig(Matrix denahHospital) {
-    FILE *file = fopen("config.txt", "w"); 
+    FILE *file = fopen("file/config.txt", "w"); 
     if (file == NULL) {
         perror("Gagal membuka file config.txt");
         return;

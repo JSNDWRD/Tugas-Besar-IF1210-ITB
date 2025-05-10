@@ -54,7 +54,7 @@ void InisialisasiNamaRuangan(Matrix *M) {
         for (int j = 0; j < M->cols; j++) {
             // Huruf baris + nomor kolom
             // Misalnya baris 0 kolom 1 -> A2
-            sprintf(M->data[i][j].namaruangan, "%c%d", 'A' + i, j + 1);
+            snprintf(M->data[i][j].namaruangan, sizeof(M->data[i][j].namaruangan), "%c%d", 'A' + i, j + 1);
         }
     }
 }

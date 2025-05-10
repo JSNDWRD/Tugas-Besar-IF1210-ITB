@@ -22,32 +22,32 @@ bool isColsValid(int cols,Matrix M){
     return (cols >= 0 && cols < M.cols);
 }
 
-// int GetRows(Matrix M){
-//     return M.rows;
-// }
+int GetRows(Matrix M){
+    return M.rows;
+}
 
-// int GetCols(Matrix M){
-//     return M.cols;
-// }
-
-
-// Ruangan *GetElement(Matrix *M, int row, int col){
-//     if(row >= M->rows || col >= M->cols){
-//         return NULL;
-//     } else {
-//         return &M->data[row][col];
-//     }
-// }
+int GetCols(Matrix M){
+    return M.cols;
+}
 
 
-// bool SetElement(Matrix *M, int row, int col, Ruangan value){
-//     if(row >= M->rows || col >= M->cols){
-//         return false;
-//     } else {
-//         M->data[row][col] = value;
-//         return true;
-//     }
-// }
+Ruangan *GetElement(Matrix *M, int row, int col){
+    if(row >= M->rows || col >= M->cols){
+        return NULL;
+    } else {
+        return &M->data[row][col];
+    }
+}
+
+
+bool SetElement(Matrix *M, int row, int col, Ruangan value){
+    if(row >= M->rows || col >= M->cols){
+        return false;
+    } else {
+        M->data[row][col] = value;
+        return true;
+    }
+}
 
 void InisialisasiNamaRuangan(Matrix *M) {
     for (int i = 0; i < M->rows; i++) {
@@ -58,4 +58,3 @@ void InisialisasiNamaRuangan(Matrix *M) {
         }
     }
 }
-

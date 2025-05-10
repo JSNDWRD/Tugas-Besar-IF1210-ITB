@@ -124,8 +124,6 @@ void UbahInput(char *input, int *row, int *col) {
     // isi variabel baris
     if (input[0] >= 'A' && input[0] <= 'Z') {
         *row = input[0] - 'A';
-    } else if (input[0] >= 'a' && input[0] <= 'z') {
-        *row = input[0] - 'a';
     } else {
         return;
     }
@@ -192,18 +190,19 @@ void LihatRuangan(Matrix *denahHospital, char *input, UserList userList) {
     printf("------------------------------\n");
 }
 
-void SaveConfig(Matrix denahHospital) {
-    FILE *file = fopen("file/config.txt", "w"); 
-    if (file == NULL) {
+void SaveConfig(Matrix denahHospital,char *inputFolder) {
+    strcat(inputFolder,"/config.txt");
+    FILE *fileDenah = fopen("file/config.txt", "w"); 
+    if (fileDenah == NULL) {
         perror("Gagal membuka file config.txt");
         return;
     }
 
     // Mengisi baris 1: jumlah baris dan kolom 
-    fprintf(file, "%d %d\n", denahHospital.rows, denahHospital.cols);
+    fprintf(fileDenah, "%d %d\n", denahHospital.rows, denahHospital.cols);
 
-    // Mengisi baris 2: kapasitas ruangan
-    fprintf(file, "%d\n", denahHospital.data[0][0].kapasitas);
+    // Mengisi baris 2: kapasitas ruangan (asumsi kapasitas ruangan sama semua karena tidak dijelaskan)
+    fprintf(fileDenah, "%d\n", denahHospital.data[0][0].kapasitas);
 
     // Mengisi baris 3-8 : isi tiap ruangan denagn id dokter dan pasien
     // karena ruangan masih statik, jadi isi ruangan berada pada baris 3-8 
@@ -211,16 +210,15 @@ void SaveConfig(Matrix denahHospital) {
         for (int j = 0; j < denahHospital.cols; j++) {
             Ruangan r = denahHospital.data[i][j];
             if (r.dokter == -1) {
-                fprintf(file, "0\n");  // jika tidak ada dokter tulis 0 saja pada baris tanpa id pasien
+                fprintf(fileDenah, "0\n");  // jika tidak ada dokter tulis 0 saja pada baris tanpa id pasien
             } else { // jika ada dokter di ruangan itu
-                fprintf(file, "%d", r.dokter);
+                fprintf(fileDenah, "%d", r.dokter);
                 for (int k = 0; k < r.jumlahpasien; k++) {
-                    fprintf(file, " %d", r.pasien[k]);
+                    fprintf(fileDenah, " %d", r.pasien[k]);
                 }
-                fprintf(file, "\n");
+                fprintf(fileDenah, "\n");
             }
         }
     }
-    fclose(file);
-    printf("Data berhasil disimpan ke config.txt\n");
+    fclose(fileDenah);
 }

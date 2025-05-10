@@ -90,7 +90,7 @@ int main(int argc, char* argv[]) {
                     sprintf(command, "[ -d %s ] || mkdir %s", inputFolder, inputFolder);
                     system(command);
                     SaveUsers(userList, inputFolder);
-                    // SaveConfig(denahRumahSakit);
+                    SaveConfig(denahRumahSakit,inputFolder);
                 }
                 break;
             case LIHAT_USER:

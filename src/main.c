@@ -5,6 +5,7 @@
 #include "./header/manager.h"
 #include "./header/hospital.h"
 #include "./header/command.h"
+#include "./header/diagnosis.h"
 
 int main(int argc, char* argv[]) {
     UserList userList; // Daftar pengguna
@@ -15,12 +16,15 @@ int main(int argc, char* argv[]) {
     Matrix denahRumahSakit; // Denah rumah sakit
     LoadConfig(&denahRumahSakit,folder);
 
+    PenyakitList penyakitList; // Daftar diagnosis penyakit
+    LoadPenyakit(&penyakitList,folder);
+
     CommandList commandList; // Daftar command yang dapat digunakan
 
     const char *COMMAND_READY[COMMAND_CAPACITY] = {
-        "HELP", "LOGIN", "LOGOUT", "REGISTER", "EXIT", "LUPA_PASSWORD", "LIHAT_USER", "LIHAT_PASIEN", "LIHAT_DOKTER", "CARI_USER", "CARI_PASIEN", "CARI_DOKTER", "TAMBAH_DOKTER", "LIHAT_DENAH", "LIHAT_RUANGAN", "ASSIGN_DOKTER"
+        "HELP", "LOGIN", "LOGOUT", "REGISTER", "EXIT", "LUPA_PASSWORD", "LIHAT_USER", "LIHAT_PASIEN", "LIHAT_DOKTER", "CARI_USER", "CARI_PASIEN", "CARI_DOKTER", "TAMBAH_DOKTER", "LIHAT_DENAH", "LIHAT_RUANGAN", "ASSIGN_DOKTER", "DIAGNOSIS"
     };
-    enum Command { HELP=1, LOGIN, LOGOUT, REGISTER, EXIT, LUPA_PASSWORD, LIHAT_USER, LIHAT_PASIEN, LIHAT_DOKTER, CARI_USER, CARI_PASIEN, CARI_DOKTER, TAMBAH_DOKTER, LIHAT_DENAH, LIHAT_RUANGAN, ASSIGN_DOKTER };
+    enum Command { HELP=1, LOGIN, LOGOUT, REGISTER, EXIT, LUPA_PASSWORD, LIHAT_USER, LIHAT_PASIEN, LIHAT_DOKTER, CARI_USER, CARI_PASIEN, CARI_DOKTER, TAMBAH_DOKTER, LIHAT_DENAH, LIHAT_RUANGAN, ASSIGN_DOKTER, DIAGNOSIS };
 
     CreateCommandList(&commandList,COMMAND_READY); // Membuat List Statik yang berisikan command yang tersedia
     
@@ -51,13 +55,6 @@ int main(int argc, char* argv[]) {
                 printf("Perintah tidak ditemukan, silakan input ulang.\n");
             }
         } while(valid == 0);
-
-        // for (int i = 0; i < COMMAND_CAPACITY; i++) {
-        //     if (strcmp(input, commandList.command[i].name) == 0) {
-        //         command = i + 1;
-        //         break;
-        //     }
-        // }
 
         switch (command) {
             case HELP:
@@ -92,7 +89,6 @@ int main(int argc, char* argv[]) {
                     system(command);
                     SaveUsers(userList, inputFolder);
                     SaveConfig(denahRumahSakit,inputFolderCopy);
-
                 }
                 break;
             case LIHAT_USER:
@@ -151,12 +147,19 @@ int main(int argc, char* argv[]) {
             case ASSIGN_DOKTER:
                 if(session.loggedIn == 1){
                     if(strcmp(GetRole(&session.currentUser), "manager") == 0){
-                        AssignDokter(&userList, &session, &denahRumahSakit);
+                        AssignDokter(&userList, &denahRumahSakit);
                     } else {
                         printf("Akses ditolak. Fitur ini hanya dapat diakses oleh manager.\n");
                     }
                 } else {
                     printf("Anda harus login terlebih dahulu!");
+                }
+                break;
+            case DIAGNOSIS:
+                if(strcmp(session.currentUser.role,"dokter") == 0){
+                    Diagnosis(session.currentUser,penyakitList);
+                } else {
+                    printf("Akses ditolak. Fitur ini hanya dapat diakses oleh dokter.\n");
                 }
                 break;
             default:

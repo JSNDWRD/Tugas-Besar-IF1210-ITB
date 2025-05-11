@@ -1,8 +1,10 @@
 #include "../header/hospital.h"
 
 void LoadConfig(Matrix *denahHospital, char *inputFolder){
-    strcat(inputFolder,"/config.txt");
-    FILE *fDenah = fopen(inputFolder,"r");
+    char inputPath[50];
+    strcpy(inputPath,inputFolder);
+    strcat(inputPath,"/config.txt");
+    FILE *fDenah = fopen(inputPath,"r");
 
     if (fDenah == NULL) {
         perror("FILE config.txt kosong\n");

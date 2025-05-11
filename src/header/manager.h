@@ -50,7 +50,7 @@ void SetUserAt(UserList *userList, int idx, User user);
 int AppendUser(UserList *userList, User user);
 
 // Assign dokter ke ruangan tertentu
-void AssignDokter(UserList *userList, Session *session, Matrix *denahRumahSakit);
+void AssignDokter(UserList *userList, Matrix *denahRumahSakit);
 
 
 

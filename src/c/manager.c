@@ -515,11 +515,7 @@ int AppendUser(UserList *userList, User user) {
     return 0;  // gagal (penuh)
 }
 
-void AssignDokter(UserList *userList, Session *session, Matrix *denahRumahSakit) {
-    if (!session->loggedIn || strcmp(GetRole(&session->currentUser), "manager") != 0) {
-        printf("Akses ditolak. Fitur ini hanya dapat diakses oleh manager.\n");
-        return;
-    }
+void AssignDokter(UserList *userList, Matrix *denahRumahSakit) {
     
     char username[MAX_USERNAME_LENGTH];
     printf("Username: ");

@@ -507,8 +507,105 @@ void SetUserAt(UserList *userList, int idx, User user) {
 }
 
 int AppendUser(UserList *userList, User user) {
-    if (userList->count >= 100) return 0;
-    userList->users[userList->count++] = user;
-    return 1;
+    if (userList->count < MAX_USERS) {
+        userList->users[userList->count] = user;
+        userList->count++;
+        return 1;  // berhasil
+    }
+    return 0;  // gagal (penuh)
+}
+
+void AssignDokter(UserList *userList, Session *session, Matrix *denahRumahSakit) {
+    // Cek apakah user yang login adalah manager
+    if (!session->loggedIn || strcmp(GetRole(&session->currentUser), "manager") != 0) {
+        printf("Akses ditolak. Fitur ini hanya dapat diakses oleh manager.\n");
+        return;
+    }
+    
+    // Input username dokter
+    char username[MAX_USERNAME_LENGTH];
+    printf("Username: ");
+    scanf("%s", username);
+    
+    // Cari dokter berdasarkan username
+    int indexDokter;
+    if (!SequenceSearchUser(userList, username, &indexDokter)) {
+        printf("User dengan nama %s tidak ditemukan.\n", username);
+        return;
+    }
+    
+    // Cek apakah user adalah dokter
+    User dokter = GetUserAt(userList, indexDokter);
+    if (strcmp(GetRole(&dokter), "dokter") != 0) {
+        printf("User dengan nama %s bukan dokter.\n", username);
+        return;
+    }
+    
+    // Input ruangan
+    char ruangan[10];
+    printf("Ruangan: ");
+    scanf("%s", ruangan);
+    
+    // Konversi input ruangan ke baris dan kolom
+    int row, col;
+    UbahInput(ruangan, &row, &col);
+    
+    // Cek apakah ruangan valid
+    if (row < 0 || row >= denahRumahSakit->rows || col < 0 || col >= denahRumahSakit->cols) {
+        printf("Ruangan %s tidak ditemukan.\n", ruangan);
+        return;
+    }
+    
+    // Dapatkan ruangan yang dimaksud
+    Ruangan *r = GetElement(denahRumahSakit, row, col);
+    
+    // Cek apakah dokter sudah di-assign ke ruangan lain
+    int dokterSudahDiAssign = 0;
+    char ruanganDokter[10] = "";
+    
+    for (int i = 0; i < denahRumahSakit->rows; i++) {
+        for (int j = 0; j < denahRumahSakit->cols; j++) {
+            if (denahRumahSakit->data[i][j].dokter == GetID(&dokter)) {
+                dokterSudahDiAssign = 1;
+                strcpy(ruanganDokter, denahRumahSakit->data[i][j].namaruangan);
+                break;
+            }
+        }
+        if (dokterSudahDiAssign) break;
+    }
+    
+    // Cek apakah ruangan sudah ditempati dokter lain
+    int ruanganSudahDitempati = (r->dokter != -1);
+    char namaDokterDiRuangan[MAX_USERNAME_LENGTH] = "";
+    
+    if (ruanganSudahDitempati) {
+        for (int i = 0; i < userList->count; i++) {
+            User user = GetUserAt(userList, i);
+            if (GetID(&user) == r->dokter) {
+                strcpy(namaDokterDiRuangan, GetUsername(&user));
+                break;
+            }
+        }
+    }
+    
+    // Kasus 1: Ruangan Kosong dan dokter belum di assign di ruang manapun
+    if (!ruanganSudahDitempati && !dokterSudahDiAssign) {
+        r->dokter = GetID(&dokter);
+        printf("\nDokter %s berhasil diassign ke ruangan %s!\n", GetUsername(&dokter), r->namaruangan);
+    }
+    // Kasus 2: Ruangan Kosong dan dokter sudah di assign di ruang lain
+    else if (!ruanganSudahDitempati && dokterSudahDiAssign) {
+        printf("\nDokter %s sudah diassign ke ruangan %s!\n", GetUsername(&dokter), ruanganDokter);
+    }
+    // Kasus 3: Ruangan tidak kosong dan dokter belum di assign di ruang manapun
+    else if (ruanganSudahDitempati && !dokterSudahDiAssign) {
+        printf("\nDokter %s sudah menempati ruangan %s!\n", namaDokterDiRuangan, r->namaruangan);
+        printf("Silakan cari ruangan lain untuk dokter %s.\n", GetUsername(&dokter));
+    }
+    // Kasus 4: Ruangan tidak kosong dan dokter sudah di assign di ruang lain
+    else {
+        printf("\nDokter %s sudah menempati ruangan %s!\n", GetUsername(&dokter), ruanganDokter);
+        printf("Ruangan %s juga sudah ditempati dokter %s!\n", r->namaruangan, namaDokterDiRuangan);
+    }
 }
 

@@ -42,7 +42,7 @@ int GetRows(Matrix M);
 int GetCols(Matrix M);
 
 // Mengembalikan nilai elemen pada baris row dan kolom col
-Ruangan *GetElement(Matrix *M, int row, int col);
+Ruangan *GetRuangan(Matrix *M, int row, int col);
 
 // Mengubah nilai elemen pada baris row dan kolom col, return true jika berhasil
 bool SetElement(Matrix *M, int row, int col, Ruangan value);

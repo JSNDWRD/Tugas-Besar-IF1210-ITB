@@ -144,7 +144,7 @@ void LihatRuangan(Matrix *denahHospital, char *input, UserList userList) {
     UbahInput(input, &row, &col);
 
     // variable r yang menyimpan struktur data di ruangan yang sesuai input)
-    Ruangan *r = GetElement(denahHospital, row, col);
+    Ruangan *r = GetRuangan(denahHospital, row, col);
 
     printf("--- Detail Ruangan %s ---\n", r->namaRuangan);
     printf("Kapasitas  : %d\n", r->kapasitas);

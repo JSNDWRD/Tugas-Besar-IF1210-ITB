@@ -549,7 +549,7 @@ void AssignDokter(UserList *userList, Session *session, Matrix *denahRumahSakit)
     UbahInput(ruangan, &row, &col);
     
     // Cek apakah ruangan valid
-    if (isColsValid(col, *denahRumahSakit) == 0 && isRowsValid(row, *denahRumahSakit) == 0) {
+    if (isColsValid(col, *denahRumahSakit) == 0 && isRowValid(row, *denahRumahSakit) == 0) {
         printf("Ruangan %s tidak ditemukan.\n", ruangan);
         return;
     }

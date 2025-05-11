@@ -190,9 +190,9 @@ void LihatRuangan(Matrix *denahHospital, char *input, UserList userList) {
     printf("------------------------------\n");
 }
 
-void SaveConfig(Matrix denahHospital,char *inputFolder) {
+void SaveConfig(Matrix denahHospital, char* inputFolder) {
     strcat(inputFolder,"/config.txt");
-    FILE *fileDenah = fopen("file/config.txt", "w"); 
+    FILE *fileDenah = fopen(inputFolder, "w"); 
     if (fileDenah == NULL) {
         perror("Gagal membuka file config.txt");
         return;

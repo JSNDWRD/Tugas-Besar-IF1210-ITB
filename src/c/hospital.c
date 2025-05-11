@@ -50,7 +50,7 @@ void LoadConfig(Matrix *denahHospital, char *inputFolder){
     for (int i = 0; i < denahHospital->rows; i++) {
         for(int j=0; j<denahHospital->cols;j++){
             /* array angka untuk menyimpan id sementara dari dokter dan para pasien
-            Jika ada dokter angka[0] adalah id dokter dan angka[1-jumlahpasien+1] adalah id pasien 
+            Jika ada dokter angka[0] adalah id dokter dan angka[1-jumlahPasien+1] adalah id pasien 
             */
             int angka[100], cnt = 0, temp = 0, index = 0;
             fgets(baris, sizeof(baris), fDenah);
@@ -68,10 +68,10 @@ void LoadConfig(Matrix *denahHospital, char *inputFolder){
 
             if (cnt == 0) {
                 denahHospital->data[i][j].dokter = -1;
-                denahHospital->data[i][j].jumlahpasien = 0;
+                denahHospital->data[i][j].jumlahPasien = 0;
             } else {
                 denahHospital->data[i][j].dokter = angka[0];
-                denahHospital->data[i][j].jumlahpasien = cnt - 1;
+                denahHospital->data[i][j].jumlahPasien = cnt - 1;
                 for (int k = 1; k < cnt; k++) {
                     denahHospital->data[i][j].pasien[k - 1] = angka[k];
                 }
@@ -104,7 +104,7 @@ void LihatDenah(Matrix *denahHospital) {
         // Baris nama ruangan
         printf(" %c ", 'A' + i);
         for (int j = 0; j < lebar; j++) {
-            printf("| %-4s", denahHospital->data[i][j].namaruangan);  // menggunakan field nama
+            printf("| %-4s", denahHospital->data[i][j].namaRuangan);  // menggunakan field nama
         }
         printf("|\n");
     }
@@ -146,7 +146,7 @@ void LihatRuangan(Matrix *denahHospital, char *input, UserList userList) {
     // variable r yang menyimpan struktur data di ruangan yang sesuai input)
     Ruangan *r = GetElement(denahHospital, row, col);
 
-    printf("--- Detail Ruangan %s ---\n", r->namaruangan);
+    printf("--- Detail Ruangan %s ---\n", r->namaRuangan);
     printf("Kapasitas  : %d\n", r->kapasitas);
 
     char dokter[MAX_USERNAME_LENGTH] = "Tidak Ada";
@@ -168,12 +168,12 @@ void LihatRuangan(Matrix *denahHospital, char *input, UserList userList) {
     }
 
 
-    if ((r->jumlahpasien == 0) || strcmp(dokter,"Tidak Ada") == 0){
+    if ((r->jumlahPasien == 0) || strcmp(dokter,"Tidak Ada") == 0){
         printf("  Tidak ada pasien di dalam ruangan saat ini.\n");
     } else {
         // cari setiap pasien di dalam ruangan yang sesuai
         printf("Pasien di dalam ruangan : \n");
-        for (int i = 0; i < r->jumlahpasien; i++) {
+        for (int i = 0; i < r->jumlahPasien; i++) {
             char pasien[MAX_USERNAME_LENGTH];
             for (int j = 0; j < userList.count; j++) {
                 if (userList.users[j].id == r->pasien[i] && strcmp(userList.users[j].role, "pasien") == 0) {
@@ -215,7 +215,7 @@ void SaveConfig(Matrix denahHospital, char* inputFolder) {
                 fprintf(file, "0\n");  // jika tidak ada dokter tulis 0 saja pada baris tanpa id pasien
             } else { // jika ada dokter di ruangan itu
                 fprintf(file, "%d", r.dokter);
-                for (int k = 0; k < r.jumlahpasien; k++) {
+                for (int k = 0; k < r.jumlahPasien; k++) {
                     fprintf(file, " %d", r.pasien[k]);
                 }
                 fprintf(file, "\n");

@@ -91,7 +91,8 @@ int main(int argc, char* argv[]) {
                     sprintf(command, "[ -d %s ] || mkdir %s", inputFolder, inputFolder);
                     system(command);
                     SaveUsers(userList, inputFolder);
-                    // SaveConfig(denahRumahSakit, inputFolderCopy); // SaveConfig masih dalam progress
+                    SaveConfig(denahRumahSakit,inputFolder);
+
                 }
                 break;
             case LIHAT_USER:

@@ -18,7 +18,7 @@ void LihatRuangan(Matrix *denahHospital, char *input, UserList userlist);
 /*Untuk lihat ruangan yang sesuai*/
 
 /* Menyimpan matrix denahHospital ke dalam file eksternal config.txt */
-void SaveConfig(Matrix denahHospital, char *inputFolder);
+void SaveConfig(Matrix *denahHospital, char *inputFolder);
 
 
 #endif

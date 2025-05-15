@@ -187,3 +187,32 @@ void Diagnosis(User user, PenyakitList penyakitList){
 
     printf("%s tidak terdiagnosis penyakit apapun!\n", user.username);
 }
+
+void SearchRuangan(int doctorId, Matrix* denahHospital, int* indeksRuangan){
+    int found = 0;
+    for(int i = 0; i < denahHospital->rows; i++){
+        for(int j = 0; j < denahHospital->cols; j++){
+            if(doctorId == GetRuangan(denahHospital,i,j)->dokter){
+                indeksRuangan[0] = i;
+                indeksRuangan[1] = j;
+                found = 1;
+                break;
+            }
+        }
+        if(found){
+            break;
+        }
+    }
+    if (!found) {
+        indeksRuangan[0] = -1;
+        indeksRuangan[1] = -1;
+    }
+}
+
+void ShiftAntrianRuangan(Matrix* denahHospital, Ruangan* currentRuangan){
+    for(int i = 1; i < currentRuangan->jumlahPasien; i++){
+        currentRuangan->pasien[i-1] = currentRuangan->pasien[i];
+    }
+    currentRuangan->jumlahPasien--;
+    currentRuangan->pasien[currentRuangan->jumlahPasien] = 0;
+}

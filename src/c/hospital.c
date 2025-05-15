@@ -192,25 +192,27 @@ void LihatRuangan(Matrix *denahHospital, char *input, UserList userList) {
     printf("------------------------------\n");
 }
 
-void SaveConfig(Matrix denahHospital, char* inputFolder) {
-    strcat(inputFolder,"/config.txt");
-    FILE *fileDenah = fopen(inputFolder, "w"); 
+void SaveConfig(Matrix *denahHospital, char* inputFolder) {
+    char outputPath[256];
+    strcpy(outputPath, inputFolder);
+    strcat(outputPath, "/config.txt");
+    FILE *fileDenah = fopen(outputPath, "w"); 
     if (fileDenah == NULL) {
         perror("Gagal membuka file config.txt");
         return;
     }
 
     // Mengisi baris 1: jumlah baris dan kolom 
-    fprintf(fileDenah, "%d %d\n", denahHospital.rows, denahHospital.cols);
+    fprintf(fileDenah, "%d %d\n", denahHospital->rows, denahHospital->cols);
 
     // Mengisi baris 2: kapasitas ruangan (asumsi kapasitas ruangan sama semua karena tidak dijelaskan)
-    fprintf(fileDenah, "%d\n", denahHospital.data[0][0].kapasitas);
+    fprintf(fileDenah, "%d\n", denahHospital->data[0][0].kapasitas);
 
     // Mengisi baris 3-8 : isi tiap ruangan denagn id dokter dan pasien
     // karena ruangan masih statik, jadi isi ruangan berada pada baris 3-8 
-    for (int i = 0; i < denahHospital.rows; i++) {
-        for (int j = 0; j < denahHospital.cols; j++) {
-            Ruangan r = denahHospital.data[i][j];
+    for (int i = 0; i < denahHospital->rows; i++) {
+        for (int j = 0; j < denahHospital->cols; j++) {
+            Ruangan r = denahHospital->data[i][j];
             if (r.dokter == -1) {
                 fprintf(fileDenah, "0\n");  // jika tidak ada dokter tulis 0 saja pada baris tanpa id pasien
             } else { // jika ada dokter di ruangan itu

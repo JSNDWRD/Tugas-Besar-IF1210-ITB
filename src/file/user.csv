@@ -9,3 +9,4 @@ id,username,password,role,riwayatPenyakit,suhuTubuh,tekananDarahSistolik,tekanan
 8,user8,pass88,pasien,Diabetes Mellitus,36.70,93,93,93,36.70,93,36.70,93,93,93,93
 9,user9,pass99,pasien,COVID-19,36.80,114,114,114,36.80,114,36.80,114,114,114,114
 10,user10,pass110,pasien,Anemia,36.20,103,103,103,36.20,103,36.20,103,103,103,103
+11,user11,pass111,pasien,-,36.5,100,70,80,97.0,100.0,60.0,170,180,200,300

@@ -81,14 +81,13 @@ int main(int argc, char* argv[]) {
                 } while(strcmp(simpan, "y") != 0 && strcmp(simpan, "n") != 0);
                 if(strcmp(simpan,"y") == 0){
                     char command[256];
-                    char inputFolder[100], inputFolderCopy[100];
+                    char inputFolder[100];
                     printf("\nMasukkan nama folder: ");
                     scanf("%s",inputFolder);
-                    strcpy(inputFolderCopy,inputFolder);
                     sprintf(command, "[ -d %s ] || mkdir %s", inputFolder, inputFolder);
                     system(command);
                     SaveUsers(userList, inputFolder);
-                    SaveConfig(denahRumahSakit,inputFolderCopy);
+                    SaveConfig(&denahRumahSakit,inputFolder);
                 }
                 break;
             case LIHAT_USER:
@@ -157,7 +156,23 @@ int main(int argc, char* argv[]) {
                 break;
             case DIAGNOSIS:
                 if(strcmp(session.currentUser.role,"dokter") == 0){
-                    Diagnosis(session.currentUser,penyakitList);
+                    // Diagnosis(session.currentUser,penyakitList);
+                    int indeksRuangan[2];
+                    SearchRuangan(session.currentUser.id, &denahRumahSakit, indeksRuangan);
+                    if(indeksRuangan[0] == -1 && indeksRuangan[1] == -1){
+                        printf("Anda tidak ter-assign pada ruangan mana pun.\n");
+                    } else {
+                        Ruangan* currentRuangan = GetRuangan(&denahRumahSakit, indeksRuangan[0], indeksRuangan[1]);
+                        int currentPasienId = currentRuangan->pasien[0];
+                        User currentPasien = GetUserAt(&userList,currentPasienId-1);
+                        // Setelah Diagnosis hapus pasien dalam antrian
+                        if(currentPasienId != 0){
+                            Diagnosis(currentPasien,penyakitList);
+                            ShiftAntrianRuangan(&denahRumahSakit,currentRuangan);
+                        } else {
+                            printf("Tidak ada pasien untuk didiagnosis!\n");
+                        }
+                    }
                 } else {
                     printf("Akses ditolak. Fitur ini hanya dapat diakses oleh dokter.\n");
                 }

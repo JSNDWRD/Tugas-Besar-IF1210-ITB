@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#include "user.h"
+#include "hospital.h"
 
 #define PENYAKIT_CAPACITY 500
 
@@ -34,7 +34,7 @@ typedef struct {
     int trombositMax;
 } Penyakit;
 
-// ADT List
+// ADT List Penyakit
 typedef struct {
     Penyakit penyakit[PENYAKIT_CAPACITY];
     int nEff;
@@ -45,5 +45,11 @@ void LoadPenyakit(PenyakitList* penyakitList, char* inputFolder);
 
 /* Mendiagnosis apakah user terjangkit suatu penyakit atau tidak */
 void Diagnosis(User user, PenyakitList penyakitList);
+
+/* Mengembalikan index ruangan yang berisi pasien yang ditangani dokter yang sedang login */
+void SearchRuangan(int doctorId, Matrix* denahHospital, int* indeksRuangan);
+
+/* Memajukan antrian setelah pasien telah didiagnosis */
+void ShiftAntrianRuangan(Matrix* denahHospital, Ruangan* currentRuangan);
 
 #endif

@@ -110,7 +110,7 @@ void LoadConfig(Matrix *denahHospital, char *inputFolder, UserList *userList){
 
         int indexinventory;
         for(int i=0;i<userList->count;i++){
-            if(userList->users[i].id == angka[0] && strcmp(userList->users[j].role, "pasien") == 0){
+            if(userList->users[i].id == angka[0] && strcmp(userList->users[i].role, "pasien") == 0){
                 indexinventory = i;
                 break;
             }
@@ -231,7 +231,7 @@ void LihatRuangan(Matrix *denahHospital, char *input, UserList userList) {
     printf("------------------------------\n");
 }
 
-void SaveConfig(Matrix *denahHospital, char* inputFolder, UserList *userlist) {
+void SaveConfig(Matrix *denahHospital, char* inputFolder, UserList *userList) {
     char outputPath[256];
     strcpy(outputPath, inputFolder);
     strcat(outputPath, "/config.txt");
@@ -266,22 +266,22 @@ void SaveConfig(Matrix *denahHospital, char* inputFolder, UserList *userlist) {
 
     // mengisi baris 9 : jumlah orang dengan inventory obat
     int pasienDenganObat = 0;
-    for (int i = 0; i < userlist->count; i++) {
-        if (userlist->users[i].jumlahObat > 0) {
+    for (int i = 0; i < userList->count; i++) {
+        if (userList->users[i].jumlahObat > 0 && strcmp(userList->users[i].role, "pasien") == 0) {
             pasienDenganObat++;
         }
     }
 
     fprintf(fileConfig, "%d\n", pasienDenganObat);
 
-    for (int i = 0; i < userlist->count; i++) {
-        if (userlist->users[i].jumlahObat > 0) {
-            fprintf(fileConfig, "%d", userlist->users[i].id);
-            for (int j = 0; j < userlist->users[i].jumlahObat; j++) {
-                fprintf(fileConfig, " %d", userlist->users[i].obat[j]);
+    for (int i = 0; i < userList->count; i++) {
+        if (userList->users[i].jumlahObat > 0) {
+            fprintf(fileConfig, "%d", userList->users[i].id);
+            for (int j = 0; j < userList->users[i].jumlahObat; j++) {
+                fprintf(fileConfig, " %d", userList->users[i].obat[j]);
             }
             fprintf(fileConfig,"\n");
         }
-
+    }
     fclose(fileConfig);
 }

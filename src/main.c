@@ -14,7 +14,7 @@ int main(int argc, char* argv[]) {
     LoadUsers(&userList,argv[1]);
 
     Matrix denahRumahSakit; // Denah rumah sakit
-    LoadConfig(&denahRumahSakit,folder);
+    LoadConfig(&denahRumahSakit,folder,&userList);
 
     PenyakitList penyakitList; // Daftar diagnosis penyakit
     LoadPenyakit(&penyakitList,folder);
@@ -87,7 +87,7 @@ int main(int argc, char* argv[]) {
                     sprintf(command, "[ -d %s ] || mkdir %s", inputFolder, inputFolder);
                     system(command);
                     SaveUsers(userList, inputFolder);
-                    SaveConfig(&denahRumahSakit,inputFolder);
+                    SaveConfig(&denahRumahSakit,inputFolder,&userList);
                 }
                 break;
             case LIHAT_USER:

@@ -76,8 +76,12 @@ void LoadConfig(Matrix *denahHospital, char *inputFolder, UserList *userList){
             } else {
                 denahHospital->data[i][j].dokter = angka[0];
                 denahHospital->data[i][j].jumlahPasien = cnt - 1;
-                for (int k = 1; k < cnt; k++) {
-                    denahHospital->data[i][j].pasien[k - 1] = angka[k];
+                if(denahHospital->data[i][j].jumlahPasien == 0){
+                    denahHospital->data[i][j].pasien[0] = 0;
+                }else{
+                    for (int k = 1; k < cnt; k++) {
+                        denahHospital->data[i][j].pasien[k - 1] = angka[k];
+                    }
                 }
             }
         }
@@ -110,12 +114,12 @@ void LoadConfig(Matrix *denahHospital, char *inputFolder, UserList *userList){
 
         int indexinventory;
         for(int i=0;i<userList->count;i++){
-            if(userList->users[i].id == angka[0] && strcmp(userList->users[i].role, "pasien") == 0){
+            if(userList->users[i].id == angka[0]){
                 indexinventory = i;
                 break;
             }
         }
-        userList->users[indexinventory].jumlahObat = cnt - 1; // karena angka[0] adalah id pasien
+        userList->users[indexinventory].jumlahObat = cnt - 1; 
         for (int i = 1; i < cnt; i++) {
             userList->users[indexinventory].obat[i - 1] = angka[i];
         }
@@ -257,8 +261,12 @@ void SaveConfig(Matrix *denahHospital, char* inputFolder, UserList *userList) {
                 fprintf(fileConfig, "0\n");  // jika tidak ada dokter tulis 0 saja pada baris tanpa id pasien
             } else { // jika ada dokter di ruangan itu
                 fprintf(fileConfig, "%d", r.dokter);
-                for (int k = 0; k < r.jumlahPasien; k++) {
-                    fprintf(fileConfig, " %d", r.pasien[k]);
+                if(r.jumlahPasien == 0){
+                    fprintf(fileConfig, " %d", 0);
+                }else{
+                    for (int k = 0; k < r.jumlahPasien; k++) {
+                        fprintf(fileConfig, " %d", r.pasien[k]);
+                    }
                 }
                 fprintf(fileConfig, "\n");
             }
@@ -268,7 +276,7 @@ void SaveConfig(Matrix *denahHospital, char* inputFolder, UserList *userList) {
     // mengisi baris 9 : jumlah orang dengan inventory obat
     int pasienDenganObat = 0;
     for (int i = 0; i < userList->count; i++) {
-        if (userList->users[i].jumlahObat > 0 && strcmp(userList->users[i].role, "pasien") == 0) {
+        if (userList->users[i].jumlahObat > 0) {
             pasienDenganObat++;
         }
     }

@@ -122,6 +122,7 @@ void LihatDenah(Matrix *denahHospital) {
 void UbahInput(char *input, int *row, int *col) {
     *row = -1;
     *col = -1;
+    if(input[0] == '\0') return;
     
     // isi variabel baris
     if (input[0] >= 'A' && input[0] <= 'Z') {

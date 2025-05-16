@@ -84,10 +84,10 @@ void LoadConfig(Matrix *denahHospital, char *inputFolder, UserList *userList){
     }
 
     fgets(baris, sizeof(baris), fDenah);
-    int pasienInventory = 0,j = 0;
-    while (baris[j] >= '0' && baris[j] <= '9') {
-        pasienInventory = pasienInventory * 10 + (baris[j] - '0');
-        j++;
+    int pasienInventory = 0,k = 0;
+    while (baris[k] >= '0' && baris[k] <= '9') {
+        pasienInventory = pasienInventory * 10 + (baris[k] - '0');
+        k++;
     }
 
     for(int i=0;i<pasienInventory;i++){

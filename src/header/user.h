@@ -18,6 +18,8 @@ typedef struct {
     char password[MAX_PASSWORD_LENGTH];
     char role[10];  // "manager" / "dokter" / "pasien"
     char riwayatPenyakit[50];  // Nama penyakit (bisa "-" jika kosong)
+    int obat[100]; //inventory obat yang dipunyao pasien
+    int jumlahObat; //jumlah obat
     
     // Data di bawah bernilai -1 jika tidak terdapat data tersebut dalam file CSV
     float suhuTubuh;

@@ -6,6 +6,7 @@
 #include "./header/hospital.h"
 #include "./header/command.h"
 #include "./header/diagnosis.h"
+#include "./header/ngobatin.h"
 
 int main(int argc, char* argv[]) {
     UserList userList; // Daftar pengguna
@@ -18,6 +19,12 @@ int main(int argc, char* argv[]) {
 
     PenyakitList penyakitList; // Daftar diagnosis penyakit
     LoadPenyakit(&penyakitList,folder);
+
+    ObatList obatList; // Daftar obat
+    LoadObat(&obatList,folder);
+
+    ObatMap obatMap;
+    LoadObatMap(&obatMap,folder);
 
     CommandList commandList; // Daftar command yang dapat digunakan
 

@@ -29,9 +29,9 @@ int main(int argc, char* argv[]) {
     CommandList commandList; // Daftar command yang dapat digunakan
 
     const char *COMMAND_READY[COMMAND_CAPACITY] = {
-        "HELP", "LOGIN", "LOGOUT", "REGISTER", "EXIT", "LUPA_PASSWORD", "LIHAT_USER", "LIHAT_PASIEN", "LIHAT_DOKTER", "CARI_USER", "CARI_PASIEN", "CARI_DOKTER", "TAMBAH_DOKTER", "LIHAT_DENAH", "LIHAT_RUANGAN", "ASSIGN_DOKTER", "DIAGNOSIS"
+        "HELP", "LOGIN", "LOGOUT", "REGISTER", "EXIT", "LUPA_PASSWORD", "LIHAT_USER", "LIHAT_PASIEN", "LIHAT_DOKTER", "CARI_USER", "CARI_PASIEN", "CARI_DOKTER", "TAMBAH_DOKTER", "LIHAT_DENAH", "LIHAT_RUANGAN", "ASSIGN_DOKTER", "DIAGNOSIS", "NGOBATIN"
     };
-    enum Command { HELP=1, LOGIN, LOGOUT, REGISTER, EXIT, LUPA_PASSWORD, LIHAT_USER, LIHAT_PASIEN, LIHAT_DOKTER, CARI_USER, CARI_PASIEN, CARI_DOKTER, TAMBAH_DOKTER, LIHAT_DENAH, LIHAT_RUANGAN, ASSIGN_DOKTER, DIAGNOSIS };
+    enum Command { HELP=1, LOGIN, LOGOUT, REGISTER, EXIT, LUPA_PASSWORD, LIHAT_USER, LIHAT_PASIEN, LIHAT_DOKTER, CARI_USER, CARI_PASIEN, CARI_DOKTER, TAMBAH_DOKTER, LIHAT_DENAH, LIHAT_RUANGAN, ASSIGN_DOKTER, DIAGNOSIS, NGOBATIN };
 
     CreateCommandList(&commandList,COMMAND_READY); // Membuat List Statik yang berisikan command yang tersedia
     
@@ -175,6 +175,31 @@ int main(int argc, char* argv[]) {
                         // Setelah Diagnosis hapus pasien dalam antrian
                         if(currentPasienId != 0){
                             Diagnosis(currentPasien,penyakitList);
+                            currentPasien.diagnosa = 1;
+                            ShiftAntrianRuangan(&denahRumahSakit,currentRuangan);
+                        } else {
+                            printf("Tidak ada pasien untuk didiagnosis!\n");
+                        }
+                    }
+                } else {
+                    printf("Akses ditolak. Fitur ini hanya dapat diakses oleh dokter.\n");
+                }
+                break;
+            case NGOBATIN:
+                if(strcmp(session.currentUser.role,"dokter") == 0){
+                    // Diagnosis(session.currentUser,penyakitList);
+                    int indeksRuangan[2];
+                    SearchRuangan(session.currentUser.id, &denahRumahSakit, indeksRuangan);
+                    if(indeksRuangan[0] == -1 && indeksRuangan[1] == -1){
+                        printf("Anda tidak ter-assign pada ruangan mana pun.\n");
+                    } else {
+                        Ruangan* currentRuangan = GetRuangan(&denahRumahSakit, indeksRuangan[0], indeksRuangan[1]);
+                        int currentPasienId = currentRuangan->pasien[0];
+                        User currentPasien = GetUserAt(&userList,currentPasienId-1);
+                        // Setelah Diagnosis hapus pasien dalam antrian
+                        if(currentPasienId != 0){
+                            Diagnosis(currentPasien,penyakitList);
+                            currentPasien.diagnosa = 1;
                             ShiftAntrianRuangan(&denahRumahSakit,currentRuangan);
                         } else {
                             printf("Tidak ada pasien untuk didiagnosis!\n");

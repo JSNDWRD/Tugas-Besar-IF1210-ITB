@@ -20,6 +20,7 @@ typedef struct {
     char riwayatPenyakit[50];  // Nama penyakit (bisa "-" jika kosong)
     int obat[100]; //inventory obat yang dipunyao pasien
     int jumlahObat; //jumlah obat
+    int diagnosa;
     
     // Data di bawah bernilai -1 jika tidak terdapat data tersebut dalam file CSV
     float suhuTubuh;

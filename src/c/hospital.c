@@ -187,6 +187,11 @@ void LihatRuangan(Matrix *denahHospital, char *input, UserList userList) {
     int row, col;
     UbahInput(input, &row, &col);
 
+    if(row < 0 || row >= denahHospital->rows || col < 0 || col >= denahHospital->cols){
+        printf("Ruangan %s tidak ditemukan.\n",input);
+        return;
+    }
+
     // variable r yang menyimpan struktur data di ruangan yang sesuai input)
     Ruangan *r = GetRuangan(denahHospital, row, col);
 

@@ -1,21 +1,21 @@
 #ifndef STACK_H
 #define STACK_H
 
-#include <string.h>
-#include <stdio.h>
 #include <stdbool.h>
 
 #define MAX_OBAT_LENGTH 50
 #define MAX_STACK_SIZE 100
+#define IDX_UNDEF -1
 
 typedef char Obat[MAX_OBAT_LENGTH];
 
+/* Definisi tipe Stack */
 typedef struct { 
     Obat obat[MAX_STACK_SIZE]; 
     int top;
 } Stack;
 
-/* Membuat stack kosong */
+/* Konstruktor untuk membuat stack kosong */
 void CreateEmptyStack(Stack *s);
 
 /* Mengembalikan true jika stack kosong */

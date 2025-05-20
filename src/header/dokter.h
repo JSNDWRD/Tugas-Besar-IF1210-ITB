@@ -31,11 +31,19 @@ typedef struct {
 // create a new node based on an int value;
 Node createNode(int value);
 
-
+// membuat queue, head dan tailnya NULL, length 0
 void createQueue(Queue *q);
+
+// memasukkan node ke dalam queue
 void enqueue(Queue *q, Node *newNode);
+
+// mengeluarkan node dari queue
 Node* dequeue(Queue *q);
+
+// cek apakah queue kosong
 int isEmptyQueue(Queue q);
+
+// print isi queue
 void printQueue(Queue q);
 
 #endif

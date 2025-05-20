@@ -34,6 +34,9 @@ bool isRowValid(int rows,Matrix M);
 /*Mengembalikan true jika kolom valid pada Matrix M, dan sebaliknya*/
 bool isColsValid(int cols,Matrix M);
 
+// Mengembalikan letak ruangan dimana dokter berada
+void FindDokter(Matrix *M, int *row, int *col, char *namaRuangan, int dokterId);
+
 /* Mengembalikan jumlah baris matrix M */
 int GetRows(Matrix M);
 

@@ -1,32 +1,21 @@
 #include "../header/ngobatin.h"
 
-/* KONSTRUKTOR */
 void CreateObatMap(ObatMap *obatMap);
 
 void CreateObatList(ObatMap *obatMap);
 
-/* SELEKTOR */
-
-// Mereturn panjang dari obatMap
 int ObatMapLength(ObatMap obatMap);
 
-// Mereturn panjang dari obatList
 int ObatListLength(ObatList obatList);
 
-// Mereturn Entry obat pada indeks ke-i
 ObatEntry GetObatEntry(ObatMap obatMap, int i);
 
-// Mereturn obat pada indeks ke-i dalam list obat
 Obat GetObat(ObatList obatList, int i);
 
-// Mencari indeks dari obat berdasarkan nama penyakit
 int SearchObatIndex(ObatMap obatMap, const char *penyakit);
 
-// Mencetak obat-obatan yang harus dikonsumsi berdasarkan penyakit
 void PrintObat(ObatMap obatMap, const char *penyakit);
 
-
-/* OPERASI FILE EKSTERNAL */
 void LoadObat(ObatList *obatList, char* inputFolder){
     char folderName[100];
     strcpy(folderName,inputFolder);

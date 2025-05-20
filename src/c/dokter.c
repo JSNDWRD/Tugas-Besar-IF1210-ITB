@@ -1,4 +1,4 @@
-#include "./dokter.h"
+#include "../header/dokter.h"
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -58,4 +58,28 @@ void printQueue(Queue q) {
         curr = curr->next;
     }
     printf("\n");
+}
+
+void initMap(Map *map) {
+    map->size = 0;
+}
+
+void insertDokterMap(Map *map, int key, const char *ruangan) {
+    // Cek apakah key sudah ada
+    for (int i = 0; i < map->size; i++) {
+        if (map->data[i].id == key) {
+            strcpy(map->data[i].namaRuangan, ruangan);
+            return;
+        }
+    }
+
+    // Masukkan entry baru
+    if (map->size < 100) {
+        map->data[map->size].id = key;
+        strcpy(map->data[map->size].namaRuangan, ruangan);
+        map->size++;
+    }
+    else {
+        printf("Map penuh!\n");
+    }
 }

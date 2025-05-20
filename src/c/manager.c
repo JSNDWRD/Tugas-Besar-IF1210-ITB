@@ -568,7 +568,6 @@ void AssignDokter(UserList *userList, Matrix *denahRumahSakit) {
     }
     
     // Cek apakah ruangan sudah ditempati dokter lain
-    printf("ID DOKTER: %d\n",r->dokter);
     int ruanganSudahDitempati = (r->dokter != -1 && r->dokter != 0);
     char namaDokterDiRuangan[MAX_USERNAME_LENGTH] = "";
     

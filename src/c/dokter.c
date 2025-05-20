@@ -1,4 +1,4 @@
-#include "./dokter.h"
+#include "../header/dokter.h"
 #include <stdlib.h>
 #include <stdio.h>
 

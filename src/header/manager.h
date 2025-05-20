@@ -5,6 +5,7 @@
 #include "auth.h"
 #include "user.h"
 #include "utils.h"
+#include "hospital.h"
 
 // Hanya digunakan oleh manager, untuk melihat user, sort berdasarkan id atau nama.
 void LihatUser(UserList *userList, Session *session);
@@ -47,6 +48,9 @@ void SetUserAt(UserList *userList, int idx, User user);
 
 // Add user to UserList (if not full)
 int AppendUser(UserList *userList, User user);
+
+// Assign dokter ke ruangan tertentu
+void AssignDokter(UserList *userList, Matrix *denahRumahSakit);
 
 
 

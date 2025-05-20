@@ -5,6 +5,8 @@
 #include "./header/manager.h"
 #include "./header/hospital.h"
 #include "./header/command.h"
+#include "./header/diagnosis.h"
+#include "./header/ngobatin.h"
 
 int main(int argc, char* argv[]) {
     UserList userList; // Daftar pengguna
@@ -13,14 +15,23 @@ int main(int argc, char* argv[]) {
     LoadUsers(&userList,argv[1]);
 
     Matrix denahRumahSakit; // Denah rumah sakit
-    LoadConfig(&denahRumahSakit,folder);
+    LoadConfig(&denahRumahSakit,folder,&userList);
+
+    PenyakitList penyakitList; // Daftar diagnosis penyakit
+    LoadPenyakit(&penyakitList,folder);
+
+    ObatList obatList; // Daftar obat
+    LoadObat(&obatList,folder);
+
+    ObatMap obatMap;
+    LoadObatMap(&obatMap,folder);
 
     CommandList commandList; // Daftar command yang dapat digunakan
 
     const char *COMMAND_READY[COMMAND_CAPACITY] = {
-        "HELP", "LOGIN", "LOGOUT", "REGISTER", "EXIT", "LUPA_PASSWORD", "LIHAT_USER", "LIHAT_PASIEN", "LIHAT_DOKTER", "CARI_USER", "CARI_PASIEN", "CARI_DOKTER", "TAMBAH_DOKTER", "LIHAT_DENAH", "LIHAT_RUANGAN"
+        "HELP", "LOGIN", "LOGOUT", "REGISTER", "EXIT", "LUPA_PASSWORD", "LIHAT_USER", "LIHAT_PASIEN", "LIHAT_DOKTER", "CARI_USER", "CARI_PASIEN", "CARI_DOKTER", "TAMBAH_DOKTER", "LIHAT_DENAH", "LIHAT_RUANGAN", "ASSIGN_DOKTER", "DIAGNOSIS", "NGOBATIN"
     };
-    enum Command { HELP=1, LOGIN, LOGOUT, REGISTER, EXIT, LUPA_PASSWORD, LIHAT_USER, LIHAT_PASIEN, LIHAT_DOKTER, CARI_USER, CARI_PASIEN, CARI_DOKTER, TAMBAH_DOKTER, LIHAT_DENAH, LIHAT_RUANGAN };
+    enum Command { HELP=1, LOGIN, LOGOUT, REGISTER, EXIT, LUPA_PASSWORD, LIHAT_USER, LIHAT_PASIEN, LIHAT_DOKTER, CARI_USER, CARI_PASIEN, CARI_DOKTER, TAMBAH_DOKTER, LIHAT_DENAH, LIHAT_RUANGAN, ASSIGN_DOKTER, DIAGNOSIS, NGOBATIN };
 
     CreateCommandList(&commandList,COMMAND_READY); // Membuat List Statik yang berisikan command yang tersedia
     
@@ -31,7 +42,7 @@ int main(int argc, char* argv[]) {
         int valid = 0;
         do {
             printf("\n>>> Input Command: ");
-            scanf(" %[^\n]s", input);
+            scanf(" %[^\n]", input);
             char commandAwal[50];
             int i = 0;
             while(input[i] != '\0' && input[i] != ' ' && i < sizeof(commandAwal)-1){
@@ -52,13 +63,6 @@ int main(int argc, char* argv[]) {
             }
         } while(valid == 0);
 
-        // for (int i = 0; i < COMMAND_CAPACITY; i++) {
-        //     if (strcmp(input, commandList.command[i].name) == 0) {
-        //         command = i + 1;
-        //         break;
-        //     }
-        // }
-
         switch (command) {
             case HELP:
                 Help(session);
@@ -76,13 +80,13 @@ int main(int argc, char* argv[]) {
                 ResetPassword(&userList, &session);
                 break;
             case EXIT:
-                char input[10];
+                char simpan[10];
                 do {
                     printf("Apakah Anda mau melakukan penyimpanan file yang sudah diubah? (y/n) ");
-                    scanf("%s", input);
-                    ToLowerCase(input); // Ubah ke huruf kecil
-                } while(strcmp(input, "y") != 0 && strcmp(input, "n") != 0);
-                if(strcmp(input,"y") == 0){ // Simpan Perubahan
+                    scanf("%s", simpan);
+                    ToLowerCase(simpan); // Ubah ke huruf kecil
+                } while(strcmp(simpan, "y") != 0 && strcmp(simpan, "n") != 0);
+                if(strcmp(simpan,"y") == 0){
                     char command[256];
                     char inputFolder[100];
                     printf("\nMasukkan nama folder: ");
@@ -90,7 +94,7 @@ int main(int argc, char* argv[]) {
                     sprintf(command, "[ -d %s ] || mkdir %s", inputFolder, inputFolder);
                     system(command);
                     SaveUsers(userList, inputFolder);
-                    // SaveConfig(denahRumahSakit);
+                    SaveConfig(&denahRumahSakit,inputFolder,&userList);
                 }
                 break;
             case LIHAT_USER:
@@ -144,6 +148,65 @@ int main(int argc, char* argv[]) {
                     // }
                 }  else {
                     printf("Anda harus login terlebih dahulu!");
+                }
+                break;
+            case ASSIGN_DOKTER:
+                if(session.loggedIn == 1){
+                    if(strcmp(GetRole(&session.currentUser), "manager") == 0){
+                        AssignDokter(&userList, &denahRumahSakit);
+                    } else {
+                        printf("Akses ditolak. Fitur ini hanya dapat diakses oleh manager.\n");
+                    }
+                } else {
+                    printf("Anda harus login terlebih dahulu!");
+                }
+                break;
+            case DIAGNOSIS:
+                if(strcmp(session.currentUser.role,"dokter") == 0){
+                    // Diagnosis(session.currentUser,penyakitList);
+                    int indeksRuangan[2];
+                    SearchRuangan(session.currentUser.id, &denahRumahSakit, indeksRuangan);
+                    if(indeksRuangan[0] == -1 && indeksRuangan[1] == -1){
+                        printf("Anda tidak ter-assign pada ruangan mana pun.\n");
+                    } else {
+                        Ruangan* currentRuangan = GetRuangan(&denahRumahSakit, indeksRuangan[0], indeksRuangan[1]);
+                        int currentPasienId = currentRuangan->pasien[0];
+                        User currentPasien = GetUserAt(&userList,currentPasienId-1);
+                        // Setelah Diagnosis hapus pasien dalam antrian
+                        if(currentPasienId != 0){
+                            Diagnosis(currentPasien,penyakitList);
+                            currentPasien.diagnosa = 1;
+                            ShiftAntrianRuangan(&denahRumahSakit,currentRuangan);
+                        } else {
+                            printf("Tidak ada pasien untuk didiagnosis!\n");
+                        }
+                    }
+                } else {
+                    printf("Akses ditolak. Fitur ini hanya dapat diakses oleh dokter.\n");
+                }
+                break;
+            case NGOBATIN:
+                if(strcmp(session.currentUser.role,"dokter") == 0){
+                    // Diagnosis(session.currentUser,penyakitList);
+                    int indeksRuangan[2];
+                    SearchRuangan(session.currentUser.id, &denahRumahSakit, indeksRuangan);
+                    if(indeksRuangan[0] == -1 && indeksRuangan[1] == -1){
+                        printf("Anda tidak ter-assign pada ruangan mana pun.\n");
+                    } else {
+                        Ruangan* currentRuangan = GetRuangan(&denahRumahSakit, indeksRuangan[0], indeksRuangan[1]);
+                        int currentPasienId = currentRuangan->pasien[0];
+                        User currentPasien = GetUserAt(&userList,currentPasienId-1);
+                        // Setelah Diagnosis hapus pasien dalam antrian
+                        if(currentPasienId != 0){
+                            Diagnosis(currentPasien,penyakitList);
+                            currentPasien.diagnosa = 1;
+                            ShiftAntrianRuangan(&denahRumahSakit,currentRuangan);
+                        } else {
+                            printf("Tidak ada pasien untuk didiagnosis!\n");
+                        }
+                    }
+                } else {
+                    printf("Akses ditolak. Fitur ini hanya dapat diakses oleh dokter.\n");
                 }
                 break;
             default:

@@ -21,6 +21,7 @@ void CreateUser(User *user,int id, char *username, char *password, char *role, c
     user->kadarKolesterol = kadarKolesterol;
     user->kadarKolesterolLDL = kadarKolesterolLDL;
     user->trombosit = trombosit;
+    user->diagnosa = 0;
 }
 
 int GetID(User *user) {
@@ -319,8 +320,10 @@ void LoadUsers(UserList *userList, char *inputFolder){
 }
 
 void SaveUsers(UserList userList, char* inputFolder){
-    strcat(inputFolder,"/user.csv");
-    FILE *fUserList = fopen(inputFolder,"w");
+    char outputPath[256];
+    strcpy(outputPath, inputFolder);
+    strcat(outputPath,"/user.csv");
+    FILE *fUserList = fopen(outputPath,"w");
     fprintf(fUserList, "id,username,password,role,riwayatPenyakit,suhuTubuh,tekananDarahSistolik,tekananDarahDiastolik,detakJantung,saturasiOksigen,kadarGulaDarah,beratBadan,tinggiBadan,kadarKolesterol,kadarKolesterolLDL,trombosit\n");
     for (int i = 0; i < userList.count; i++) {
         User user = userList.users[i];
@@ -340,7 +343,7 @@ void SaveUsers(UserList userList, char* inputFolder){
                 user.tinggiBadan == -1 ? "" : IntToStr(user.tinggiBadan),
                 user.kadarKolesterol == -1 ? "" : IntToStr(user.kadarKolesterol),
                 user.kadarKolesterolLDL == -1 ? "" : IntToStr(user.kadarKolesterolLDL),
-                user.trombosit == -1 ? "" : IntToStr(user.trombosit));
+                user.trombosit == -1 || user.trombosit == 0 ? "" : IntToStr(user.trombosit));
     }
     fclose(fUserList);
 }

@@ -31,7 +31,7 @@ void PrintStackObat(Stack s){
 
 /* Menambahkan val sebagai elemen top */
 void Push(Stack *s, Obat val){
-    if(!isStackFull(*s)){
+    if(!IsStackFull(*s)){
         s->top++;
         strncpy(s->obat[s->top], val, MAX_OBAT_LENGTH);
     }
@@ -39,7 +39,7 @@ void Push(Stack *s, Obat val){
 
 /* Mengambil nilai elemen top, sehingga top yang baru adalah elemen yang datang sebelum elemen top */
 void Pop(Stack *s, Obat *val){
-    if(!isStackEmpty(*s)){
+    if(!IsStackEmpty(*s)){
         strncpy(*val, s->obat[s->top], MAX_OBAT_LENGTH);
         s->top--;
     }

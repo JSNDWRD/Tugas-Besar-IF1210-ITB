@@ -94,6 +94,8 @@ int main(int argc, char* argv[]) {
                     sprintf(command, "[ -d %s ] || mkdir %s", inputFolder, inputFolder);
                     system(command);
                     SaveUsers(userList, inputFolder);
+                    SaveObat(folder,inputFolder);
+                    SavePenyakit(folder,inputFolder);
                     SaveConfig(&denahRumahSakit,inputFolder,&userList);
                 }
                 break;
@@ -105,6 +107,8 @@ int main(int argc, char* argv[]) {
                 sprintf(command, "[ -d %s ] || mkdir %s", inputFolder, inputFolder);
                 system(command);
                 SaveUsers(userList, inputFolder);
+                SaveObat(folder,inputFolder);
+                SavePenyakit(folder,inputFolder);
                 SaveConfig(&denahRumahSakit,inputFolder,&userList);
                 break;
             case LIHAT_USER:

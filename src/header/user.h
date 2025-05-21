@@ -49,15 +49,11 @@ typedef struct {
 } Session;
 
 
-/* KONSTRUKTOR */
-
 /* Membentuk user berdasarkan komponen-komponen yang dimasukkan */
 void CreateUser(User *user,int id, char *username, char *password, char *role, char *riwayatPenyakit,
                 float suhuTubuh, int tekananDarahSistolik, int tekananDarahDiastolik, int detakJantung,
                 float saturasiOksigen, int kadarGulaDarah, float beratBadan, int tinggiBadan,
                 int kadarKolesterol, int kadarKolesterolLDL, int trombosit);
-
-/* SELEKTOR / GETTER */
 
 /* Mendapatkan komponen ID dari user */
 int GetID(User *user);
@@ -106,8 +102,6 @@ int GetKadarKolesterolLDL(User *user);
 
 /* Mendapatkan komponen Trombosit dari user */
 int GetTrombosit(User *user);
-
-/* PENGUBAH / SETTER */
 
 /* Mengubah nilai komponen ID dari user menjadi val */
 void SetID(User *user, int val);
@@ -159,8 +153,6 @@ void SetTrombosit(User *user, int val);
 
 /* Menambahkan user ke dalam array userList */
 void AddUser(UserList *userList, User newUser);
-
-/* KELOMPOK OPERASI BACA / TULIS FILE EKSTERNAL */
 
 /* Membaca file eksternal dan memasukkan data user yang terdaftar ke dalam userList */
 void LoadUsers(UserList *userList, char *inputFolder);

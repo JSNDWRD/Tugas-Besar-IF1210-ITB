@@ -37,11 +37,9 @@ typedef struct {
 } ObatList;
 
 
-/* KONSTRUKTOR */
 void CreateObatMap(ObatMap *obatMap);
-void CreateObatList(ObatMap *obatMap);
 
-/* SELEKTOR */
+void CreateObatList(ObatMap *obatMap);
 
 // Mereturn panjang dari obatMap
 int ObatMapLength(ObatMap obatMap);
@@ -61,9 +59,8 @@ int SearchObatIndex(ObatMap obatMap, const char *penyakit);
 // Mencetak obat-obatan yang harus dikonsumsi berdasarkan penyakit
 void PrintObat(ObatMap obatMap, const char *penyakit);
 
-
-/* OPERASI FILE EKSTERNAL */
 void LoadObat(ObatList *obatList, char* inputFolder);
+
 void LoadObatMap(ObatMap *obatMap, char* inputFolder);
 
 void SaveObat(char* folderAsal, char* folderTujuan);

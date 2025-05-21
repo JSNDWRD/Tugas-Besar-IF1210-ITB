@@ -30,6 +30,20 @@ int GetCols(Matrix M){
     return M.cols;
 }
 
+void FindDokter(Matrix *M, int *row, int *col, char *namaRuangan, int dokterId) {
+    for (int i = 0; i < M->rows; i++) {
+        for (int j = 0; j < M->cols; j++) {
+            if (M->data[i][j].dokter == dokterId) {
+                *row = i;
+                *col = j;
+                strcpy(namaRuangan, M->data[i][j].namaRuangan);
+                return;
+            }
+        }
+    }
+    strcpy(namaRuangan, "-");
+}
+
 Ruangan *GetRuangan(Matrix *M, int row, int col){
     if(row >= M->rows || col >= M->cols){
         return NULL;

@@ -5,6 +5,8 @@
 #include "./header/manager.h"
 #include "./header/hospital.h"
 #include "./header/command.h"
+#include "./header/dokter.h"
+#include "./header/checkup.h"
 #include "./header/diagnosis.h"
 #include "./header/ngobatin.h"
 
@@ -25,6 +27,25 @@ int main(int argc, char* argv[]) {
 
     ObatMap obatMap;
     LoadObatMap(&obatMap,folder);
+
+    int jumlahDokter = 0;
+    for (int i = 0; i < userList.count; i++) {
+        if (strcmp(userList.users[i].role, "dokter") == 0) {
+            jumlahDokter++; // hitung jumlah dokter
+        }
+    }
+
+    Queue antrianDokter[jumlahDokter];
+    int indexDokter[jumlahDokter];  // untuk mapping index userList -> antrianDokter
+    int idxDktr = 0;
+    for (int i = 0; i < userList.count; i++) {
+        if (strcmp(userList.users[i].role, "dokter") == 0) {
+            createQueue(&antrianDokter[idxDktr]);
+            indexDokter[idxDktr] = i;  // simpan: dokter ini berasal dari userList index i
+            idxDktr++;
+        }
+    }
+
 
     CommandList commandList; // Daftar command yang dapat digunakan
 
@@ -130,7 +151,7 @@ int main(int argc, char* argv[]) {
                 CariDokter(&userList,&session);
                 break;
             case TAMBAH_DOKTER:
-                TambahDokter(&userList,&session);
+                TambahDokter(&userList,&session,&jumlahDokter);
                 break;
             case LIHAT_DENAH:
                 if(session.loggedIn != 1){

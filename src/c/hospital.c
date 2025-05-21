@@ -184,8 +184,8 @@ void LihatRuangan(Matrix *denahHospital, char *input, UserList userList) {
     int row, col;
     UbahInput(input, &row, &col);
 
-    if (row < 0 || row >= denahHospital->rows || col < 0 || col >= denahHospital->cols) {
-        printf("Kamar %s tidak ada di rumah sakit", input);
+    if(row < 0 || row >= denahHospital->rows || col < 0 || col >= denahHospital->cols){
+        printf("Ruangan %s tidak ditemukan.\n",input);
         return;
     }
 

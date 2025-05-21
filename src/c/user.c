@@ -21,6 +21,7 @@ void CreateUser(User *user,int id, char *username, char *password, char *role, c
     user->kadarKolesterol = kadarKolesterol;
     user->kadarKolesterolLDL = kadarKolesterolLDL;
     user->trombosit = trombosit;
+    user->diagnosa = 0;
 }
 
 int GetID(User *user) {

@@ -36,7 +36,7 @@ void Login(UserList *userList, Session *session);
 void RegisterUser(UserList *userList, Session *session);
 
 // Menambahkan user, digunakan manager
-void TambahDokter(UserList *userList, Session *session);
+void TambahDokter(UserList *userList, Session *session, int jumlahDokter);
 
 // Logout user
 void Logout(Session *session);

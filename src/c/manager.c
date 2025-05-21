@@ -523,7 +523,7 @@ void AssignDokter(UserList *userList, Matrix *denahRumahSakit) {
     
     // Cari index dokter berdasarkan username
     int indexDokter;
-    if (!SequenceSearchUser(userList, username, &indexDokter)) {
+    if (SequenceSearchUser(userList, username, &indexDokter) == 0) {
         printf("User dengan nama %s tidak ditemukan.\n", username);
         return;
     }
@@ -545,61 +545,61 @@ void AssignDokter(UserList *userList, Matrix *denahRumahSakit) {
     UbahInput(ruangan, &row, &col);
     
     // Cek apakah ruangan valid
-    // if (!isColsValid(col, *denahRumahSakit) == 0 || !isRowValid(row, *denahRumahSakit) == 0) {
-    //     printf("Ruangan %s tidak ditemukan.\n", ruangan);
-    //     return;
-    // }
+    if (col < 0 || col >= denahRumahSakit->cols || row < 0 || row >= denahRumahSakit->rows) {
+        printf("Ruangan %s tidak ditemukan.\n", ruangan);
+        return;
+    }
 
     Ruangan *r = GetRuangan(denahRumahSakit, row, col);
-    printf("%s\n",r->namaRuangan);
     
-    // // Cek apakah dokter sudah di-assign ke ruangan lain
-    // int dokterSudahDiAssign = 0;
-    // char ruanganDokter[12] = "";
+    // Cek apakah dokter sudah di-assign ke ruangan lain
+    int dokterSudahDiAssign = 0;
+    char ruanganDokter[12] = "";
     
-    // for (int i = 0; i < denahRumahSakit->rows; i++) {
-    //     for (int j = 0; j < denahRumahSakit->cols; j++) {
-    //         if (denahRumahSakit->data[i][j].dokter == GetID(&dokter)) {
-    //             dokterSudahDiAssign = 1;
-    //             strcpy(ruanganDokter, denahRumahSakit->data[i][j].namaRuangan);
-    //             break;
-    //         }
-    //     }
-    //     if (dokterSudahDiAssign) break;
-    // }
+    for (int i = 0; i < denahRumahSakit->rows; i++) {
+        for (int j = 0; j < denahRumahSakit->cols; j++) {
+            if (denahRumahSakit->data[i][j].dokter == GetID(&dokter)) {
+                strcpy(ruanganDokter, denahRumahSakit->data[i][j].namaRuangan);
+                dokterSudahDiAssign = 1;
+                break;
+            }
+        }
+        if (dokterSudahDiAssign) break;
+    }
     
-    // // Cek apakah ruangan sudah ditempati dokter lain
-    // int ruanganSudahDitempati = (r->dokter != -1);
-    // char namaDokterDiRuangan[MAX_USERNAME_LENGTH] = "";
+    // Cek apakah ruangan sudah ditempati dokter lain
+    printf("ID DOKTER: %d\n",r->dokter);
+    int ruanganSudahDitempati = (r->dokter != -1 && r->dokter != 0);
+    char namaDokterDiRuangan[MAX_USERNAME_LENGTH] = "";
     
-    // if (ruanganSudahDitempati) {
-    //     for (int i = 0; i < userList->count; i++) {
-    //         User user = GetUserAt(userList, i);
-    //         if (GetID(&user) == r->dokter) {
-    //             strcpy(namaDokterDiRuangan, GetUsername(&user));
-    //             break;
-    //         }
-    //     }
-    // }
+    if (ruanganSudahDitempati) {
+        for (int i = 0; i < userList->count; i++) {
+            User user = GetUserAt(userList, i);
+            if (GetID(&user) == r->dokter) {
+                strcpy(namaDokterDiRuangan, GetUsername(&user));
+                break;
+            }
+        }
+    }
     
-    // // Kasus 1: Ruangan Kosong dan dokter belum di assign di ruang manapun
-    // if (!ruanganSudahDitempati && !dokterSudahDiAssign) {
-    //     r->dokter = GetID(&dokter);
-    //     printf("\nDokter %s berhasil diassign ke ruangan %s!\n", GetUsername(&dokter), r->namaRuangan);
-    // }
-    // // Kasus 2: Ruangan Kosong dan dokter sudah di assign di ruang lain
-    // else if (!ruanganSudahDitempati && dokterSudahDiAssign) {
-    //     printf("\nDokter %s sudah diassign ke ruangan %s!\n", GetUsername(&dokter), ruanganDokter);
-    // }
-    // // Kasus 3: Ruangan tidak kosong dan dokter belum di assign di ruang manapun
-    // else if (ruanganSudahDitempati && !dokterSudahDiAssign) {
-    //     printf("\nDokter %s sudah menempati ruangan %s!\n", namaDokterDiRuangan, r->namaRuangan);
-    //     printf("Silakan cari ruangan lain untuk dokter %s.\n", GetUsername(&dokter));
-    // }
-    // // Kasus 4: Ruangan tidak kosong dan dokter sudah di assign di ruang lain
-    // else {
-    //     printf("\nDokter %s sudah menempati ruangan %s!\n", GetUsername(&dokter), ruanganDokter);
-    //     printf("Ruangan %s juga sudah ditempati dokter %s!\n", r->namaRuangan, namaDokterDiRuangan);
-    // }
+    // Kasus 1: Ruangan Kosong dan dokter belum di assign di ruang manapun
+    if (!ruanganSudahDitempati && !dokterSudahDiAssign) {
+        r->dokter = GetID(&dokter);
+        printf("\nDokter %s berhasil diassign ke ruangan %s!\n", GetUsername(&dokter), r->namaRuangan);
+    }
+    // Kasus 2: Ruangan Kosong dan dokter sudah di assign di ruang lain
+    else if (!ruanganSudahDitempati && dokterSudahDiAssign) {
+        printf("\nDokter %s sudah diassign ke ruangan %s!\n", GetUsername(&dokter), ruanganDokter);
+    }
+    // Kasus 3: Ruangan tidak kosong dan dokter belum di assign di ruang manapun
+    else if (ruanganSudahDitempati && !dokterSudahDiAssign) {
+        printf("\nDokter %s sudah menempati ruangan %s!\n", namaDokterDiRuangan, r->namaRuangan);
+        printf("Silakan cari ruangan lain untuk dokter %s.\n", GetUsername(&dokter));
+    }
+    // Kasus 4: Ruangan tidak kosong dan dokter sudah di assign di ruang lain
+    else {
+        printf("\nDokter %s sudah menempati ruangan %s!\n", GetUsername(&dokter), ruanganDokter);
+        printf("Ruangan %s juga sudah ditempati dokter %s!\n", r->namaRuangan, namaDokterDiRuangan);
+    }
 }
 

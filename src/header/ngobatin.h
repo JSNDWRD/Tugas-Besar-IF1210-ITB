@@ -20,7 +20,6 @@ typedef struct {
 } ObatMap;
 
 
-
 /* KONSTRUKTOR */
 
 /* SELEKTOR */

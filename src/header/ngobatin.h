@@ -66,4 +66,6 @@ void PrintObat(ObatMap obatMap, const char *penyakit);
 void LoadObat(ObatList *obatList, char* inputFolder);
 void LoadObatMap(ObatMap *obatMap, char* inputFolder);
 
+void SaveObat(char* inputFolder);
+
 #endif

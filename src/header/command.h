@@ -5,7 +5,7 @@
 #include <string.h>
 
 
-#define COMMAND_CAPACITY 19
+#define COMMAND_CAPACITY 20
 
 typedef struct {
     char name[50];

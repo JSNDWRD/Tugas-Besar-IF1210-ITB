@@ -29,9 +29,9 @@ int main(int argc, char* argv[]) {
     CommandList commandList; // Daftar command yang dapat digunakan
 
     const char *COMMAND_READY[COMMAND_CAPACITY] = {
-        "HELP", "LOGIN", "LOGOUT", "REGISTER", "EXIT", "LUPA_PASSWORD", "LIHAT_USER", "LIHAT_PASIEN", "LIHAT_DOKTER", "CARI_USER", "CARI_PASIEN", "CARI_DOKTER", "TAMBAH_DOKTER", "LIHAT_DENAH", "LIHAT_RUANGAN", "ASSIGN_DOKTER", "DIAGNOSIS", "NGOBATIN", "LIHAT_SEMUA_ANTRIAN"
+        "HELP", "LOGIN", "LOGOUT", "REGISTER", "EXIT", "LUPA_PASSWORD", "LIHAT_USER", "LIHAT_PASIEN", "LIHAT_DOKTER", "CARI_USER", "CARI_PASIEN", "CARI_DOKTER", "TAMBAH_DOKTER", "LIHAT_DENAH", "LIHAT_RUANGAN", "ASSIGN_DOKTER", "DIAGNOSIS", "NGOBATIN", "LIHAT_SEMUA_ANTRIAN", "SAVE"
     };
-    enum Command { HELP=1, LOGIN, LOGOUT, REGISTER, EXIT, LUPA_PASSWORD, LIHAT_USER, LIHAT_PASIEN, LIHAT_DOKTER, CARI_USER, CARI_PASIEN, CARI_DOKTER, TAMBAH_DOKTER, LIHAT_DENAH, LIHAT_RUANGAN, ASSIGN_DOKTER, DIAGNOSIS, NGOBATIN, LIHAT_SEMUA_ANTRIAN };
+    enum Command { HELP=1, LOGIN, LOGOUT, REGISTER, EXIT, LUPA_PASSWORD, LIHAT_USER, LIHAT_PASIEN, LIHAT_DOKTER, CARI_USER, CARI_PASIEN, CARI_DOKTER, TAMBAH_DOKTER, LIHAT_DENAH, LIHAT_RUANGAN, ASSIGN_DOKTER, DIAGNOSIS, NGOBATIN, LIHAT_SEMUA_ANTRIAN, SAVE };
 
     CreateCommandList(&commandList,COMMAND_READY); // Membuat List Statik yang berisikan command yang tersedia
     
@@ -96,6 +96,16 @@ int main(int argc, char* argv[]) {
                     SaveUsers(userList, inputFolder);
                     SaveConfig(&denahRumahSakit,inputFolder,&userList);
                 }
+                break;
+            case SAVE:
+                char command[256];
+                char inputFolder[100];
+                printf("\nMasukkan nama folder: ");
+                scanf("%s",inputFolder);
+                sprintf(command, "[ -d %s ] || mkdir %s", inputFolder, inputFolder);
+                system(command);
+                SaveUsers(userList, inputFolder);
+                SaveConfig(&denahRumahSakit,inputFolder,&userList);
                 break;
             case LIHAT_USER:
                 LihatUser(&userList,&session);

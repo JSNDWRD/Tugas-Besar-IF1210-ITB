@@ -216,3 +216,18 @@ void SearchRuangan(int doctorId, Matrix* denahHospital, int* indeksRuangan){
 //     currentRuangan->jumlahPasien--;
 //     currentRuangan->pasien[currentRuangan->jumlahPasien] = 0;
 // }
+
+void SavePenyakit(char* folderAsal, char* folderTujuan){
+    char pathAsal[256], pathTujuan[256], baris[1024];
+    strcpy(pathAsal, folderAsal);
+    strcpy(pathTujuan, folderTujuan);
+    strcat(pathAsal,"/obat_penyakit.csv");
+    strcat(pathTujuan,"/obat_penyakit.csv");
+    FILE *fAsal = fopen(pathAsal,"r");
+    FILE *fTujuan = fopen(pathTujuan,"w");
+    while(fgets(baris,sizeof(baris),fAsal)){
+        fputs(baris,fTujuan);
+    }
+    fclose(fAsal);
+    fclose(fTujuan);
+}

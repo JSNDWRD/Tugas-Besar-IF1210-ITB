@@ -31,9 +31,9 @@ int main(int argc, char* argv[]) {
     CommandList commandList; // Daftar command yang dapat digunakan
 
     const char *COMMAND_READY[COMMAND_CAPACITY] = {
-        "HELP", "LOGIN", "LOGOUT", "REGISTER", "EXIT", "LUPA_PASSWORD", "LIHAT_USER", "LIHAT_PASIEN", "LIHAT_DOKTER", "CARI_USER", "CARI_PASIEN", "CARI_DOKTER", "TAMBAH_DOKTER", "LIHAT_DENAH", "LIHAT_RUANGAN", "ASSIGN_DOKTER", "DIAGNOSIS", "NGOBATIN", "DAFTAR_CHECKUP"
+        "HELP", "LOGIN", "LOGOUT", "REGISTER", "EXIT", "LUPA_PASSWORD", "LIHAT_USER", "LIHAT_PASIEN", "LIHAT_DOKTER", "CARI_USER", "CARI_PASIEN", "CARI_DOKTER", "TAMBAH_DOKTER", "LIHAT_DENAH", "LIHAT_RUANGAN", "ASSIGN_DOKTER", "DIAGNOSIS", "NGOBATIN", "LIHAT_SEMUA_ANTRIAN", "SAVE", "DAFTAR_CHECKUP"
     };
-    enum Command { HELP=1, LOGIN, LOGOUT, REGISTER, EXIT, LUPA_PASSWORD, LIHAT_USER, LIHAT_PASIEN, LIHAT_DOKTER, CARI_USER, CARI_PASIEN, CARI_DOKTER, TAMBAH_DOKTER, LIHAT_DENAH, LIHAT_RUANGAN, ASSIGN_DOKTER, DIAGNOSIS, NGOBATIN, DAFTAR_CHECKUP };
+    enum Command { HELP=1, LOGIN, LOGOUT, REGISTER, EXIT, LUPA_PASSWORD, LIHAT_USER, LIHAT_PASIEN, LIHAT_DOKTER, CARI_USER, CARI_PASIEN, CARI_DOKTER, TAMBAH_DOKTER, LIHAT_DENAH, LIHAT_RUANGAN, ASSIGN_DOKTER, DIAGNOSIS, NGOBATIN, LIHAT_SEMUA_ANTRIAN, SAVE, DAFTAR_CHECKUP };
 
     CreateCommandList(&commandList,COMMAND_READY); // Membuat List Statik yang berisikan command yang tersedia
     
@@ -96,8 +96,22 @@ int main(int argc, char* argv[]) {
                     sprintf(command, "[ -d %s ] || mkdir %s", inputFolder, inputFolder);
                     system(command);
                     SaveUsers(userList, inputFolder);
+                    SaveObat(folder,inputFolder);
+                    SavePenyakit(folder,inputFolder);
                     SaveConfig(&denahRumahSakit,inputFolder,&userList);
                 }
+                break;
+            case SAVE:
+                char command[256];
+                char inputFolder[100];
+                printf("\nMasukkan nama folder: ");
+                scanf("%s",inputFolder);
+                sprintf(command, "[ -d %s ] || mkdir %s", inputFolder, inputFolder);
+                system(command);
+                SaveUsers(userList, inputFolder);
+                SaveObat(folder,inputFolder);
+                SavePenyakit(folder,inputFolder);
+                SaveConfig(&denahRumahSakit,inputFolder,&userList);
                 break;
             case LIHAT_USER:
                 LihatUser(&userList,&session);
@@ -215,8 +229,33 @@ int main(int argc, char* argv[]) {
                     printf("Akses ditolak. Fitur ini hanya dapat diakses oleh dokter.\n");
                 }
                 break;
-            case DAFTAR_CHECKUP:
-                DaftarCheckup(&userList, &session, &denahRumahSakit);
+            case LIHAT_SEMUA_ANTRIAN:
+                if(strcmp(session.currentUser.role,"manager") == 0){
+                    for(int i = 0; i < denahRumahSakit.rows; i++){
+                        for(int j = 0; j < denahRumahSakit.cols; j++){
+                            char ruangan[8];
+                            ruangan[0] = 'A'+i;
+                            if (j + 1 < 10) {
+                                ruangan[1] = '1' + j;
+                                ruangan[1] = '0' + (j + 1);
+                                ruangan[2] = '\0';
+                            } else {
+                                ruangan[1] = '0' + ((j + 1) / 10);
+                                ruangan[2] = '0' + ((j + 1) % 10);
+                                ruangan[3] = '\0';
+                            }
+                            int row,col;
+                            UbahInput(ruangan,&row,&col);
+                            if(denahRumahSakit.data[row][col].dokter != -1){
+                                LihatRuangan(&denahRumahSakit,ruangan,userList);
+                                printf("\n");
+                            }
+                        }
+                    }
+                    
+                } else {
+                    printf("Akses ditolak. Fitur ini hanya dapat diakses oleh dokter.\n");
+                }
                 break;
             default:
                 printf("Command tidak ditemukan.\n");

@@ -52,4 +52,6 @@ void SearchRuangan(int doctorId, Matrix* denahHospital, int* indeksRuangan);
 /* Memajukan antrian setelah pasien telah didiagnosis */
 void ShiftAntrianRuangan(Matrix* denahHospital, Ruangan* currentRuangan);
 
+void SavePenyakit(char* folderAsal, char* folderTujuan);
+
 #endif

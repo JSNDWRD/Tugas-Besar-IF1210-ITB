@@ -63,4 +63,6 @@ void LoadObat(ObatList *obatList, char* inputFolder);
 
 void LoadObatMap(ObatMap *obatMap, char* inputFolder);
 
+void SaveObat(char* folderAsal, char* folderTujuan);
+
 #endif

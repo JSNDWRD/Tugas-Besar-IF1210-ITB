@@ -133,3 +133,18 @@ void LoadObatMap(ObatMap *obatMap, char* inputFolder) {
     }
     fclose(fObatMap);
 }
+
+void SaveObat(char* folderAsal, char* folderTujuan){
+    char pathAsal[256], pathTujuan[256], baris[1024];
+    strcpy(pathAsal, folderAsal);
+    strcpy(pathTujuan, folderTujuan);
+    strcat(pathAsal,"/obat.csv");
+    strcat(pathTujuan,"/obat.csv");
+    FILE *fAsal = fopen(pathAsal,"r");
+    FILE *fTujuan = fopen(pathTujuan,"w");
+    while(fgets(baris,sizeof(baris),fAsal)){
+        fputs(baris,fTujuan);
+    }
+    fclose(fAsal);
+    fclose(fTujuan);
+}

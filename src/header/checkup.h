@@ -1,6 +1,10 @@
 #ifndef CHECKUP_H
 #define CHECKUP_H
 
+#include "./utils.h"
+#include "./user.h"
+#include "./hospital.h"
+
 // Fungsi validasi input data medis
 void InputDataMedis(float *suhu, int *sistolik, int *diastolik, int *detak, float *saturasi, int *gula, float *berat, int *tinggi, int *kolesterol, int *ldl, int *trombosit);
 

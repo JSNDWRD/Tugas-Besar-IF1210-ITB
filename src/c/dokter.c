@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "./header/dokter.h"
-#include "./header/matrix.h"
+#include "../header/dokter.h"
+#include "../header/matrix.h"
 
 Node* createNode(int value) {
     Node* newNode = (Node*) malloc(sizeof(Node));

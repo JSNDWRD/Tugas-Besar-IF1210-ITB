@@ -1,12 +1,17 @@
-#include "../header/dokter.h"
-#include <stdlib.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include "./header/dokter.h"
+#include "./header/matrix.h"
 
-Node createNode(int value) {
-    Node node;
-    node.data = value;
-    node.next = NULL;
-    return node;
+Node* createNode(int value) {
+    Node* newNode = (Node*) malloc(sizeof(Node));
+    if (newNode == NULL) {
+        printf("Memory error!\n");
+        exit(1);
+    }
+    newNode->data = value;
+    newNode->next = NULL;
+    return newNode;
 }
 
 void createQueue(Queue *q) {
@@ -16,33 +21,35 @@ void createQueue(Queue *q) {
 }
 
 void enqueue(Queue *q, Node *newNode) {
+    if (newNode == NULL) return;
+    
     newNode->next = NULL;
     if (q->tail == NULL) {
         q->head = newNode;
-        q->tail = newNode;
     }
     else {
         q->tail->next = newNode;
-        q->tail = newNode;
     }
+    q->tail = newNode;
     q->length++;
 }
 
-Node* dequeue(Queue *q) {
+int dequeue(Queue *q) {
     if (isEmptyQueue(*q)) {
-        return NULL;  // queue is empty
+        return -1;
     }
-
+    
     Node *temp = q->head;
-    q->head = q->head->next;  // detach first node from queue
-
+    int data = temp->data;
+    
+    q->head = q->head->next;
     if (q->head == NULL) {
-        q->tail = NULL;  // queue is now empty
+        q->tail = NULL;
     }
-
+    
+    free(temp);
     q->length--;
-    temp->next = NULL;
-    return temp;
+    return data;
 }
 
 
@@ -60,26 +67,33 @@ void printQueue(Queue q) {
     printf("\n");
 }
 
-void initMap(Map *map) {
-    map->size = 0;
-}
-
-void insertDokterMap(Map *map, int key, const char *ruangan) {
-    // Cek apakah key sudah ada
-    for (int i = 0; i < map->size; i++) {
-        if (map->data[i].id == key) {
-            strcpy(map->data[i].namaRuangan, ruangan);
-            return;
-        }
-    }
-
-    // Masukkan entry baru
-    if (map->size < 100) {
-        map->data[map->size].id = key;
-        strcpy(map->data[map->size].namaRuangan, ruangan);
-        map->size++;
-    }
-    else {
-        printf("Map penuh!\n");
+void freeQueue(Queue *q) {
+    while (!isEmptyQueue(*q)) {
+        dequeue(q);
     }
 }
+
+// void initMap(Map *map) {
+//     map->size = 0;
+// }
+
+// void insertDokterMap(Map *map, int key, const char *ruangan) {
+//     // Cek apakah key sudah ada
+//     for (int i = 0; i < map->size; i++) {
+//         if (map->data[i].id == key) {
+//             strcpy(map->data[i].namaRuangan, ruangan);
+//             return;
+//         }
+//     }
+
+//     // Masukkan entry baru
+//     if (map->size < 100) {
+//         map->data[map->size].id = key;
+//         strcpy(map->data[map->size].namaRuangan, ruangan);
+//         map->size++;
+//     }
+//     else {
+//         printf("Map penuh!\n");
+//     }
+// }
+

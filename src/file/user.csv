@@ -1,11 +1,16 @@
-id,username,password,role,riwayat_penyakit,suhu_tubuh,tekanan_darah_sistolik,tekanan_darah_diastolik,detak_jantung,saturasi_oksigen,kadar_gula_darah,berat_badan,tinggi_badan,kadar_kolesterol,kadar_kolesterol_ldl,trombosit
-1,user1,pass11,pasien,Anemia,36.1,92,77,66,93.7,127.3,52.4,177,193,54,328
-2,user2,pass22,pasien,COVID-19,36.6,126,85,67,96.5,175.7,45.7,156,235,139,212
-3,user3,pass33,pasien,Diabetes Mellitus,36.4,96,68,94,92.3,162.9,64.1,158,240,63,380
-4,user4,pass44,pasien,COVID-19,36.9,110,85,73,98.7,152.2,62.8,157,184,152,390
+id,username,password,role,riwayatPenyakit,suhuTubuh,tekananDarahSistolik,tekananDarahDiastolik,detakJantung,saturasiOksigen,kadarGulaDarah,beratBadan,tinggiBadan,kadarKolesterol,kadarKolesterolLDL,trombosit
+1,user1,pass11,pasien,Anemia,36.10,92,92,92,36.10,92,36.10,92,92,92,92
+2,user2,pass22,pasien,COVID-19,36.60,126,126,126,36.60,126,36.60,126,126,126,126
+3,user3,pass33,pasien,Diabetes Mellitus,36.40,96,96,96,36.40,96,36.40,96,96,96,96
+4,user4,pass44,pasien,COVID-19,36.90,110,110,110,36.90,110,36.90,110,110,110,110
 5,user5,pass55,dokter,Diabetes Mellitus,,,,,,,,,,,
 6,user6,pass66,dokter,Anemia,,,,,,,,,,,
 7,user7,pass77,manager,Influenza,,,,,,,,,,,
-8,user8,pass88,pasien,Diabetes Mellitus,36.7,93,87,63,97.8,136.8,77,172,227,64,380
-9,user9,pass99,pasien,COVID-19,36.8,114,74,61,94.6,100.4,80.6,173,152,139,386
-10,user10,pass110,pasien,Anemia,36.2,103,87,65,96.6,102.6,72.3,184,150,91,292
+8,user8,pass88,pasien,Diabetes Mellitus,36.70,93,93,93,36.70,93,36.70,93,93,93,93
+9,user9,pass99,pasien,COVID-19,36.80,114,114,114,36.80,114,36.80,114,114,114,114
+10,user10,pass110,pasien,Anemia,36.20,103,103,103,36.20,103,36.20,103,103,103,103
+11,user11,pass111,dokter,-,36.5,100,70,80,97.0,100.0,60.0,170,180,200,300
+12,user12,pass112,dokter,-,36.5,100,70,80,97.0,100.0,60.0,170,180,200,300
+13,user13,pass113,dokter,-,36.5,100,70,80,97.0,100.0,60.0,170,180,200,300
+14,user14,pass114,pasien,-,36.5,100,70,80,97.0,100.0,60.0,170,180,200,300
+15,user15,pass115,dokter,-,36.5,100,70,80,97.0,100.0,60.0,170,180,200,300

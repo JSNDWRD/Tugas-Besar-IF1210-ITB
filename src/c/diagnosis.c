@@ -209,10 +209,10 @@ void SearchRuangan(int doctorId, Matrix* denahHospital, int* indeksRuangan){
     }
 }
 
-void ShiftAntrianRuangan(Matrix* denahHospital, Ruangan* currentRuangan){
-    for(int i = 1; i < currentRuangan->jumlahPasien; i++){
-        currentRuangan->pasien[i-1] = currentRuangan->pasien[i];
-    }
-    currentRuangan->jumlahPasien--;
-    currentRuangan->pasien[currentRuangan->jumlahPasien] = 0;
-}
+// void ShiftAntrianRuangan(Matrix* denahHospital, Ruangan* currentRuangan){
+//     for(int i = 1; i < currentRuangan->jumlahPasien; i++){
+//         currentRuangan->pasien[i-1] = currentRuangan->pasien[i];
+//     }
+//     currentRuangan->jumlahPasien--;
+//     currentRuangan->pasien[currentRuangan->jumlahPasien] = 0;
+// }

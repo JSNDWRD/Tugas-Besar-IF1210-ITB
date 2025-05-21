@@ -174,13 +174,13 @@ int main(int argc, char* argv[]) {
                     }
                     else {
                         Ruangan* currentRuangan = GetRuangan(&denahRumahSakit, indeksRuangan[0], indeksRuangan[1]);
-                        int currentPasienId = currentRuangan->pasien[0];
+                        int currentPasienId = currentRuangan->antrianPasien.head;
                         User currentPasien = GetUserAt(&userList,currentPasienId-1);
                         // Setelah Diagnosis hapus pasien dalam antrian
                         if (currentPasienId != 0) {
                             Diagnosis(currentPasien,penyakitList);
                             currentPasien.diagnosa = 1;
-                            ShiftAntrianRuangan(&denahRumahSakit,currentRuangan);
+                            // ShiftAntrianRuangan(&denahRumahSakit,currentRuangan);
                         } 
                         else {
                             printf("Tidak ada pasien untuk didiagnosis!\n");
@@ -200,13 +200,13 @@ int main(int argc, char* argv[]) {
                         printf("Anda tidak ter-assign pada ruangan mana pun.\n");
                     } else {
                         Ruangan* currentRuangan = GetRuangan(&denahRumahSakit, indeksRuangan[0], indeksRuangan[1]);
-                        int currentPasienId = currentRuangan->pasien[0];
+                        int currentPasienId = currentRuangan->antrianPasien.head;
                         User currentPasien = GetUserAt(&userList,currentPasienId-1);
                         // Setelah Diagnosis hapus pasien dalam antrian
                         if(currentPasienId != 0){
                             Diagnosis(currentPasien,penyakitList);
                             currentPasien.diagnosa = 1;
-                            ShiftAntrianRuangan(&denahRumahSakit,currentRuangan);
+                            // ShiftAntrianRuangan(&denahRumahSakit,currentRuangan);
                         } else {
                             printf("Tidak ada pasien untuk didiagnosis!\n");
                         }

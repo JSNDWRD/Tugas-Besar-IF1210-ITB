@@ -5,16 +5,18 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "dokter.h"
 
 #define MAX_ROWS 100
 #define MAX_COLS 100
 
 typedef struct {
-  int pasien[100];  // menyimpan semua id pasien yang ada didalam ruangan
+  // int pasien[100];  // menyimpan semua id pasien yang ada didalam ruangan
   int jumlahPasien; 
   int dokter;  // menyimpan id dokter yang ada di ruangan
   int kapasitas;  // kapasitas ruangan
   char namaRuangan[12];  //menyimpan nama ruangan (contoh : A1,B2,dll)
+  Queue antrianPasien;
 } Ruangan;
 
 

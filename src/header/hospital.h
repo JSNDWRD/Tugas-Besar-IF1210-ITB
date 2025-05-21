@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include "matrix.h"
 #include "ngobatin.h"
+#include "dokter.h"
 #include "user.h"
 
 /* Membaca file eksternal dan memasukkan data config ke dalam denahHospital */

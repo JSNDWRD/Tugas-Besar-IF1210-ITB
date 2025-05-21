@@ -164,26 +164,30 @@ int main(int argc, char* argv[]) {
                 }
                 break;
             case DIAGNOSIS:
-                if(strcmp(session.currentUser.role,"dokter") == 0){
+                if (strcmp(session.currentUser.role,"dokter") == 0) {
                     // Diagnosis(session.currentUser,penyakitList);
                     int indeksRuangan[2];
                     SearchRuangan(session.currentUser.id, &denahRumahSakit, indeksRuangan);
-                    if(indeksRuangan[0] == -1 && indeksRuangan[1] == -1){
+
+                    if (indeksRuangan[0] == -1 && indeksRuangan[1] == -1){
                         printf("Anda tidak ter-assign pada ruangan mana pun.\n");
-                    } else {
+                    }
+                    else {
                         Ruangan* currentRuangan = GetRuangan(&denahRumahSakit, indeksRuangan[0], indeksRuangan[1]);
                         int currentPasienId = currentRuangan->pasien[0];
                         User currentPasien = GetUserAt(&userList,currentPasienId-1);
                         // Setelah Diagnosis hapus pasien dalam antrian
-                        if(currentPasienId != 0){
+                        if (currentPasienId != 0) {
                             Diagnosis(currentPasien,penyakitList);
                             currentPasien.diagnosa = 1;
                             ShiftAntrianRuangan(&denahRumahSakit,currentRuangan);
-                        } else {
+                        } 
+                        else {
                             printf("Tidak ada pasien untuk didiagnosis!\n");
                         }
                     }
-                } else {
+                }
+                else {
                     printf("Akses ditolak. Fitur ini hanya dapat diakses oleh dokter.\n");
                 }
                 break;

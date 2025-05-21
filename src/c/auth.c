@@ -61,7 +61,7 @@ void Login(UserList *userList, Session *session) {
 
 // Register dokter baru khusus manager
 // Username case insensitive, jadi tidak bisa ada username yang sama, tapi case nya beda
-void TambahDokter(UserList *userList, Session *session, int jumlahDokter) {
+void TambahDokter(UserList *userList, Session *session) {
     if (strcmp(session->currentUser.role,"manager") != 0) {
         printf("Anda bukan manager!\n");
         return;
@@ -100,7 +100,7 @@ void TambahDokter(UserList *userList, Session *session, int jumlahDokter) {
     CreateUser(&newUser,userList->count+1, username, password, "dokter", "-", -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
     AddUser(userList, newUser);
     printf("\nDokter %s berhasil ditambahkan!\n",newUser.username);
-    jumlahDokter++;
+
 }
 
 void RegisterUser(UserList *userList, Session *session) {

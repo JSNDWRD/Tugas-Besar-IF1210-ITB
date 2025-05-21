@@ -108,17 +108,14 @@ void InputDataMedis(float *suhu, int *sistolik, int *diastolik, int *detak, floa
     while (*trombosit <= 0);
 }
 
-// Fungsi pendaftaran check-up
-void DaftarCheckup(UserList *userList, Session *session, Queue *antrianDokter, Matrix *denahRumahSakit, int *indexDokter, int jumlahDokter) {
+
+void DaftarCheckup(UserList *userList, Session *session, Matrix *denahRumahSakit) {
     if (!session->loggedIn || strcmp(GetRole(&session->currentUser), "Pasien") != 0) {
         printf("Akses ditolak. Login sebagai pasien terlebih dahulu.\n");
         return;
     }
 
-    float suhu; int sistolik; int diastolik; int detak; float saturasi; int gula; float berat; int tinggi;
-    int kolesterol; int ldl; int trombosit;
-
-    // Input data medis pasien
+    float suhu; int sistolik; int diastolik; int detak; float saturasi; int gula; float berat; int tinggi; int kolesterol; int ldl; int trombosit;
     InputDataMedis(&suhu, &sistolik, &diastolik, &detak, &saturasi, &gula, &berat, &tinggi, &kolesterol, &ldl, &trombosit);
 
     // Masukkan data medis pasien ke dalam userList
@@ -135,62 +132,70 @@ void DaftarCheckup(UserList *userList, Session *session, Queue *antrianDokter, M
     user->kadarKolesterolLDL = ldl;
     user->trombosit = trombosit;
 
-    // Buat map baru yang isinya dokter:ruangan (ga perlu dihapus)
-    Map ruanganDokter;
-    initMap(&ruanganDokter);
+    int dokterCount = 0;
+    int dokterList[userList->count];
 
-    int dokterIndices[jumlahDokter]; // simpan indeks userList dokter
-    int countDokter = 0;
+
+    printf("\nDaftar Dokter yang Tersedia:");
+    
     for (int i = 0; i < userList->count; i++) {
         if (strcmp(userList->users[i].role, "dokter") == 0) {
+            // Cari lokasi ruangan dokter
             int row, col;
             char namaRuangan[12];
+            FindDokter(denahRumahSakit, &row, &col, namaRuangan, userList->users[i].id);
+            
+            // cari length queue
+            Ruangan *ruangan = GetRuangan(denahRumahSakit, row, col);
+            int antrian = (ruangan != NULL) ? ruangan->antrianPasien.length : 0;
 
-            FindDokter(&denahRumahSakit, &row, &col, namaRuangan, userList->users[i].id);
-            insertDokterMap(&ruanganDokter, userList->users[i].id, namaRuangan);
+            printf("\n%d. Dr. %s - %s (Antrian: %d)", 
+                dokterCount + 1,
+                userList->users[i].username,
+                namaRuangan,
+                antrian);
 
-            dokterIndices[countDokter++] = i;
-            if (countDokter >= jumlahDokter) break;
+            dokterList[dokterCount] = i;
+            dokterCount++;
         }
     }
-
-    // Tampilkan dokter yang tersedia dengan antrian masing-masing
-    printf("Daftar dokter yang tersedia:\n");
-    for (int i = 0; i < countDokter; i++) {
-        int idx = dokterIndices[i];
-        int dokterId = userList->users[idx].id;
-        const char *ruangan = getMap(&ruanganDokter, dokterId);
-        int panjangAntrian = antrianDokter[i].length;
-        printf("%d. Dr. %s - %s (Antrian: %d orang)\n", i+1, userList->users[idx].username, ruangan ? ruangan : "-", panjangAntrian);
-    }
-
-    // Pilih dokter oleh pasien
+    
+    // pilih dokter
     int pilihanDokter;
-    printf("Pilih dokter (masukkan nomor): ");
+    printf("\nPilih dokter (1-%d): ", dokterCount);
     scanf("%d", &pilihanDokter);
-    if (pilihanDokter < 1 || pilihanDokter > countDokter) {
-        printf("Pilihan dokter tidak valid.\n");
+
+    if (pilihanDokter < 1 || pilihanDokter > dokterCount) {
+        printf("Pilihan tidak valid!\n");
         return;
     }
-    pilihanDokter -= 1;  // ubah jadi indeks array
+    pilihanDokter--; // convert jadi index
+    
+    // cari ruangan dokter yang dipilih.
+    int selectedDokterId = userList->users[dokterList[pilihanDokter]].id;
 
-    // Antrian dokter yang dipilih
-    Queue *queue = &antrianDokter[pilihanDokter];
-    int idPasien = user->id;
+    int row, col;
+    char namaRuangan[12];
+    FindDokter(denahRumahSakit, &row, &col, namaRuangan, selectedDokterId);
+    
+    Ruangan *targetRuangan = GetRuangan(denahRumahSakit, row, col);
+    if (targetRuangan == NULL) {
+        printf("Error: Dokter tidak memiliki ruangan!\n");
+        return;
+    }
 
-    // Cek apakah pasien sudah ada di antrian
-    Node *curr = queue->head;
+    // cek apakah pasien sudah berada didalam queue
+    Node *curr = targetRuangan->antrianPasien.head;
     while (curr != NULL) {
-        if (curr->data == idPasien) {
-            printf("Pasien sudah terdaftar dalam antrian dokter ini.\n");
+        if (curr->data == user->id) {
+            printf("Anda sudah terdaftar dalam antrian ini!\n");
             return;
         }
         curr = curr->next;
     }
 
-    // Masukkan pasien ke antrian dokter
-    Node *nodePasien = createNode(idPasien);
-    enqueue(queue, nodePasien);
+    Node *newNode = createNode(user->id);
+    enqueue(&targetRuangan->antrianPasien, newNode);
 
-    printf("Pendaftaran check-up berhasil. Pasien masuk ke antrian dokter %s.\n", userList->users[dokterIndices[pilihanDokter]].username);
+    printf("\nPendaftaran berhasil! Anda berada di posisi antrian ke-%d di ruangan %s\n", targetRuangan->antrianPasien.length, targetRuangan->namaRuangan);
 }

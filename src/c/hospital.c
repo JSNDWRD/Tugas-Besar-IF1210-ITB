@@ -16,15 +16,22 @@ void LoadConfig(Matrix *denahHospital, char *inputFolder, UserList *userList){
     fgets(baris,sizeof(baris),fDenah);
 
     int i = 0,count = 0,temp=0;
-    while(baris[i] != '\0' && baris[i] != '\n'){
-        if(baris[i] >= '0' && baris[i] <= '9'){
+    while (baris[i] != '\0' && baris[i] != '\n'){
+        if (baris[i] >= '0' && baris[i] <= '9'){
             temp = temp * 10 + (baris[i] - '0');
-        }else{
-            if(count == 0) denahHospital->rows = temp;
-            else denahHospital->cols = temp;
+        }
+        else{
+            if (count == 0) {
+                denahHospital->rows = temp;
+            }
+            else {
+                denahHospital->cols = temp;
+            }
+
             count ++;
             temp = 0;
         }
+
         i++;
     }
 
@@ -40,26 +47,30 @@ void LoadConfig(Matrix *denahHospital, char *inputFolder, UserList *userList){
         kapasitas = kapasitas * 10 + (baris[j] - '0');
         j++;
     }
+
     // assign kapasitas untuk tiap kamar (semuanya sama)
-    for(int i=0;i<denahHospital->rows;i++){
-        for(int j=0;j<denahHospital->cols;j++){
+    for(int i = 0;i < denahHospital->rows; i++) {
+        for(int j = 0;j < denahHospital->cols; j++) {
             denahHospital->data[i][j].kapasitas = kapasitas;
+            createQueue(&denahHospital->data[i][j].antrianPasien);
         }
     }
 
     // memeriksa baris ke 3-8 untuk mendapatkan id dosen,jumlah pasien, id pasien
     // int index = 0;
     for (int i = 0; i < denahHospital->rows; i++) {
-        for(int j=0; j<denahHospital->cols;j++){
-            /* array angka untuk menyimpan id sementara dari dokter dan para pasien
-            Jika ada dokter angka[0] adalah id dokter dan angka[1-jumlahPasien+1] adalah id pasien 
-            */
+        for(int j = 0; j < denahHospital->cols; j++) {
+            // array angka untuk menyimpan id sementara dari dokter dan para pasien
+            // Jika ada dokter angka[0] adalah id dokter dan angka[1-jumlahPasien+1] adalah id pasien 
+            
             int angka[100], cnt = 0, temp = 0, idx = 0;
             fgets(baris, sizeof(baris), fDenah);
+
             while (baris[idx] != '\0' && baris[idx] != '\n') {
                 if (baris[idx] >= '0' && baris[idx] <= '9') {
                     temp = temp * 10 + (baris[idx] - '0');
-                } else if (temp > 0) {
+                }
+                else if (temp > 0) {
                     angka[cnt] = temp;
                     cnt++;
                     temp = 0;
@@ -73,12 +84,14 @@ void LoadConfig(Matrix *denahHospital, char *inputFolder, UserList *userList){
             if (cnt == 0) {
                 denahHospital->data[i][j].dokter = -1;
                 denahHospital->data[i][j].jumlahPasien = 0;
-            } else {
+            } 
+            else {
                 denahHospital->data[i][j].dokter = angka[0];
                 denahHospital->data[i][j].jumlahPasien = cnt - 1;
-                if(denahHospital->data[i][j].jumlahPasien == 0){
+                if (denahHospital->data[i][j].jumlahPasien == 0){
                     denahHospital->data[i][j].pasien[0] = 0;
-                }else{
+                }
+                else {
                     for (int k = 1; k < cnt; k++) {
                         denahHospital->data[i][j].pasien[k - 1] = angka[k];
                     }
@@ -126,7 +139,8 @@ void LoadConfig(Matrix *denahHospital, char *inputFolder, UserList *userList){
     }
     fclose(fDenah);
 }
-/* Membaca file eksternal dan memasukkan data config ke dalam denahHospital */
+
+
 void LihatDenah(Matrix *denahHospital) {
     int lebar = denahHospital->cols;
     int panjang = denahHospital->rows;
@@ -196,7 +210,7 @@ void LihatRuangan(Matrix *denahHospital, char *input, UserList userList) {
     printf("Kapasitas  : %d\n", r->kapasitas);
 
     char dokter[MAX_USERNAME_LENGTH] = "Tidak Ada";
-    //Cari userList dengan role dokter dan id yang sesuai
+    // Cari userList dengan role dokter dan id yang sesuai
     for (int i = 0; i < userList.count; i++) {
         if (userList.users[i].id == r->dokter){
             if(strcmp(userList.users[i].role, "dokter") == 0) {
@@ -207,9 +221,10 @@ void LihatRuangan(Matrix *denahHospital, char *input, UserList userList) {
             break;
         }
     }
-    if(strcmp(dokter,"Tidak Ada") == 0){
+    if (strcmp(dokter,"Tidak Ada") == 0){
         printf("Dokter     : -\n");
-    }else{
+    } 
+    else {
         printf("Dokter     : %s\n", dokter);
     }
 

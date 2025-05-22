@@ -66,13 +66,14 @@ void LoadConfig(Matrix *denahHospital, char *inputFolder, UserList *userList){
             /* array angka untuk menyimpan id sementara dari dokter dan para pasien
             Jika ada dokter angka[0] adalah id dokter dan angka[1-jumlahPasien+1] adalah id pasien 
             */
-            int angka[100], count = 0, temp = 0, idx = 0;
+            int angka[100], count = 0;
             fgets(baris, sizeof(baris), fDenah);
+            int temp = 0, idx = 0;
             while (baris[idx] != '\0' && baris[idx] != '\n') {
                 if (baris[idx] >= '0' && baris[idx] <= '9') {
                     temp = temp * 10 + (baris[idx] - '0');
                 } 
-                else if (temp > 0) {
+                else if (temp >= 0) {
                     angka[count] = temp;
                     count++;
                     temp = 0;
@@ -82,7 +83,6 @@ void LoadConfig(Matrix *denahHospital, char *inputFolder, UserList *userList){
             if (temp > 0) {
                 angka[count++] = temp;
             }
-
             Ruangan *r = &denahHospital->data[i][j];
 
             if(angka[0] == 0 && count == 1){

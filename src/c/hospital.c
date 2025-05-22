@@ -42,7 +42,8 @@ void LoadConfig(Matrix *denahHospital, char *inputFolder, UserList *userList)
     // memeriksa baris ke dua yg berisi kapasitas
     fgets(baris, sizeof(baris), fDenah);
 
-    int kapasitasAntrian = 0, kapasitasRuangan = 0, j = 0, temp = 0, count = 0;
+    int kapasitasAntrian = 0, kapasitasRuangan = 0, j = 0;
+    temp = 0, count = 0;
 
     while (baris[j] != '\0' && baris[j] != '\n')
     {

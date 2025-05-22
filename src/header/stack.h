@@ -10,8 +10,9 @@
 typedef char Obat[MAX_OBAT_LENGTH];
 
 /* Definisi tipe Stack */
-typedef struct { 
-    Obat obat[MAX_STACK_SIZE]; 
+typedef struct
+{
+    Obat obat[MAX_STACK_SIZE];
     int top;
 } Stack;
 

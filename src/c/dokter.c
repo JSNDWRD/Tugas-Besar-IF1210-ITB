@@ -113,10 +113,10 @@ void freeQueue(Queue *q)
 
 int pasienDalamRuangan(Ruangan *r)
 {
-    if (r->antrianPasien.length < r->kapasitas)
+    if (r->antrianPasien.length < r->kapasitasRuangan)
     {
         return r->antrianPasien.length;
     }
     else
-        return r->kapasitas;
+        return r->kapasitasRuangan;
 }

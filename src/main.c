@@ -164,6 +164,7 @@ int main(int argc, char* argv[]) {
                 }
                 break;
             case DIAGNOSIS:
+                /*
                 if (strcmp(session.currentUser.role,"dokter") == 0) {
                     // Diagnosis(session.currentUser,penyakitList);
                     int indeksRuangan[2];
@@ -191,7 +192,9 @@ int main(int argc, char* argv[]) {
                     printf("Akses ditolak. Fitur ini hanya dapat diakses oleh dokter.\n");
                 }
                 break;
+                */
             case NGOBATIN:
+                /*
                 if(strcmp(session.currentUser.role,"dokter") == 0){
                     // Diagnosis(session.currentUser,penyakitList);
                     int indeksRuangan[2];
@@ -215,6 +218,7 @@ int main(int argc, char* argv[]) {
                     printf("Akses ditolak. Fitur ini hanya dapat diakses oleh dokter.\n");
                 }
                 break;
+                */
             case DAFTAR_CHECKUP:
                 DaftarCheckup(&userList, &session, &denahRumahSakit);
                 break;

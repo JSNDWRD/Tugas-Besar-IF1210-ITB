@@ -36,12 +36,9 @@ typedef struct {
     int length;
 } ObatList;
 
-<<<<<<< HEAD
 /* KONSTRUKTOR */
-=======
 
 void CreateObatMap(ObatMap *obatMap);
->>>>>>> 531758d5d57924b7317f674381652a44a90dae61
 
 void CreateObatList(ObatMap *obatMap);
 

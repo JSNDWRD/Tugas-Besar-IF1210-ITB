@@ -199,3 +199,49 @@ void DaftarCheckup(UserList *userList, Session *session, Matrix *denahRumahSakit
 
     printf("\nPendaftaran berhasil! Anda berada di posisi antrian ke-%d di ruangan %s\n", targetRuangan->antrianPasien.length, targetRuangan->namaRuangan);
 }
+
+void LihatAntrianSaya(UserList *userList, Session *session, Matrix *denahRumahSakit) {
+    if (!session->loggedIn || strcmp(session->currentUser.role, "pasien") != 0) {
+        printf("\nError: Akses ditolak. Login sebagai pasien terlebih dahulu!\n");
+        return;
+    }
+
+    int pasienId = session->currentUser.id;
+    int found = 0;
+
+    for (int i = 0; i < denahRumahSakit->rows; i++) {
+        for (int j = 0; j < denahRumahSakit->cols; j++) {
+            Ruangan *ruangan = &denahRumahSakit->data[i][j];
+            
+            Node *curr = ruangan->antrianPasien.head;
+            int posisi = 1;
+            
+            while (curr != NULL) {
+                if (curr->data == pasienId) {
+                    int dokterId = ruangan->dokter;
+                    User *dokter = GetUserById(userList, dokterId);
+                    
+                    if (dokter == NULL) {
+                        printf("\nError: Data dokter tidak valid!\n");
+                        return;
+                    }
+
+                    printf("\nStatus Antrian Anda:");
+                    printf("\nDokter  : Dr. %s", dokter->username);
+                    printf("\nRuangan : %s", ruangan->namaRuangan);
+                    printf("\nPosisi  : %d dari %d", posisi, ruangan->antrianPasien.length);
+                    
+                    found = 1;
+                    return;
+                }
+                curr = curr->next;
+                posisi++;
+            }
+        }
+    }
+
+    if (!found) {
+        printf("\nAnda belum terdaftar dalam antrian check-up!\n");
+        printf("Silakan daftar terlebih dahulu.\n");
+    }
+}

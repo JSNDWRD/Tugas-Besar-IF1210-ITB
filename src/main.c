@@ -317,6 +317,7 @@ int main(int argc, char *argv[])
                         if (denahRumahSakit.data[row][col].dokter != -1)
                         {
                             LihatRuangan(&denahRumahSakit, ruangan, userList);
+                            printAntrianRuangan(denahRumahSakit.data[i][j], userList);
                             printf("\n");
                         }
                     }

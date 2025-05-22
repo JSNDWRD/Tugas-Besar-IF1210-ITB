@@ -14,4 +14,4 @@ void DaftarCheckup(UserList *userList, Session *session, Matrix *denahRumahSakit
 // Pasien yang sudah melakukan pendaftaran dapat melihat status antriannya
 void LihatAntrianSaya(UserList *userList, Session *session, Matrix *denahRumahSakit);
 
-# endif
+#endif

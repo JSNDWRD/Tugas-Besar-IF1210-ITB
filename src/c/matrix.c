@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include "../header/matrix.h"
+#include "../header/manager.h"
 
 void CreateMatrix(int rows, int cols, Matrix *M)
 {
@@ -94,4 +95,26 @@ void InisialisasiNamaRuangan(Matrix *M)
             snprintf(M->data[i][j].namaRuangan, sizeof(M->data[i][j].namaRuangan), "%c%d", 'A' + i, j + 1);
         }
     }
+}
+
+void printAntrianRuangan(Ruangan ruangan, UserList userList)
+{
+    Node *curr = ruangan.antrianPasien.head;
+    for (int i = 0; i < ruangan.jumlahPasienDalamRuangan; i++)
+    {
+        curr = curr->next;
+    }
+    printf("Pasien di antrian:\n");
+    int count = 0;
+    while (curr != NULL)
+    {
+        printf("%d. %s\n", count + 1, GetUserById(&userList, curr->data).username);
+        curr = curr->next;
+        count++;
+    }
+    if (count == 0)
+    {
+        printf("Tidak ada pasien pada antrian ruangan.\n");
+    }
+    printf("\n");
 }

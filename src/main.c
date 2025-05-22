@@ -239,18 +239,17 @@ int main(int argc, char *argv[])
                 else
                 {
                     Ruangan *currentRuangan = GetRuangan(&denahRumahSakit, indeksRuangan[0], indeksRuangan[1]);
-                    int currentPasienId = currentRuangan->antrianPasien.head->data;
-                    User currentPasien = GetUserById(&userList, currentPasienId - 1);
-                    // Setelah Diagnosis hapus pasien dalam antrian
-                    if (currentPasienId != 0)
+                    Node *current = currentRuangan->antrianPasien.head;
+                    while (current != NULL)
                     {
-                        Diagnosis(currentPasien, penyakitList);
-                        currentPasien.diagnosa = 1;
-                        // ShiftAntrianRuangan(&denahRumahSakit,currentRuangan);
-                    }
-                    else
-                    {
-                        printf("Tidak ada pasien untuk didiagnosis!\n");
+                        User currentPasien = GetUserById(&userList, current->data);
+                        if (currentPasien.diagnosa == 0)
+                        {
+                            Diagnosis(currentPasien, penyakitList);
+                            currentPasien.diagnosa = 1;
+                            break;
+                        }
+                        current = current->next;
                     }
                 }
             }
@@ -295,6 +294,7 @@ int main(int argc, char *argv[])
         case LIHAT_SEMUA_ANTRIAN:
             if (strcmp(session.currentUser.role, "manager") == 0)
             {
+                LihatDenah(&denahRumahSakit);
                 for (int i = 0; i < denahRumahSakit.rows; i++)
                 {
                     for (int j = 0; j < denahRumahSakit.cols; j++)

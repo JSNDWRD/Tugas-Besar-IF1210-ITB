@@ -107,6 +107,7 @@ void LoadConfig(Matrix *denahHospital, char *inputFolder, UserList *userList){
         }
     }
 
+
     fgets(baris, sizeof(baris), fDenah);
     int pasienInventory = 0,k = 0;
     while (baris[k] >= '0' && baris[k] <= '9') {
@@ -169,7 +170,7 @@ void LihatDenah(Matrix *denahHospital) {
         // Baris nama ruangan
         printf(" %c ", 'A' + i);
         for (int j = 0; j < lebar; j++) {
-            printf("| %-4s", denahHospital->data[i][j].namaRuangan);  // menggunakan field nama
+            printf("| %-4s", denahHospital->data[i][j].namaRuangan);
         }
         printf("|\n");
     }

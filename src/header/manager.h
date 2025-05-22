@@ -43,6 +43,9 @@ int SequenceSearchUser(UserList *userList, char *username, int *index);
 // Get user from UserList by index
 User GetUserAt(UserList *userList, int idx);
 
+// Get user from UserList by its id
+User GetUserById(UserList *userList, int userId);
+
 // Set user in UserList by index
 void SetUserAt(UserList *userList, int idx, User user);
 
@@ -51,7 +54,5 @@ int AppendUser(UserList *userList, User user);
 
 // Assign dokter ke ruangan tertentu
 void AssignDokter(UserList *userList, Matrix *denahRumahSakit);
-
-
 
 #endif

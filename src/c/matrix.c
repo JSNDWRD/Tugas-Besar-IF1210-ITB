@@ -9,9 +9,11 @@ void CreateMatrix(int rows, int cols, Matrix *M)
     {
         for (int j = 0; j < cols; j++)
         {
-            M->data[i][j].jumlahPasien = 0;
+            M->data[i][j].jumlahPasienDalamRuangan = 0;
+            M->data[i][j].jumlahPasienDiAntrian = 0;
             M->data[i][j].dokter = -1;
-            M->data[i][j].kapasitas = 0;
+            M->data[i][j].kapasitasRuangan = 0;
+            M->data[i][j].kapasitasAntrian = 0;
             createQueue(&M->data[i][j].antrianPasien);
             // for (int k = 0; k < 100; k++) M->data[i][j].pasien[k] = -1;
         }

@@ -97,9 +97,10 @@ void freeQueue(Queue *q) {
 //     }
 // }
 
-int pasienDalamRuangan(Ruangan *r) {
-    if (r->antrianPasien.length < r->kapasitas) {
-        return r->antrianPasien.length;
-    }
-    else return r->kapasitas;
-}
+
+// int pasienDalamRuangan(Ruangan *r) {
+//     if (r->antrianPasien.length < r->kapasitasRuangan) {
+//         return r->antrianPasien.length;
+//     }
+//     else return r->kapasitasRuangan;
+// }

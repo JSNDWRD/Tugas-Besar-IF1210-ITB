@@ -12,9 +12,11 @@
 
 typedef struct {
   // int pasien[100];  // menyimpan semua id pasien yang ada didalam ruangan
-  int jumlahPasien; 
+  int jumlahPasienDalamRuangan; // jumlah pasien yang ada di dalam ruangan 
+  int jumlahPasienDiAntrian; // jumlah pasien yang ada di antrian
   int dokter;  // menyimpan id dokter yang ada di ruangan
-  int kapasitas;  // kapasitas ruangan
+  int kapasitasRuangan;  // kapasitas ruangan
+  int kapasitasAntrian;
   char namaRuangan[12];  //menyimpan nama ruangan (contoh : A1,B2,dll)
   Queue antrianPasien;
 } Ruangan;

@@ -68,24 +68,6 @@ int isEmptyQueue(Queue q)
     return q.head == NULL;
 }
 
-void printQueue(Queue q, UserList userList)
-{
-    Node *curr = q.head;
-    printf("Pasien di antrian:\n");
-    int count = 0;
-    while (curr != NULL)
-    {
-        printf("%d. %s\n", count + 1, GetUserById(&userList, curr->data).username);
-        curr = curr->next;
-        count++;
-    }
-    if (count == 0)
-    {
-        printf("Tidak ada pasien pada antrian ruangan.\n");
-    }
-    printf("\n");
-}
-
 void freeQueue(Queue *q)
 {
     while (!isEmptyQueue(*q))

@@ -47,9 +47,6 @@ int dequeue(Queue *q);
 // cek apakah queue kosong
 int isEmptyQueue(Queue q);
 
-// print isi queue
-void printQueue(Queue q, UserList userList);
-
 // hindarin memory leak
 void freeQueue(Queue *q);
 

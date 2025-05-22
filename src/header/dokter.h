@@ -1,12 +1,16 @@
 #ifndef DOKTER_H
 #define DOKTER_H
 
-typedef struct Node {
+#include "user.h"
+
+typedef struct Node
+{
     int data;
     struct Node *next;
 } Node;
 
-typedef struct {
+typedef struct
+{
     Node *head;
     Node *tail;
     int length;
@@ -29,7 +33,7 @@ typedef struct {
 // node primitives
 
 // create a new node based on an int value
-Node* createNode(int value);
+Node *createNode(int value);
 
 // membuat queue, head dan tailnya NULL, length 0
 void createQueue(Queue *q);
@@ -44,9 +48,9 @@ int dequeue(Queue *q);
 int isEmptyQueue(Queue q);
 
 // print isi queue
-void printQueue(Queue q);
+void printQueue(Queue q, UserList userList);
 
 // hindarin memory leak
-void freeQueue(Queue *q); 
+void freeQueue(Queue *q);
 
 #endif

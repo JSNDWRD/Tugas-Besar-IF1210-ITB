@@ -2,120 +2,143 @@
 #include "../header/matrix.h"
 #include "../header/dokter.h"
 #include "../header/user.h"
+#include "../header/manager.h"
 #include <stdio.h>
 #include <string.h>
 
-void InputDataMedis(float *suhu, int *sistolik, int *diastolik, int *detak, float *saturasi, int *gula, float *berat, int *tinggi, int *kolesterol, int *ldl, int *trombosit) {
+void InputDataMedis(float *suhu, int *sistolik, int *diastolik, int *detak, float *saturasi, int *gula, float *berat, int *tinggi, int *kolesterol, int *ldl, int *trombosit)
+{
     printf("Masukkan data medis:\n");
-    do {
+    do
+    {
         printf("Suhu tubuh (°C): ");
         scanf("%f", suhu);
 
-        if (*suhu < 0) {
+        if (*suhu < 0)
+        {
             printf("Suhu tidak valid.\n");
         }
-    }
-    while (*suhu <= 0);
+    } while (*suhu <= 0);
 
-    do {
+    do
+    {
         printf("Tekanan darah (sistol/distol): ");
         scanf("%d %d", sistolik, diastolik);
 
-        if (*sistolik < 0 || *diastolik < 0) {
+        if (*sistolik < 0 || *diastolik < 0)
+        {
             printf("Tekanan darah tidak valid.\n");
         }
-    }
-    while (*sistolik <= 0 || *diastolik <= 0);
+    } while (*sistolik <= 0 || *diastolik <= 0);
 
-    do {
+    do
+    {
         printf("Detak jantung (bpm): ");
         scanf("%d", detak);
 
-        if (*detak < 0) {
+        if (*detak < 0)
+        {
             printf("Detak jantung tidak valid.\n");
         }
-    }
-    while (*detak <= 0);
+    } while (*detak <= 0);
 
-    do {
+    do
+    {
         printf("Saturasi oksigen (%%): ");
         scanf("%f", saturasi);
 
-        if (*saturasi < 0) {
+        if (*saturasi < 0)
+        {
             printf("Saturasi oksigen tidak valid.\n");
         }
-    }
-    while (*saturasi <= 0);
+    } while (*saturasi <= 0);
 
-    do {
+    do
+    {
         printf("Kadar gula darah (mg/dL): ");
         scanf("%d", gula);
 
-        if (*gula < 0) {
+        if (*gula < 0)
+        {
             printf("Kadar gula darah tidak valid.\n");
         }
-    }
-    while (*gula <= 0);
+    } while (*gula <= 0);
 
-    do {
+    do
+    {
         printf("Berat badan (kg): ");
         scanf("%f", berat);
 
-        if (*berat < 0) {
+        if (*berat < 0)
+        {
             printf("Berat badan tidak valid.\n");
         }
-    }
-    while (*berat <= 0);
+    } while (*berat <= 0);
 
-    do {
+    do
+    {
         printf("Tinggi badan (cm): ");
         scanf("%d", tinggi);
 
-        if (*tinggi < 0) {
+        if (*tinggi < 0)
+        {
             printf("Tinggi badan tidak valid.\n");
         }
-    }
-    while (*tinggi <= 0);
+    } while (*tinggi <= 0);
 
-    do {
+    do
+    {
         printf("Kadar kolesterol (mg/dL): ");
         scanf("%d", kolesterol);
 
-        if (*kolesterol < 0) {
+        if (*kolesterol < 0)
+        {
             printf("Kadar kolesterol tidak valid.\n");
         }
-    }
-    while (*kolesterol <= 0);
+    } while (*kolesterol <= 0);
 
-    do {
+    do
+    {
         printf("Kadar kolesterol LDL (mg/dL): ");
         scanf("%d", ldl);
 
-        if (*ldl < 0) {
+        if (*ldl < 0)
+        {
             printf("Kadar kolesterol LDL tidak valid.\n");
         }
-    }
-    while (*ldl <= 0);
+    } while (*ldl <= 0);
 
-    do {
+    do
+    {
         printf("Trombosit (x10^6/L): ");
         scanf("%d", trombosit);
 
-        if (*trombosit < 0) {
+        if (*trombosit < 0)
+        {
             printf("Trombosit tidak valid.\n");
         }
-    }
-    while (*trombosit <= 0);
+    } while (*trombosit <= 0);
 }
 
-
-void DaftarCheckup(UserList *userList, Session *session, Matrix *denahRumahSakit) {
-    if (!session->loggedIn || strcmp(GetRole(&session->currentUser), "Pasien") != 0) {
+void DaftarCheckup(UserList *userList, Session *session, Matrix *denahRumahSakit)
+{
+    if (!session->loggedIn || strcmp(GetRole(&session->currentUser), "Pasien") != 0)
+    {
         printf("Akses ditolak. Login sebagai pasien terlebih dahulu.\n");
         return;
     }
 
-    float suhu; int sistolik; int diastolik; int detak; float saturasi; int gula; float berat; int tinggi; int kolesterol; int ldl; int trombosit;
+    float suhu;
+    int sistolik;
+    int diastolik;
+    int detak;
+    float saturasi;
+    int gula;
+    float berat;
+    int tinggi;
+    int kolesterol;
+    int ldl;
+    int trombosit;
     InputDataMedis(&suhu, &sistolik, &diastolik, &detak, &saturasi, &gula, &berat, &tinggi, &kolesterol, &ldl, &trombosit);
 
     // Masukkan data medis pasien ke dalam userList
@@ -135,59 +158,64 @@ void DaftarCheckup(UserList *userList, Session *session, Matrix *denahRumahSakit
     int dokterCount = 0;
     int dokterList[userList->count];
 
-
     printf("\nDaftar Dokter yang Tersedia:");
-    
-    for (int i = 0; i < userList->count; i++) {
-        if (strcmp(userList->users[i].role, "dokter") == 0) {
+
+    for (int i = 0; i < userList->count; i++)
+    {
+        if (strcmp(userList->users[i].role, "dokter") == 0)
+        {
             // Cari lokasi ruangan dokter
             int row, col;
             char namaRuangan[12];
             FindDokter(denahRumahSakit, &row, &col, namaRuangan, userList->users[i].id);
-            
+
             // cari length queue
             Ruangan *ruangan = GetRuangan(denahRumahSakit, row, col);
             int antrian = (ruangan != NULL) ? ruangan->antrianPasien.length : 0;
 
-            printf("\n%d. Dr. %s - %s (Antrian: %d)", 
-                dokterCount + 1,
-                userList->users[i].username,
-                namaRuangan,
-                antrian);
+            printf("\n%d. Dr. %s - %s (Antrian: %d)",
+                   dokterCount + 1,
+                   userList->users[i].username,
+                   namaRuangan,
+                   antrian);
 
             dokterList[dokterCount] = i;
             dokterCount++;
         }
     }
-    
+
     // pilih dokter
     int pilihanDokter;
     printf("\nPilih dokter (1-%d): ", dokterCount);
     scanf("%d", &pilihanDokter);
 
-    if (pilihanDokter < 1 || pilihanDokter > dokterCount) {
+    if (pilihanDokter < 1 || pilihanDokter > dokterCount)
+    {
         printf("Pilihan tidak valid!\n");
         return;
     }
     pilihanDokter--; // convert jadi index
-    
+
     // cari ruangan dokter yang dipilih.
     int selectedDokterId = userList->users[dokterList[pilihanDokter]].id;
 
     int row, col;
     char namaRuangan[12];
     FindDokter(denahRumahSakit, &row, &col, namaRuangan, selectedDokterId);
-    
+
     Ruangan *targetRuangan = GetRuangan(denahRumahSakit, row, col);
-    if (targetRuangan == NULL) {
+    if (targetRuangan == NULL)
+    {
         printf("Error: Dokter tidak memiliki ruangan!\n");
         return;
     }
 
     // cek apakah pasien sudah berada didalam queue
     Node *curr = targetRuangan->antrianPasien.head;
-    while (curr != NULL) {
-        if (curr->data == user->id) {
+    while (curr != NULL)
+    {
+        if (curr->data == user->id)
+        {
             printf("Anda sudah terdaftar dalam antrian ini!\n");
             return;
         }
@@ -200,8 +228,10 @@ void DaftarCheckup(UserList *userList, Session *session, Matrix *denahRumahSakit
     printf("\nPendaftaran berhasil! Anda berada di posisi antrian ke-%d di ruangan %s\n", targetRuangan->antrianPasien.length, targetRuangan->namaRuangan);
 }
 
-void LihatAntrianSaya(UserList *userList, Session *session, Matrix *denahRumahSakit) {
-    if (!session->loggedIn || strcmp(session->currentUser.role, "pasien") != 0) {
+void LihatAntrianSaya(UserList *userList, Session *session, Matrix *denahRumahSakit)
+{
+    if (!session->loggedIn || strcmp(session->currentUser.role, "pasien") != 0)
+    {
         printf("\nError: Akses ditolak. Login sebagai pasien terlebih dahulu!\n");
         return;
     }
@@ -209,28 +239,33 @@ void LihatAntrianSaya(UserList *userList, Session *session, Matrix *denahRumahSa
     int pasienId = session->currentUser.id;
     int found = 0;
 
-    for (int i = 0; i < denahRumahSakit->rows; i++) {
-        for (int j = 0; j < denahRumahSakit->cols; j++) {
+    for (int i = 0; i < denahRumahSakit->rows; i++)
+    {
+        for (int j = 0; j < denahRumahSakit->cols; j++)
+        {
             Ruangan *ruangan = &denahRumahSakit->data[i][j];
-            
+
             Node *curr = ruangan->antrianPasien.head;
             int posisi = 1;
-            
-            while (curr != NULL) {
-                if (curr->data == pasienId) {
+
+            while (curr != NULL)
+            {
+                if (curr->data == pasienId)
+                {
                     int dokterId = ruangan->dokter;
-                    User *dokter = GetUserById(userList, dokterId);
-                    
-                    if (dokter == NULL) {
+                    User dokter = GetUserById(userList, dokterId);
+
+                    if (dokter.id == -1)
+                    {
                         printf("\nError: Data dokter tidak valid!\n");
                         return;
                     }
 
                     printf("\nStatus Antrian Anda:");
-                    printf("\nDokter  : Dr. %s", dokter->username);
+                    printf("\nDokter  : Dr. %s", dokter.username);
                     printf("\nRuangan : %s", ruangan->namaRuangan);
                     printf("\nPosisi  : %d dari %d", posisi, ruangan->antrianPasien.length);
-                    
+
                     found = 1;
                     return;
                 }
@@ -240,7 +275,8 @@ void LihatAntrianSaya(UserList *userList, Session *session, Matrix *denahRumahSa
         }
     }
 
-    if (!found) {
+    if (!found)
+    {
         printf("\nAnda belum terdaftar dalam antrian check-up!\n");
         printf("Silakan daftar terlebih dahulu.\n");
     }

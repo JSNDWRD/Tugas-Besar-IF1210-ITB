@@ -2,10 +2,13 @@
 #include <stdlib.h>
 #include "../header/dokter.h"
 #include "../header/matrix.h"
+#include "../header/manager.h"
 
-Node* createNode(int value) {
-    Node* newNode = (Node*) malloc(sizeof(Node));
-    if (newNode == NULL) {
+Node *createNode(int value)
+{
+    Node *newNode = (Node *)malloc(sizeof(Node));
+    if (newNode == NULL)
+    {
         printf("Memory error!\n");
         exit(1);
     }
@@ -14,61 +17,79 @@ Node* createNode(int value) {
     return newNode;
 }
 
-void createQueue(Queue *q) {
+void createQueue(Queue *q)
+{
     q->head = NULL;
     q->tail = NULL;
     q->length = 0;
 }
 
-void enqueue(Queue *q, Node *newNode) {
-    if (newNode == NULL) return;
-    
+void enqueue(Queue *q, Node *newNode)
+{
+    if (newNode == NULL)
+        return;
+
     newNode->next = NULL;
-    if (q->tail == NULL) {
+    if (q->tail == NULL)
+    {
         q->head = newNode;
     }
-    else {
+    else
+    {
         q->tail->next = newNode;
     }
     q->tail = newNode;
     q->length++;
 }
 
-int dequeue(Queue *q) {
-    if (isEmptyQueue(*q)) {
+int dequeue(Queue *q)
+{
+    if (isEmptyQueue(*q))
+    {
         return -1;
     }
-    
+
     Node *temp = q->head;
     int data = temp->data;
-    
+
     q->head = q->head->next;
-    if (q->head == NULL) {
+    if (q->head == NULL)
+    {
         q->tail = NULL;
     }
-    
+
     free(temp);
     q->length--;
     return data;
 }
 
-
-int isEmptyQueue(Queue q) {
+int isEmptyQueue(Queue q)
+{
     return q.head == NULL;
 }
 
-void printQueue(Queue q) {
+void printQueue(Queue q, UserList userList)
+{
     Node *curr = q.head;
-    printf("Queue: ");
-    while (curr != NULL) {
-        printf("%d ", curr->data);
+    printf("Pasien di antrian:\n");
+    int count = 0;
+    while (curr != NULL)
+    {
+        printf("%d. %s\n", count + 1, GetUserById(&userList, curr->data).username);
         curr = curr->next;
+        count++;
+    }
+    if (count == 0)
+    {
+        printf("Tidak ada pasien pada antrian ruangan.\n");
     }
     printf("\n");
 }
 
-void freeQueue(Queue *q) {
-    while (!isEmptyQueue(*q)) {
+void freeQueue(Queue *q)
+{
+    while (!isEmptyQueue(*q))
+    {
         dequeue(q);
     }
 }
@@ -96,7 +117,6 @@ void freeQueue(Queue *q) {
 //         printf("Map penuh!\n");
 //     }
 // }
-
 
 // int pasienDalamRuangan(Ruangan *r) {
 //     if (r->antrianPasien.length < r->kapasitasRuangan) {

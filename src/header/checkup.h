@@ -11,4 +11,4 @@ void InputDataMedis(float *suhu, int *sistolik, int *diastolik, int *detak, floa
 // Fungsi untuk memasukkan data medis pasien serta masuk ke queue dokter
 void DaftarCheckup(UserList *userList, Session *session, Matrix *denahRumahSakit);
 
-#endif
+# endif

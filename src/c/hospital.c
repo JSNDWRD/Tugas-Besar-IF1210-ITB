@@ -27,12 +27,18 @@ void LoadConfig(Matrix *denahHospital, char *inputFolder, UserList *userList)
         else
         {
             if (count == 0)
+            {
                 denahHospital->rows = temp;
+            }
             else
+            {
                 denahHospital->cols = temp;
+            }
+
             count++;
             temp = 0;
         }
+
         i++;
     }
 
@@ -42,24 +48,10 @@ void LoadConfig(Matrix *denahHospital, char *inputFolder, UserList *userList)
     // memeriksa baris ke dua yg berisi kapasitas
     fgets(baris, sizeof(baris), fDenah);
 
-    int kapasitasAntrian = 0, kapasitasRuangan = 0, j = 0;
-    temp = 0, count = 0;
-
-    while (baris[j] != '\0' && baris[j] != '\n')
+    int kapasitas = 0, j = 0;
+    while (baris[j] >= '0' && baris[j] <= '9')
     {
-        if (baris[j] >= '0' && baris[j] <= '9')
-        {
-            temp = temp * 10 + (baris[j] - '0');
-        }
-        else
-        {
-            if (count == 0)
-                kapasitasRuangan = temp;
-            else
-                kapasitasAntrian = temp;
-            count++;
-            temp = 0;
-        }
+        kapasitas = kapasitas * 10 + (baris[j] - '0');
         j++;
     }
 
@@ -68,8 +60,7 @@ void LoadConfig(Matrix *denahHospital, char *inputFolder, UserList *userList)
     {
         for (int j = 0; j < denahHospital->cols; j++)
         {
-            denahHospital->data[i][j].kapasitasRuangan = kapasitasRuangan;
-            denahHospital->data[i][j].kapasitasAntrian = kapasitasAntrian;
+            denahHospital->data[i][j].kapasitas = kapasitas;
             createQueue(&denahHospital->data[i][j].antrianPasien);
         }
     }
@@ -80,11 +71,12 @@ void LoadConfig(Matrix *denahHospital, char *inputFolder, UserList *userList)
     {
         for (int j = 0; j < denahHospital->cols; j++)
         {
-            /* array angka untuk menyimpan id sementara dari dokter dan para pasien
-            Jika ada dokter angka[0] adalah id dokter dan angka[1-jumlahPasien+1] adalah id pasien
-            */
-            int angka[100], count = 0, temp = 0, idx = 0;
+            // array angka untuk menyimpan id sementara dari dokter dan para pasien
+            // Jika ada dokter angka[0] adalah id dokter dan angka[1-jumlahPasien+1] adalah id pasien
+
+            int angka[100], cnt = 0, temp = 0, idx = 0;
             fgets(baris, sizeof(baris), fDenah);
+
             while (baris[idx] != '\0' && baris[idx] != '\n')
             {
                 if (baris[idx] >= '0' && baris[idx] <= '9')
@@ -93,42 +85,44 @@ void LoadConfig(Matrix *denahHospital, char *inputFolder, UserList *userList)
                 }
                 else if (temp > 0)
                 {
-                    angka[count] = temp;
-                    count++;
+                    angka[cnt] = temp;
+                    cnt++;
                     temp = 0;
                 }
                 idx++;
             }
             if (temp > 0)
             {
-                angka[count++] = temp;
+                angka[cnt++] = temp;
             }
 
-            Ruangan *r = &denahHospital->data[i][j];
-
-            if (angka[0] == 0 && count == 1)
+            if (cnt == 0)
             {
-                r->dokter = -1;
-                r->jumlahPasienDalamRuangan = 0;
-                r->jumlahPasienDiAntrian = 0;
+                denahHospital->data[i][j].dokter = -1;
+                denahHospital->data[i][j].jumlahPasien = 0;
             }
             else
             {
-                r->dokter = angka[0];
-                r->jumlahPasienDalamRuangan = 0;
-                r->jumlahPasienDiAntrian = 0;
-                for (int p = 1; p <= r->kapasitasRuangan && p < count; p++)
+                denahHospital->data[i][j].dokter = angka[0];
+                denahHospital->data[i][j].jumlahPasien = cnt - 1;
+                for (int k = 1; k < cnt; k++)
                 {
-                    // Masukkan pasien yang ada di dalam ruangan
-                    enqueue(&r->antrianPasien, createNode(angka[p]));
-                    r->jumlahPasienDalamRuangan++;
+                    Node *newPasien = (Node *)malloc(sizeof(Node));
+                    newPasien->data = angka[k];
+                    newPasien->next = NULL;
+                    enqueue(&denahHospital->data[i][j].antrianPasien, newPasien);
                 }
-                for (int q = r->kapasitasRuangan + 1; q < count; q++)
-                {
-                    // Masukkan pasien yang ada di antrian luar ruangan
-                    enqueue(&r->antrianPasien, createNode(angka[q]));
-                    r->jumlahPasienDiAntrian++;
-                }
+                // if (denahHospital->data[i][j].jumlahPasien == 0)
+                // {
+                //     denahHospital->data[i][j].pasien[0] = 0;
+                // }
+                // else
+                // {
+                //     for (int k = 1; k < cnt; k++)
+                //     {
+                //         denahHospital->data[i][j].pasien[k - 1] = angka[k];
+                //     }
+                // }
             }
         }
     }
@@ -182,7 +176,7 @@ void LoadConfig(Matrix *denahHospital, char *inputFolder, UserList *userList)
     }
     fclose(fDenah);
 }
-/* Membaca file eksternal dan memasukkan data config ke dalam denahHospital */
+
 void LihatDenah(Matrix *denahHospital)
 {
     int lebar = denahHospital->cols;
@@ -227,6 +221,10 @@ void LihatDenah(Matrix *denahHospital)
 void UbahInput(char *input, int *row, int *col)
 {
     *row = -1;
+    *col = -1;
+    if (input[0] == '\0')
+        return;
+
     // isi variabel baris
     if (input[0] >= 'A' && input[0] <= 'Z')
     {
@@ -262,7 +260,7 @@ void LihatRuangan(Matrix *denahHospital, char *input, UserList userList)
     Ruangan *r = GetRuangan(denahHospital, row, col);
 
     printf("--- Detail Ruangan %s ---\n", r->namaRuangan);
-    printf("Kapasitas  : %d\n", r->kapasitasRuangan);
+    printf("Kapasitas  : %d\n", r->kapasitas);
 
     char dokter[MAX_USERNAME_LENGTH] = "Tidak Ada";
     // Cari userList dengan role dokter dan id yang sesuai
@@ -290,7 +288,7 @@ void LihatRuangan(Matrix *denahHospital, char *input, UserList userList)
         printf("Dokter     : %s\n", dokter);
     }
 
-    if ((r->jumlahPasienDalamRuangan == 0) || strcmp(dokter, "Tidak Ada") == 0)
+    if (isEmptyQueue(r->antrianPasien) || strcmp(dokter, "Tidak Ada") == 0)
     {
         printf("  Tidak ada pasien di dalam ruangan saat ini.\n");
     }
@@ -298,26 +296,29 @@ void LihatRuangan(Matrix *denahHospital, char *input, UserList userList)
     {
         // cari setiap pasien di dalam ruangan yang sesuai
         printf("Pasien di dalam ruangan : \n");
-        Node *n = r->antrianPasien.head;
-        int index = 1;
-        int count = 0;
-
-        while (n != NULL && count < r->jumlahPasienDalamRuangan)
+        Node *current = r->antrianPasien.head;
+        int num = 1;
+        while (current != NULL)
         {
-            // cari nama pasien berdasarkan id
-            char pasien[MAX_USERNAME_LENGTH] = "Tidak Diketahui";
+            char pasien[MAX_USERNAME_LENGTH];
             for (int j = 0; j < userList.count; j++)
             {
-                if (userList.users[j].id == n->data && strcmp(userList.users[j].role, "pasien") == 0)
+                if (userList.users[j].id == current->data && strcmp(userList.users[j].role, "pasien") == 0)
                 {
-                    strcpy(pasien, userList.users[j].username);
+                    if (strcmp(userList.users[j].role, "pasien") == 0)
+                    {
+                        strcpy(pasien, userList.users[j].username);
+                    }
+                    else
+                    {
+                        printf("ID %d bukanlah id pasien\n", userList.users[j].id);
+                    }
                     break;
                 }
             }
-
-            printf("  %d. %s\n", index++, pasien);
-            n = n->next;
-            count++;
+            printf("  %d. %s\n", num, pasien);
+            num++;
+            current = current->next;
         }
     }
 
@@ -339,8 +340,8 @@ void SaveConfig(Matrix *denahHospital, char *inputFolder, UserList *userList)
     // Mengisi baris 1: jumlah baris dan kolom
     fprintf(fileConfig, "%d %d\n", denahHospital->rows, denahHospital->cols);
 
-    // Mengisi baris 2: kapasitas ruangan dan kapasitas antrian
-    fprintf(fileConfig, "%d %d\n", denahHospital->data[0][0].kapasitasRuangan, denahHospital->data[0][0].kapasitasAntrian);
+    // Mengisi baris 2: kapasitas ruangan (asumsi kapasitas ruangan sama semua karena tidak dijelaskan)
+    fprintf(fileConfig, "%d\n", denahHospital->data[0][0].kapasitas);
 
     // Mengisi baris 3-8 : isi tiap ruangan denagn id dokter dan pasien
     // karena ruangan masih statik, jadi isi ruangan berada pada baris 3-8
@@ -349,7 +350,6 @@ void SaveConfig(Matrix *denahHospital, char *inputFolder, UserList *userList)
         for (int j = 0; j < denahHospital->cols; j++)
         {
             Ruangan r = denahHospital->data[i][j];
-
             if (r.dokter == -1)
             {
                 fprintf(fileConfig, "0\n"); // jika tidak ada dokter tulis 0 saja pada baris tanpa id pasien
@@ -357,25 +357,19 @@ void SaveConfig(Matrix *denahHospital, char *inputFolder, UserList *userList)
             else
             { // jika ada dokter di ruangan itu
                 fprintf(fileConfig, "%d", r.dokter);
-
-                Node *n = r.antrianPasien.head;
-                int count = 0;
-
-                // Tulis pasien dalam ruangan terlebih dahulu
-                while (n != NULL && count < r.jumlahPasienDalamRuangan)
+                if (isEmptyQueue(r.antrianPasien))
                 {
-                    fprintf(fileConfig, " %d", n->data);
-                    n = n->next;
-                    count++;
+                    fprintf(fileConfig, " %d", 0);
                 }
-
-                // Tulis pasien dalam antrean
-                while (n != NULL)
+                else
                 {
-                    fprintf(fileConfig, " %d", n->data);
-                    n = n->next;
+                    Node *current = r.antrianPasien.head;
+                    while (current != NULL)
+                    {
+                        fprintf(fileConfig, " %d", current->data);
+                        current = current->next;
+                    }
                 }
-
                 fprintf(fileConfig, "\n");
             }
         }

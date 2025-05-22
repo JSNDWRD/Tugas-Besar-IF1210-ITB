@@ -12,33 +12,30 @@
 /* Definisi ADT Map Obat-Penyakit beserta ADT List Obat */
 
 // Elemen Map berdasarkan penyakitId
-typedef struct
-{
+typedef struct {
     int penyakitId;
     int obatId[100];
     int urutan;
 } ObatEntry;
 
 // Map
-typedef struct
-{
+typedef struct {
     ObatEntry buffer[500];
     int length;
 } ObatMap;
 
 // Elemen List
-typedef struct
-{
+typedef struct {
     int id;
     char nama[STR_LENGTH];
 } Obat;
 
 // List
-typedef struct
-{
+typedef struct {
     Obat obats[OBAT_CAPACITY];
     int length;
 } ObatList;
+
 
 void CreateObatMap(ObatMap *obatMap);
 
@@ -62,10 +59,10 @@ int SearchObatIndex(ObatMap obatMap, const char *penyakit);
 // Mencetak obat-obatan yang harus dikonsumsi berdasarkan penyakit
 void PrintObat(ObatMap obatMap, const char *penyakit);
 
-void LoadObat(ObatList *obatList, char *inputFolder);
+void LoadObat(ObatList *obatList, char* inputFolder);
 
-void LoadObatMap(ObatMap *obatMap, char *inputFolder);
+void LoadObatMap(ObatMap *obatMap, char* inputFolder);
 
-void SaveObat(char *folderAsal, char *folderTujuan);
+void SaveObat(char* folderAsal, char* folderTujuan);
 
 #endif

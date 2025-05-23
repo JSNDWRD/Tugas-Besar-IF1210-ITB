@@ -14,6 +14,11 @@ int main(int argc, char *argv[])
 {
     UserList userList; // Daftar pengguna
     char folder[50];
+    if (argc < 2)
+    {
+        printf("Tidak ada nama folder yang diberikan!\n");
+        return 0;
+    }
     strcpy(folder, argv[1]);
     LoadUsers(&userList, argv[1]);
 

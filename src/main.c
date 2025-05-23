@@ -326,7 +326,7 @@ int main(int argc, char *argv[])
             }
             else
             {
-                printf("Akses ditolak. Fitur ini hanya dapat diakses oleh dokter.\n");
+                printf("Akses ditolak. Fitur ini hanya dapat diakses oleh manager.\n");
             }
             break;
         case ANTRIAN:
@@ -338,6 +338,9 @@ int main(int argc, char *argv[])
             {
                 printf("Akses ditolak. Fitur ini hanya dapat diakses oleh pasien.\n");
             }
+            break;
+        case DAFTAR_CHECKUP:
+            DaftarCheckup(&userList, &session, &denahRumahSakit);
             break;
         default:
             printf("Command tidak ditemukan.\n");

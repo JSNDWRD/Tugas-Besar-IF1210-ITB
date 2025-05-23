@@ -247,16 +247,30 @@ void SearchRuangan(int doctorId, Matrix *denahHospital, int *indeksRuangan)
 void SavePenyakit(char *folderAsal, char *folderTujuan)
 {
     char pathAsal[256], pathTujuan[256], baris[1024];
+    char pathAsal1[256], pathTujuan1[256], baris1[1024];
     strcpy(pathAsal, folderAsal);
     strcpy(pathTujuan, folderTujuan);
     strcat(pathAsal, "/obat_penyakit.csv");
     strcat(pathTujuan, "/obat_penyakit.csv");
     FILE *fAsal = fopen(pathAsal, "r");
     FILE *fTujuan = fopen(pathTujuan, "w");
-    while (fgets(baris, sizeof(baris), fAsal))
+    while (fgets(baris, sizeof(baris), fAsal) != NULL)
     {
         fputs(baris, fTujuan);
     }
     fclose(fAsal);
     fclose(fTujuan);
+
+    strcpy(pathAsal1, folderAsal);
+    strcpy(pathTujuan1, folderTujuan);
+    strcat(pathAsal1, "/penyakit.csv");
+    strcat(pathTujuan1, "/penyakit.csv");
+    FILE *fAsal1 = fopen(pathAsal1, "r");
+    FILE *fTujuan1 = fopen(pathTujuan1, "w");
+    while (fgets(baris1, sizeof(baris1), fAsal1) != NULL)
+    {
+        fputs(baris1, fTujuan1);
+    }
+    fclose(fAsal1);
+    fclose(fTujuan1);
 }

@@ -486,7 +486,7 @@ void CariDokter(UserList *userList, Session *session)
     // copy userList to dokterList, khusus dokter
     for (int i = 0; i < userList->count; i++)
     {
-        User user = GetUserAt(userList, i);
+        User user = GetUserById(userList, i);
         if (strcmp(GetRole(&user), "dokter") == 0)
         {
             AppendUser(&dokterList, user);

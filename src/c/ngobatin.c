@@ -38,6 +38,10 @@ void PrintObat(ObatMap obatMap, int penyakitId, ObatList obatList, const char *n
         return;
     }
 
+    char namaObat[1000][100];
+    int idxObat[1000];
+    int count = 0;
+
     // 3. Print semua obat sesuai urutan
     printf("Obat untuk penyakit %s:\n", namaPenyakit);
     for (int i = 0; i < obatMap.buffer[idx].urutan; i++)
@@ -50,10 +54,21 @@ void PrintObat(ObatMap obatMap, int penyakitId, ObatList obatList, const char *n
         {
             if (obatList.obats[j].id == obatId)
             {
-                printf("%d %s\n", j + 1, obatList.obats[j].nama);
+                // idxObat[count] = obatList.obats[j].id;
+                for (int k = 0; k < obatMap.length; k++)
+                {
+                    idxObat[count] = i + 1;
+                }
+                strcpy(namaObat[count], obatList.obats[j].nama);
+                // printf("%d %s\n", obatList.obats[j].id, obatList.obats[j].nama);
+                count++;
                 break;
             }
         }
+    }
+    for (int i = 0; i < count; i++)
+    {
+        printf("%d %s\n", idxObat[i], namaObat[i]);
     }
 }
 
@@ -178,7 +193,9 @@ void LoadObatMap(ObatMap *obatMap, char *inputFolder)
 
         currentData[current] = '\0';
         if (kolomData == 2)
+        {
             urutan = atoi(currentData);
+        }
 
         int idx = -1;
         for (int j = 0; j < obatMap->length; j++)
@@ -194,8 +211,10 @@ void LoadObatMap(ObatMap *obatMap, char *inputFolder)
             idx = obatMap->length++;
             obatMap->buffer[idx].penyakitId = penyakitId;
             for (int k = 0; k < 100; k++)
+            {
                 obatMap->buffer[idx].obatId[k] = -1;
-            obatMap->buffer[idx].urutan = 0;
+                obatMap->buffer[idx].urutan = 0;
+            }
         }
         obatMap->buffer[idx].obatId[urutan - 1] = obatId;
         if (obatMap->buffer[idx].urutan < urutan)

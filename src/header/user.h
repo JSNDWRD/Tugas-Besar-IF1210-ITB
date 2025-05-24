@@ -34,7 +34,6 @@ typedef struct
     float beratBadan;
     int tinggiBadan;
     int kadarKolesterol;
-    int kadarKolesterolLDL;
     int trombosit;
 } User;
 
@@ -56,7 +55,7 @@ typedef struct
 void CreateUser(User *user, int id, char *username, char *password, char *role, char *riwayatPenyakit,
                 float suhuTubuh, int tekananDarahSistolik, int tekananDarahDiastolik, int detakJantung,
                 float saturasiOksigen, int kadarGulaDarah, float beratBadan, int tinggiBadan,
-                int kadarKolesterol, int kadarKolesterolLDL, int trombosit);
+                int kadarKolesterol, int trombosit);
 
 /* Mendapatkan komponen ID dari user */
 int GetID(User *user);

@@ -119,7 +119,15 @@ void TambahDokter(UserList *userList, Session *session)
 
     // Jika username unik, buat user baru
     User newUser;
-    CreateUser(&newUser, userList->count + 1, username, password, "dokter", "-", -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
+    int idTerbesar = 0;
+    for (int i = 0; i < userList->count; i++)
+    {
+        if (userList->users[i].id > idTerbesar)
+        {
+            idTerbesar = userList->users[i].id;
+        }
+    }
+    CreateUser(&newUser, idTerbesar + 1, username, password, "dokter", "-", -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
     AddUser(userList, newUser);
     printf("\nDokter %s berhasil ditambahkan!\n", newUser.username);
 }
@@ -170,7 +178,7 @@ void RegisterUser(UserList *userList, Session *session)
             idTerbesar = userList->users[i].id;
         }
     }
-    CreateUser(&newUser, idTerbesar + 1, username, password, "pasien", "-", -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
+    CreateUser(&newUser, idTerbesar + 1, username, password, "pasien", "-", -1, -1, -1, -1, -1, -1, -1, -1, -1, -1);
     AddUser(userList, newUser);
     printf("\nPasien %s berhasil ditambahkan!\n", newUser.username);
 }

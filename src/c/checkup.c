@@ -6,7 +6,7 @@
 #include <stdio.h>
 #include <string.h>
 
-void InputDataMedis(float *suhu, int *sistolik, int *diastolik, int *detak, float *saturasi, int *gula, float *berat, int *tinggi, int *kolesterol, int *ldl, int *trombosit)
+void InputDataMedis(float *suhu, int *sistolik, int *diastolik, int *detak, float *saturasi, int *gula, float *berat, int *tinggi, int *kolesterol, int *trombosit)
 {
     printf("Masukkan data medis:\n");
     do
@@ -99,17 +99,6 @@ void InputDataMedis(float *suhu, int *sistolik, int *diastolik, int *detak, floa
 
     do
     {
-        printf("Kadar kolesterol LDL (mg/dL): ");
-        scanf("%d", ldl);
-
-        if (*ldl < 0)
-        {
-            printf("Kadar kolesterol LDL tidak valid.\n");
-        }
-    } while (*ldl <= 0);
-
-    do
-    {
         printf("Trombosit (x10^6/L): ");
         scanf("%d", trombosit);
 
@@ -137,10 +126,9 @@ void DaftarCheckup(UserList *userList, Session *session, Matrix *denahRumahSakit
     float berat;
     int tinggi;
     int kolesterol;
-    int ldl;
     int trombosit;
 
-    InputDataMedis(&suhu, &sistolik, &diastolik, &detak, &saturasi, &gula, &berat, &tinggi, &kolesterol, &ldl, &trombosit);
+    InputDataMedis(&suhu, &sistolik, &diastolik, &detak, &saturasi, &gula, &berat, &tinggi, &kolesterol, &trombosit);
 
     // Masukkan data medis pasien ke dalam userList
     User *user = &session->currentUser;
@@ -153,7 +141,6 @@ void DaftarCheckup(UserList *userList, Session *session, Matrix *denahRumahSakit
     user->beratBadan = berat;
     user->tinggiBadan = tinggi;
     user->kadarKolesterol = kolesterol;
-    user->kadarKolesterolLDL = ldl;
     user->trombosit = trombosit;
 
     int dokterCount = 0;

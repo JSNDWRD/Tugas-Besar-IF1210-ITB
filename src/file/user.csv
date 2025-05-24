@@ -13,7 +13,7 @@ id;username;password;role;riwayat_penyakit;suhu_tubuh;tekanan_darah_sistolik;tek
 4;pop;pass44;pasien;Diabetes Mellitus;36.9;110;85;73;98.7;152;62.8;157;184;390
 8;minonette;pass88;pasien;;36.7;93;87;63;97.8;136;77;172;227;380
 9;tobo;pass99;pasien;;36.8;114;74;61;94.6;100;80.6;173;152;386
-10;ropik;pass110;pasien;;36.2;103;87;65;96.6;102;72.3;184;150;292
+10;ropik;pass110;dokter;;36.2;103;87;65;96.6;102;72.3;184;150;292
 5;opor;oporkanajala;pasien;;36.2;103;87;65;96.6;102;72.3;184;150;292
 16;tobokan;pass1234;pasien;;36.8;114;74;61;94.6;100;80.6;173;152;386
 20;popokan;passpopokan;pasien;;36.9;110;85;73;98.7;152;62.8;157;184;390

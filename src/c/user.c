@@ -4,7 +4,7 @@
 void CreateUser(User *user, int id, char *username, char *password, char *role, char *riwayatPenyakit,
                 float suhuTubuh, int tekananDarahSistolik, int tekananDarahDiastolik, int detakJantung,
                 float saturasiOksigen, int kadarGulaDarah, float beratBadan, int tinggiBadan,
-                int kadarKolesterol, int kadarKolesterolLDL, int trombosit)
+                int kadarKolesterol, int trombosit)
 {
 
     user->id = id;
@@ -21,7 +21,6 @@ void CreateUser(User *user, int id, char *username, char *password, char *role, 
     user->beratBadan = beratBadan;
     user->tinggiBadan = tinggiBadan;
     user->kadarKolesterol = kadarKolesterol;
-    user->kadarKolesterolLDL = kadarKolesterolLDL;
     user->trombosit = trombosit;
     user->diagnosa = 0;
     user->ngobatin = 0;
@@ -97,11 +96,6 @@ int GetKadarKolesterol(User *user)
     return user->kadarKolesterol;
 }
 
-int GetKadarKolesterolLDL(User *user)
-{
-    return user->kadarKolesterolLDL;
-}
-
 int GetTrombosit(User *user)
 {
     return user->trombosit;
@@ -175,11 +169,6 @@ void SetTinggiBadan(User *user, int val)
 void SetKadarKolesterol(User *user, int val)
 {
     user->kadarKolesterol = val;
-}
-
-void SetKadarKolesterolLDL(User *user, int val)
-{
-    user->kadarKolesterolLDL = val;
 }
 
 void SetTrombosit(User *user, int val)
@@ -282,9 +271,6 @@ void LoadUsers(UserList *userList, char *inputFolder)
                 case 13:
                     user.kadarKolesterol = (strlen(currentData) > 0) ? atoi(currentData) : -1;
                     break;
-                case 14:
-                    user.kadarKolesterolLDL = (strlen(currentData) > 0) ? atoi(currentData) : -1;
-                    break;
                 }
                 user.diagnosa = 0;
                 user.ngobatin = 0;
@@ -344,7 +330,7 @@ void SaveUsers(UserList userList, char *inputFolder)
     for (int i = 0; i < userList.count; i++)
     {
         User user = userList.users[i];
-        fprintf(fUserList, "%d,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s\n",
+        fprintf(fUserList, "%d;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s\n",
                 user.id,
                 user.username,
                 user.password,
@@ -359,7 +345,6 @@ void SaveUsers(UserList userList, char *inputFolder)
                 user.beratBadan == -1 ? "" : FloatToStr(user.beratBadan),
                 user.tinggiBadan == -1 ? "" : IntToStr(user.tinggiBadan),
                 user.kadarKolesterol == -1 ? "" : IntToStr(user.kadarKolesterol),
-                user.kadarKolesterolLDL == -1 ? "" : IntToStr(user.kadarKolesterolLDL),
                 user.trombosit == -1 || user.trombosit == 0 ? "" : IntToStr(user.trombosit));
     }
     fclose(fUserList);

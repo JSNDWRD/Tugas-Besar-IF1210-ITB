@@ -252,7 +252,8 @@ int main(int argc, char *argv[])
                     Ruangan *currentRuangan = GetRuangan(&denahRumahSakit, indeksRuangan[0], indeksRuangan[1]);
                     Node *current = currentRuangan->antrianPasien.head;
                     int found = 0;
-                    while (current != NULL)
+                    int count = 0;
+                    while (current != NULL && count < currentRuangan->kapasitasRuangan)
                     {
                         char namaPenyakit[256];
                         strcpy(namaPenyakit, "");
@@ -280,6 +281,7 @@ int main(int argc, char *argv[])
                         }
                         if (found)
                             break;
+                        count++;
                         current = current->next;
                     }
                     if (!found)
@@ -309,7 +311,8 @@ int main(int argc, char *argv[])
                     Ruangan *currentRuangan = GetRuangan(&denahRumahSakit, indeksRuangan[0], indeksRuangan[1]);
                     Node *current = currentRuangan->antrianPasien.head;
                     int found = 0;
-                    while (current != NULL)
+                    int count = 0;
+                    while (current != NULL && count < currentRuangan->kapasitasRuangan)
                     {
                         char namaPenyakit[256];
                         strcpy(namaPenyakit, "");
@@ -347,6 +350,7 @@ int main(int argc, char *argv[])
                         {
                             break;
                         }
+                        count++;
                         current = current->next;
                     }
                     if (!found)

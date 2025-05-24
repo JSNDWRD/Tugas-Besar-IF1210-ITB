@@ -353,7 +353,7 @@ int main(int argc, char *argv[])
                         count++;
                         current = current->next;
                     }
-                    if (!found)
+                    if (!found || count >= currentRuangan->kapasitasRuangan)
                     {
                         printf("Tidak ada pasien dalam antrian yang belum diobati.\n");
                     }

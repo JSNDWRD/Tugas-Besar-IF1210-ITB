@@ -329,7 +329,7 @@ int main(int argc, char *argv[])
                                     {
                                         printf("%s memiliki penyakit %s!\n", userList.users[i].username, namaPenyakit);
                                         int penyakitId = GetPenyakitID(penyakitList, namaPenyakit);
-                                        PrintObat(obatMap, penyakitId, obatList, namaPenyakit, &arrayUrutanObat);
+                                        PrintObat(obatMap, penyakitId, obatList, namaPenyakit, arrayUrutanObat);
                                     }
                                     userList.users[i].ngobatin = 1;
                                     found = 1;

@@ -1,19 +1,20 @@
-id;username;password;role;riwayat_penyakit;suhu_tubuh;tekanan_darah_sistolik;tekanan_darah_diastolik;detak_jantung;saturasi_oksigen;kadar_gula_darah;berat_badan;tinggi_badan;kadar_kolesterol;kadar_kolesterol_ldl;trombosit
-1;stewart;pass11;pasien;Anemia;36.1;92;77;66;93.7;127;52.4;177;193;54;328
-2;gro;pass22;pasien;COVID-19;36.5;100;70;80;97.0;125;60.0;160;180;180;200
-3;kebin;pass33;pasien;Diabetes Mellitus;36.4;96;68;94;92.3;162;64.1;158;240;63;380
-4;pop;pass44;pasien;COVID-19;36.9;110;85;73;98.7;152;62.8;157;184;152;390
-5;neronimo;pass55;dokter;;;;;;;;;;;;
-6;ciciko;pass66;dokter;;;;;;;;;;;;
-7;zeru;pass77;manager;;;;;;;;;;;;
-8;minonette;pass88;pasien;Diabetes Mellitus;36.7;93;87;63;97.8;136;77;172;227;64;380
-9;Jeffreey;pass99;pasien;COVID-19;36.8;114;74;61;94.6;100;80.6;173;152;139;386
-10;ropik;pass110;dokter;;;;;;;;;;;;
-11;user11;pass66;dokter;;;;;;;;;;;;
-12;user12;pass66;dokter;;;;;;;;;;;;
-13;user13;pass66;dokter;;;;;;;;;;;;
-14;user14;pass66;pasien;COVID-19;36.9;110;85;73;98.7;152;62.8;157;184;152;390
-15;user15;pass66;dokter;;;;;;;;;;;;
-20;user20;pass66;pasien;;;;;;;;;;;;
-16;user16;pass66;pasien;;;;;;;;;;;;
-23;user23;pass66;pasien;;;;;;;;;;;;
+id;username;password;role;riwayat_penyakit;suhu_tubuh;tekanan_darah_sistolik;tekanan_darah_diastolik;detak_jantung;saturasi_oksigen;kadar_gula_darah;berat_badan;tinggi_badan;kadar_kolesterol;trombosit
+10;neronimo;pass1010;dokter;;;;;;;;;;;
+11;ciciko;pass1111;dokter;;;;;;;;;;;
+12;cacako;pass1212;dokter;;;;;;;;;;;
+13;kroket;pass1313;dokter;;;;;;;;;;;
+15;risol;pass1515;dokter;;;;;;;;;;;
+88;zeru;pass77;manager;;;;;;;;;;;
+1;stewart;pass11;pasien;;36.1;92;77;66;93.7;127;52.4;177;193;328
+7;tuart;paturrt;pasien;;36.1;92;77;66;93.7;127;52.4;177;193;328
+2;gro;pass22;pasien;COVID-19;36.6;126;85;67;96.5;175;45.7;156;235;212
+3;kebin;pass33;pasien;;36.4;96;68;94;92.3;162;64.1;158;240;380
+6;nikeb;pnikeb;pasien;;36.4;96;68;94;92.3;162;64.1;158;240;380
+4;pop;pass44;pasien;Diabetes Mellitus;36.9;110;85;73;98.7;152;62.8;157;184;390
+8;minonette;pass88;pasien;;36.7;93;87;63;97.8;136;77;172;227;380
+9;tobo;pass99;pasien;;36.8;114;74;61;94.6;100;80.6;173;152;386
+10;ropik;pass110;pasien;;36.2;103;87;65;96.6;102;72.3;184;150;292
+5;opor;oporkanajala;pasien;;36.2;103;87;65;96.6;102;72.3;184;150;292
+16;tobokan;pass1234;pasien;;36.8;114;74;61;94.6;100;80.6;173;152;386
+20;popokan;passpopokan;pasien;;36.9;110;85;73;98.7;152;62.8;157;184;390
+100;pendatang;pendatangbaru;pasien;;;;;;;;;;;

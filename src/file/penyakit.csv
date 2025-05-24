@@ -1,6 +1,6 @@
-id,nama_penyakit,suhu_tubuh_min,suhu_tubuh_max,tekanan_darah_sistolik_min,tekanan_darah_sistolik_max,tekanan_darah_diastolik_min,tekanan_darah_diastolik_max,detak_jantung_min,detak_jantung_max,saturasi_oksigen_min,saturasi_oksigen_max,kadar_gula_darah_min,kadar_gula_darah_max,berat_badan_min,berat_badan_max,tinggi_badan_min,tinggi_badan_max,kadar_kolesterol_min,kadar_kolesterol_max,trombosit_min,trombosit_max
-1,Influenza,36.0,38.5,90,120,60,80,60,100,95.0,100.0,70.0,140.0,45.0,90.0,150,185,150,240,150,450
-2,COVID-19,36.0,39.0,90,130,60,85,60,120,90.0,100.0,70.0,180.0,45.0,90.0,150,185,150,240,150,450
-3,Hipertensi,36.0,37.5,140,180,90,120,60,100,90.0,100.0,70.0,140.0,45.0,90.0,150,185,150,240,150,450
-4,Diabetes Mellitus,36.0,37.5,90,140,60,90,60,100,90.0,100.0,126.0,200.0,45.0,90.0,150,185,150,240,150,450
-5,Anemia,36.0,37.0,90,120,60,80,60,100,95.0,100.0,70.0,140.0,45.0,90.0,150,185,150,240,150,450
+id;nama_penyakit;suhu_tubuh_min;suhu_tubuh_max;tekanan_darah_sistolik_min;tekanan_darah_sistolik_max;tekanan_darah_diastolik_min;tekanan_darah_diastolik_max;detak_jantung_min;detak_jantung_max;saturasi_oksigen_min;saturasi_oksigen_max;kadar_gula_darah_min;kadar_gula_darah_max;berat_badan_min;berat_badan_max;tinggi_badan_min;tinggi_badan_max;kadar_kolesterol_min;kadar_kolesterol_max;trombosit_min;trombosit_max
+1;Influenza;36.0;38.5;90;120;60;80;60;100;95.0;100.0;70.0;140.0;45.0;90.0;150;185;150;240;150;450
+2;COVID-19;36.0;39.0;90;130;60;85;60;120;90.0;100.0;70.0;180.0;45.0;90.0;150;185;150;240;150;450
+3;Hipertensi;36.0;37.5;140;180;90;120;60;100;90.0;100.0;70.0;140.0;45.0;90.0;150;185;150;240;150;450
+4;Diabetes Mellitus;36.0;37.5;90;140;60;90;60;100;90.0;100.0;126.0;200.0;45.0;90.0;150;185;150;240;150;450
+5;Anemia;36.0;37.0;90;120;60;80;60;100;95.0;100.0;70.0;140.0;45.0;90.0;150;185;150;240;150;450

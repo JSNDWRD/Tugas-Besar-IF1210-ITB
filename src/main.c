@@ -245,16 +245,30 @@ int main(int argc, char *argv[])
                 {
                     Ruangan *currentRuangan = GetRuangan(&denahRumahSakit, indeksRuangan[0], indeksRuangan[1]);
                     Node *current = currentRuangan->antrianPasien.head;
+                    int found = 0;
                     while (current != NULL)
                     {
-                        User currentPasien = GetUserById(&userList, current->data);
-                        if (currentPasien.diagnosa == 0)
+                        // Find the user in userList by ID and update diagnosa
+                        for (int i = 0; i < userList.count; i++)
                         {
-                            Diagnosis(currentPasien, penyakitList);
-                            currentPasien.diagnosa = 1;
-                            break;
+                            if (userList.users[i].id == current->data && strcmp(userList.users[i].role, "pasien") == 0)
+                            {
+                                if (userList.users[i].diagnosa == 0)
+                                {
+                                    Diagnosis(userList.users[i], penyakitList);
+                                    userList.users[i].diagnosa = 1;
+                                    found = 1;
+                                    break;
+                                }
+                            }
                         }
+                        if (found)
+                            break;
                         current = current->next;
+                    }
+                    if (!found)
+                    {
+                        printf("Tidak ada pasien dalam antrian yang belum didiagnosis.\n");
                     }
                 }
             }

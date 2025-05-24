@@ -8,7 +8,7 @@ id;username;password;role;riwayat_penyakit;suhu_tubuh;tekanan_darah_sistolik;tek
 7;zeru;pass77;manager;;;;;;;;;;;;
 8;minonette;pass88;pasien;Diabetes Mellitus;36.7;93;87;63;97.8;136;77;172;227;64;380
 9;tobo;pass99;pasien;COVID-19;36.8;114;74;61;94.6;100;80.6;173;152;139;386
-10;ropik;pass110;pasien;Anemia;36.2;103;87;65;96.6;102;72.3;184;150;91;292
+10;ropik;pass110;dokter;;;;;;;;;;;;
 11;user11;pass66;dokter;;;;;;;;;;;;
 12;user12;pass66;dokter;;;;;;;;;;;;
 13;user13;pass66;dokter;;;;;;;;;;;;

@@ -248,6 +248,8 @@ int main(int argc, char *argv[])
                     int found = 0;
                     while (current != NULL)
                     {
+                        char namaPenyakit[256];
+                        strcpy(namaPenyakit, "");
                         // Find the user in userList by ID and update diagnosa
                         for (int i = 0; i < userList.count; i++)
                         {
@@ -255,7 +257,15 @@ int main(int argc, char *argv[])
                             {
                                 if (userList.users[i].diagnosa == 0)
                                 {
-                                    Diagnosis(userList.users[i], penyakitList);
+                                    Diagnosis(userList.users[i], penyakitList, namaPenyakit);
+                                    if (strcmp(namaPenyakit, "") == 0)
+                                    {
+                                        printf("%s tidak terdiagnosa penyakit apapun!\n", userList.users[i].username);
+                                    }
+                                    else
+                                    {
+                                        printf("%s terdiagnosa penyakit %s!\n", userList.users[i].username, namaPenyakit);
+                                    }
                                     userList.users[i].diagnosa = 1;
                                     found = 1;
                                     break;
@@ -283,6 +293,7 @@ int main(int argc, char *argv[])
                 // Diagnosis(session.currentUser,penyakitList);
                 int indeksRuangan[2];
                 SearchRuangan(session.currentUser.id, &denahRumahSakit, indeksRuangan);
+
                 if (indeksRuangan[0] == -1 && indeksRuangan[1] == -1)
                 {
                     printf("Anda tidak ter-assign pada ruangan mana pun.\n");
@@ -290,18 +301,51 @@ int main(int argc, char *argv[])
                 else
                 {
                     Ruangan *currentRuangan = GetRuangan(&denahRumahSakit, indeksRuangan[0], indeksRuangan[1]);
-                    int currentPasienId = currentRuangan->antrianPasien.head->data;
-                    User currentPasien = GetUserAt(&userList, currentPasienId - 1);
-                    // Setelah Diagnosis hapus pasien dalam antrian
-                    if (currentPasienId != 0)
+                    Node *current = currentRuangan->antrianPasien.head;
+                    int found = 0;
+                    while (current != NULL)
                     {
-                        Diagnosis(currentPasien, penyakitList);
-                        currentPasien.diagnosa = 1;
-                        // ShiftAntrianRuangan(&denahRumahSakit,currentRuangan);
+                        char namaPenyakit[256];
+                        strcpy(namaPenyakit, "");
+                        // Find the user in userList by ID
+                        for (int i = 0; i < userList.count; i++)
+                        {
+                            if (userList.users[i].id == current->data && strcmp(userList.users[i].role, "pasien") == 0)
+                            {
+                                if (userList.users[i].diagnosa == 1 && userList.users[i].ngobatin == 0)
+                                {
+                                    Diagnosis(userList.users[i], penyakitList, namaPenyakit);
+                                    if (strcmp(namaPenyakit, "") == 0)
+                                    {
+                                        printf("%s tidak memiliki penyakit!\n", userList.users[i].username);
+                                    }
+                                    else
+                                    {
+                                        printf("%s memiliki penyakit %s!\n", userList.users[i].username, namaPenyakit);
+                                        int penyakitId = GetPenyakitID(penyakitList, namaPenyakit);
+                                        PrintObat(obatMap, penyakitId, obatList, namaPenyakit);
+                                    }
+                                    userList.users[i].ngobatin = 1;
+                                    found = 1;
+                                    break;
+                                }
+                                else if (userList.users[i].diagnosa == 0)
+                                {
+                                    printf("Pasien belum didiagnosis!\n");
+                                    found = 1;
+                                    break;
+                                }
+                            }
+                        }
+                        if (found)
+                        {
+                            break;
+                        }
+                        current = current->next;
                     }
-                    else
+                    if (!found)
                     {
-                        printf("Tidak ada pasien untuk didiagnosis!\n");
+                        printf("Tidak ada pasien dalam antrian yang belum diobati.\n");
                     }
                 }
             }

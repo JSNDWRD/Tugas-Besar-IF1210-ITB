@@ -127,7 +127,7 @@ void LoadPenyakit(PenyakitList *penyakitList, char *inputFolder)
     fclose(fPenyakit);
 }
 
-void Diagnosis(User user, PenyakitList penyakitList)
+void Diagnosis(User user, PenyakitList penyakitList, char *namaPenyakit)
 {
     for (int i = 0; i < penyakitList.nEff; i++)
     {
@@ -201,12 +201,13 @@ void Diagnosis(User user, PenyakitList penyakitList)
 
         if (check)
         {
-            printf("%s terdiagnosa penyakit %s!\n", user.username, p->namaPenyakit);
+            strcpy(namaPenyakit, p->namaPenyakit);
+            // printf("%s terdiagnosa penyakit %s!\n", user.username, p->namaPenyakit);
             return;
         }
     }
-
-    printf("%s tidak terdiagnosis penyakit apapun!\n", user.username);
+    strcpy(namaPenyakit, ""); // Jika tidak ditemukan penyakit apa pun
+    // printf("%s tidak terdiagnosis penyakit apapun!\n", user.username);
 }
 
 void SearchRuangan(int doctorId, Matrix *denahHospital, int *indeksRuangan)
@@ -243,6 +244,18 @@ void SearchRuangan(int doctorId, Matrix *denahHospital, int *indeksRuangan)
 //     currentRuangan->jumlahPasien--;
 //     currentRuangan->pasien[currentRuangan->jumlahPasien] = 0;
 // }
+
+int GetPenyakitID(PenyakitList penyakitList, char *namaPenyakit)
+{
+    for (int i = 0; i < penyakitList.nEff; i++)
+    {
+        if (strcmp(penyakitList.penyakit[i].namaPenyakit, namaPenyakit) == 0)
+        {
+            return penyakitList.penyakit[i].id;
+        }
+    }
+    return -1;
+}
 
 void SavePenyakit(char *folderAsal, char *folderTujuan)
 {

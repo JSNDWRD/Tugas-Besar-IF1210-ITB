@@ -12,16 +12,18 @@
 #define MAX_PASSWORD_LENGTH 50
 
 /* Definisi ADT User */
-typedef struct {
+typedef struct
+{
     int id;
-    char username[MAX_USERNAME_LENGTH];  // Keunikan dicek secara case-insensitive
+    char username[MAX_USERNAME_LENGTH]; // Keunikan dicek secara case-insensitive
     char password[MAX_PASSWORD_LENGTH];
-    char role[10];  // "manager" / "dokter" / "pasien"
-    char riwayatPenyakit[50];  // Nama penyakit (bisa "-" jika kosong)
-    int obat[100]; //inventory obat yang dipunyao pasien
-    int jumlahObat; //jumlah obat
+    char role[10];            // "manager" / "dokter" / "pasien"
+    char riwayatPenyakit[50]; // Nama penyakit (bisa "-" jika kosong)
+    int obat[100];            // inventory obat yang dipunyao pasien
+    int jumlahObat;           // jumlah obat
     int diagnosa;
-    
+    int ngobatin;
+
     // Data di bawah bernilai -1 jika tidak terdapat data tersebut dalam file CSV
     float suhuTubuh;
     int tekananDarahSistolik;
@@ -37,20 +39,21 @@ typedef struct {
 } User;
 
 /* Definisi Type UserList */
-typedef struct {
+typedef struct
+{
     User users[100];
     int count;
 } UserList;
 
 /* Definisi Type Session */
-typedef struct {
-    int loggedIn;  // 1 jika user sudah login, 0 jika tidak
-    User currentUser;  // Data user pada sesi sekarang
+typedef struct
+{
+    int loggedIn;     // 1 jika user sudah login, 0 jika tidak
+    User currentUser; // Data user pada sesi sekarang
 } Session;
 
-
 /* Membentuk user berdasarkan komponen-komponen yang dimasukkan */
-void CreateUser(User *user,int id, char *username, char *password, char *role, char *riwayatPenyakit,
+void CreateUser(User *user, int id, char *username, char *password, char *role, char *riwayatPenyakit,
                 float suhuTubuh, int tekananDarahSistolik, int tekananDarahDiastolik, int detakJantung,
                 float saturasiOksigen, int kadarGulaDarah, float beratBadan, int tinggiBadan,
                 int kadarKolesterol, int kadarKolesterolLDL, int trombosit);
@@ -59,16 +62,16 @@ void CreateUser(User *user,int id, char *username, char *password, char *role, c
 int GetID(User *user);
 
 /* Mendapatkan komponen Username dari user */
-char* GetUsername(User *user);
+char *GetUsername(User *user);
 
 /* Mendapatkan komponen Password dari user */
-char* GetPassword(User *user);
+char *GetPassword(User *user);
 
 /* Mendapatkan komponen Role dari user */
-char* GetRole(User *user);
+char *GetRole(User *user);
 
 /* Mendapatkan komponen RiwayatPenyakit dari user */
-char* GetRiwayatPenyakit(User *user);
+char *GetRiwayatPenyakit(User *user);
 
 /* Mendapatkan komponen SuhuTubuh dari user */
 float GetSuhuTubuh(User *user);
@@ -158,6 +161,6 @@ void AddUser(UserList *userList, User newUser);
 void LoadUsers(UserList *userList, char *inputFolder);
 
 /* Menyimpan array userList ke dalam file eksternal user.csv */
-void SaveUsers(UserList userList, char* inputFolder);
+void SaveUsers(UserList userList, char *inputFolder);
 
 #endif

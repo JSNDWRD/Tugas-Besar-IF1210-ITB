@@ -1,11 +1,12 @@
 #include "../header/user.h"
 #include "../header/utils.h"
 
-void CreateUser(User *user,int id, char *username, char *password, char *role, char *riwayatPenyakit,
-    float suhuTubuh, int tekananDarahSistolik, int tekananDarahDiastolik, int detakJantung,
-    float saturasiOksigen, int kadarGulaDarah, float beratBadan, int tinggiBadan,
-    int kadarKolesterol, int kadarKolesterolLDL, int trombosit) {
-    
+void CreateUser(User *user, int id, char *username, char *password, char *role, char *riwayatPenyakit,
+                float suhuTubuh, int tekananDarahSistolik, int tekananDarahDiastolik, int detakJantung,
+                float saturasiOksigen, int kadarGulaDarah, float beratBadan, int tinggiBadan,
+                int kadarKolesterol, int kadarKolesterolLDL, int trombosit)
+{
+
     user->id = id;
     strcpy(user->username, username);
     strcpy(user->password, password);
@@ -23,232 +24,277 @@ void CreateUser(User *user,int id, char *username, char *password, char *role, c
     user->kadarKolesterolLDL = kadarKolesterolLDL;
     user->trombosit = trombosit;
     user->diagnosa = 0;
+    user->ngobatin = 0;
 }
 
-int GetID(User *user) {
+int GetID(User *user)
+{
     return user->id;
 }
 
-char* GetUsername(User *user) {
+char *GetUsername(User *user)
+{
     return user->username;
 }
 
-char* GetPassword(User *user) {
+char *GetPassword(User *user)
+{
     return user->password;
 }
 
-char* GetRole(User *user) {
+char *GetRole(User *user)
+{
     return user->role;
 }
 
-char* GetRiwayatPenyakit(User *user) {
+char *GetRiwayatPenyakit(User *user)
+{
     return user->riwayatPenyakit;
 }
 
-float GetSuhuTubuh(User *user) {
+float GetSuhuTubuh(User *user)
+{
     return user->suhuTubuh;
 }
 
-int GetTekananDarahSistolik(User *user) {
+int GetTekananDarahSistolik(User *user)
+{
     return user->tekananDarahSistolik;
 }
 
-int GetTekananDarahDiastolik(User *user) {
+int GetTekananDarahDiastolik(User *user)
+{
     return user->tekananDarahDiastolik;
 }
 
-int GetDetakJantung(User *user) {
+int GetDetakJantung(User *user)
+{
     return user->detakJantung;
 }
 
-float GetSaturasiOksigen(User *user) {
+float GetSaturasiOksigen(User *user)
+{
     return user->saturasiOksigen;
 }
 
-float GetKadarGulaDarah(User *user) {
+float GetKadarGulaDarah(User *user)
+{
     return user->kadarGulaDarah;
 }
 
-float GetBeratBadan(User *user) {
+float GetBeratBadan(User *user)
+{
     return user->beratBadan;
 }
 
-int GetTinggiBadan(User *user) {
+int GetTinggiBadan(User *user)
+{
     return user->tinggiBadan;
 }
 
-int GetKadarKolesterol(User *user) {
+int GetKadarKolesterol(User *user)
+{
     return user->kadarKolesterol;
 }
 
-int GetKadarKolesterolLDL(User *user) {
+int GetKadarKolesterolLDL(User *user)
+{
     return user->kadarKolesterolLDL;
 }
 
-int GetTrombosit(User *user) {
+int GetTrombosit(User *user)
+{
     return user->trombosit;
 }
 
-void SetID(User *user, int val){
+void SetID(User *user, int val)
+{
     user->id = val;
 }
 
-void SetUsername(User *user, char *val){
-    strcpy(user->username,val);
+void SetUsername(User *user, char *val)
+{
+    strcpy(user->username, val);
 }
 
-void SetPassword(User *user, char *val){
-    strcpy(user->password,val);
+void SetPassword(User *user, char *val)
+{
+    strcpy(user->password, val);
 }
 
-void SetRole(User *user, char *val){
-    strcpy(user->role,val);
+void SetRole(User *user, char *val)
+{
+    strcpy(user->role, val);
 }
 
-void SetRiwayatPenyakit(User *user, char *val){
-    strcpy(user->riwayatPenyakit,val);
+void SetRiwayatPenyakit(User *user, char *val)
+{
+    strcpy(user->riwayatPenyakit, val);
 }
 
-void SetSuhuTubuh(User *user, float val){
+void SetSuhuTubuh(User *user, float val)
+{
     user->suhuTubuh = val;
 }
 
-void SetTekananDarahSistolik(User *user, int val){
+void SetTekananDarahSistolik(User *user, int val)
+{
     user->tekananDarahSistolik = val;
 }
 
-void SetTekananDarahDiastolik(User *user, int val){
+void SetTekananDarahDiastolik(User *user, int val)
+{
     user->tekananDarahDiastolik = val;
 }
 
-void SetDetakJantung(User *user, int val){
+void SetDetakJantung(User *user, int val)
+{
     user->detakJantung = val;
 }
 
-void SetSaturasiOksigen(User *user, float val){
+void SetSaturasiOksigen(User *user, float val)
+{
     user->saturasiOksigen = val;
 }
 
-void SetKadarGulaDarah(User *user, int val){
+void SetKadarGulaDarah(User *user, int val)
+{
     user->kadarGulaDarah = val;
 }
 
-void SetBeratBadan(User *user, float val){
+void SetBeratBadan(User *user, float val)
+{
     user->beratBadan = val;
 }
 
-void SetTinggiBadan(User *user, int val){
+void SetTinggiBadan(User *user, int val)
+{
     user->tinggiBadan = val;
 }
 
-void SetKadarKolesterol(User *user, int val){
+void SetKadarKolesterol(User *user, int val)
+{
     user->kadarKolesterol = val;
 }
 
-void SetKadarKolesterolLDL(User *user, int val){
+void SetKadarKolesterolLDL(User *user, int val)
+{
     user->kadarKolesterolLDL = val;
 }
 
-void SetTrombosit(User *user, int val){
+void SetTrombosit(User *user, int val)
+{
     user->trombosit = val;
 }
 
-void AddUser(UserList *userList, User newUser){
+void AddUser(UserList *userList, User newUser)
+{
     userList->users[userList->count] = newUser;
     userList->count++;
 }
 
-void LoadUsers(UserList *userList, char *inputFolder){
+void LoadUsers(UserList *userList, char *inputFolder)
+{
     char folderName[100];
-    strcpy(folderName,inputFolder);
-    strcat(inputFolder,"/user.csv");
-    FILE *fUserList = fopen(inputFolder,"r");
+    strcpy(folderName, inputFolder);
+    strcat(inputFolder, "/user.csv");
+    FILE *fUserList = fopen(inputFolder, "r");
 
     // Inisialisasi jumlah user
     int count = 0;
 
-    if (fUserList == NULL) {
-        printf("Folder \"%s\" tidak ditemukan.\n",folderName);
+    if (fUserList == NULL)
+    {
+        printf("Folder \"%s\" tidak ditemukan.\n", folderName);
     }
 
-    char baris[1024]; 
+    char baris[1024];
 
     // Skip baris header
     fgets(baris, sizeof(baris), fUserList);
 
-    while (fgets(baris, sizeof(baris), fUserList)) {
+    while (fgets(baris, sizeof(baris), fUserList))
+    {
         User user;
 
         // i sebagai iterator while-loop, current sebagai indeks sementara, dan kolomData sebagai indeks akses data per kolom (0: id, 1: username, dst...)
         int i = 0, current = 0, kolomData = 0;
         char currentData[100];
 
-        while (baris[i] != '\0' && baris[i] != '\n') {
-            if (baris[i] == ';' || baris[i] == ',') { // Cek Separator
-                currentData[current] = '\0'; 
-                switch (kolomData) {
-                    case 0: 
-                        user.id = (strlen(currentData) > 0) ? atoi(currentData) : -1; 
-                        break;
-                    case 1: 
-                        if (strlen(currentData) > 0) 
-                            strcpy(user.username, currentData); 
-                        else 
-                            strcpy(user.username, "-");
-                        break;
-                    case 2: 
-                        if (strlen(currentData) > 0) 
-                            strcpy(user.password, currentData); 
-                        else 
-                            strcpy(user.password, "-");
-                        break;
-                    case 3: 
-                        if (strlen(currentData) > 0) 
-                            strcpy(user.role, currentData); 
-                        else 
-                            strcpy(user.role, "-");
-                        break;
-                    case 4: 
-                        if (strlen(currentData) > 0) 
-                            strcpy(user.riwayatPenyakit, currentData); 
-                        else 
-                            strcpy(user.riwayatPenyakit, "-");
-                        break;
-                    case 5: 
-                        user.suhuTubuh = (strlen(currentData) > 0) ? atof(currentData) : -1; 
-                        break;
-                    case 6: 
-                        user.tekananDarahSistolik = (strlen(currentData) > 0) ? atoi(currentData) : -1; 
-                        break;
-                    case 7: 
-                        user.tekananDarahDiastolik = (strlen(currentData) > 0) ? atoi(currentData) : -1; 
-                        break;
-                    case 8: 
-                        user.detakJantung = (strlen(currentData) > 0) ? atoi(currentData) : -1; 
-                        break;
-                    case 9: 
-                        user.saturasiOksigen = (strlen(currentData) > 0) ? atof(currentData) : -1; 
-                        break;
-                    case 10: 
-                        user.kadarGulaDarah = (strlen(currentData) > 0) ? atof(currentData) : -1; 
-                        break;
-                    case 11: 
-                        user.beratBadan = (strlen(currentData) > 0) ? atof(currentData) : -1; 
-                        break;
-                    case 12: 
-                        user.tinggiBadan = (strlen(currentData) > 0) ? atoi(currentData) : -1; 
-                        break;
-                    case 13: 
-                        user.kadarKolesterol = (strlen(currentData) > 0) ? atoi(currentData) : -1; 
-                        break;
-                    case 14: 
-                        user.kadarKolesterolLDL = (strlen(currentData) > 0) ? atoi(currentData) : -1; 
-                        break;
+        while (baris[i] != '\0' && baris[i] != '\n')
+        {
+            if (baris[i] == ';' || baris[i] == ',')
+            { // Cek Separator
+                currentData[current] = '\0';
+                switch (kolomData)
+                {
+                case 0:
+                    user.id = (strlen(currentData) > 0) ? atoi(currentData) : -1;
+                    break;
+                case 1:
+                    if (strlen(currentData) > 0)
+                        strcpy(user.username, currentData);
+                    else
+                        strcpy(user.username, "-");
+                    break;
+                case 2:
+                    if (strlen(currentData) > 0)
+                        strcpy(user.password, currentData);
+                    else
+                        strcpy(user.password, "-");
+                    break;
+                case 3:
+                    if (strlen(currentData) > 0)
+                        strcpy(user.role, currentData);
+                    else
+                        strcpy(user.role, "-");
+                    break;
+                case 4:
+                    if (strlen(currentData) > 0)
+                        strcpy(user.riwayatPenyakit, currentData);
+                    else
+                        strcpy(user.riwayatPenyakit, "-");
+                    break;
+                case 5:
+                    user.suhuTubuh = (strlen(currentData) > 0) ? atof(currentData) : -1;
+                    break;
+                case 6:
+                    user.tekananDarahSistolik = (strlen(currentData) > 0) ? atoi(currentData) : -1;
+                    break;
+                case 7:
+                    user.tekananDarahDiastolik = (strlen(currentData) > 0) ? atoi(currentData) : -1;
+                    break;
+                case 8:
+                    user.detakJantung = (strlen(currentData) > 0) ? atoi(currentData) : -1;
+                    break;
+                case 9:
+                    user.saturasiOksigen = (strlen(currentData) > 0) ? atof(currentData) : -1;
+                    break;
+                case 10:
+                    user.kadarGulaDarah = (strlen(currentData) > 0) ? atof(currentData) : -1;
+                    break;
+                case 11:
+                    user.beratBadan = (strlen(currentData) > 0) ? atof(currentData) : -1;
+                    break;
+                case 12:
+                    user.tinggiBadan = (strlen(currentData) > 0) ? atoi(currentData) : -1;
+                    break;
+                case 13:
+                    user.kadarKolesterol = (strlen(currentData) > 0) ? atoi(currentData) : -1;
+                    break;
+                case 14:
+                    user.kadarKolesterolLDL = (strlen(currentData) > 0) ? atoi(currentData) : -1;
+                    break;
                 }
+                user.diagnosa = 0;
+                user.ngobatin = 0;
                 current = 0;
                 kolomData++;
-            } else {
-                if ((size_t)current < sizeof(currentData) - 1){
+            }
+            else
+            {
+                if ((size_t)current < sizeof(currentData) - 1)
+                {
                     currentData[current] = baris[i];
                 }
                 current++;
@@ -288,13 +334,15 @@ void LoadUsers(UserList *userList, char *inputFolder){
     // }
 }
 
-void SaveUsers(UserList userList, char* inputFolder){
+void SaveUsers(UserList userList, char *inputFolder)
+{
     char outputPath[256];
     strcpy(outputPath, inputFolder);
-    strcat(outputPath,"/user.csv");
-    FILE *fUserList = fopen(outputPath,"w");
+    strcat(outputPath, "/user.csv");
+    FILE *fUserList = fopen(outputPath, "w");
     fprintf(fUserList, "id,username,password,role,riwayatPenyakit,suhuTubuh,tekananDarahSistolik,tekananDarahDiastolik,detakJantung,saturasiOksigen,kadarGulaDarah,beratBadan,tinggiBadan,kadarKolesterol,kadarKolesterolLDL,trombosit\n");
-    for (int i = 0; i < userList.count; i++) {
+    for (int i = 0; i < userList.count; i++)
+    {
         User user = userList.users[i];
         fprintf(fUserList, "%d,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s\n",
                 user.id,

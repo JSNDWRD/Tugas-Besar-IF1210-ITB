@@ -66,6 +66,12 @@ int main(int argc, char *argv[])
 
     CreateCommandList(&commandList, COMMAND_READY); // Membuat List Statik yang berisikan command yang tersedia
 
+    char arrayUrutanObat[OBAT_CAPACITY][100];
+    for (int i = 0; i < 1000; i++)
+    {
+        strcpy(arrayUrutanObat[i], ""); // Inisialisasi arrayUrutanObat
+    }
+
     Session session = {.loggedIn = 0}; // Ketika program mulai, session adalah logged out
     int command = 0;
     char input[50]; // Input command
@@ -323,7 +329,7 @@ int main(int argc, char *argv[])
                                     {
                                         printf("%s memiliki penyakit %s!\n", userList.users[i].username, namaPenyakit);
                                         int penyakitId = GetPenyakitID(penyakitList, namaPenyakit);
-                                        PrintObat(obatMap, penyakitId, obatList, namaPenyakit);
+                                        PrintObat(obatMap, penyakitId, obatList, namaPenyakit, &arrayUrutanObat);
                                     }
                                     userList.users[i].ngobatin = 1;
                                     found = 1;

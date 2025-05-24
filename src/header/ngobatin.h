@@ -60,7 +60,7 @@ Obat GetObat(ObatList obatList, int i);
 int SearchObatIndex(ObatMap obatMap, const char *penyakit);
 
 // Mencetak obat-obatan yang harus dikonsumsi berdasarkan penyakit
-void PrintObat(ObatMap obatMap, int penyakitId, ObatList obatList, const char *namaPenyakit);
+void PrintObat(ObatMap obatMap, int penyakitId, ObatList obatList, const char *namaPenyakit, char arrayUrutanObat[][100]);
 
 void LoadObat(ObatList *obatList, char *inputFolder);
 

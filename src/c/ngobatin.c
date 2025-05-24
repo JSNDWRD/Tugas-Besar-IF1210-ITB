@@ -14,7 +14,7 @@ Obat GetObat(ObatList obatList, int i);
 
 int SearchObatIndex(ObatMap obatMap, const char *penyakit);
 
-void PrintObat(ObatMap obatMap, int penyakitId, ObatList obatList, const char *namaPenyakit)
+void PrintObat(ObatMap obatMap, int penyakitId, ObatList obatList, const char *namaPenyakit, char arrayUrutanObat[][100])
 {
     if (penyakitId == -1)
     {
@@ -68,6 +68,7 @@ void PrintObat(ObatMap obatMap, int penyakitId, ObatList obatList, const char *n
     }
     for (int i = 0; i < count; i++)
     {
+        strcpy(arrayUrutanObat[i], namaObat[i]);
         printf("%d %s\n", idxObat[i], namaObat[i]);
     }
 }

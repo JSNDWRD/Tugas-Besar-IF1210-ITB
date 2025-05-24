@@ -14,3 +14,6 @@ id;username;password;role;riwayat_penyakit;suhu_tubuh;tekanan_darah_sistolik;tek
 13;user13;pass66;dokter;;;;;;;;;;;;
 14;user14;pass66;pasien;COVID-19;36.9;110;85;73;98.7;152;62.8;157;184;152;390
 15;user15;pass66;dokter;;;;;;;;;;;;
+20;user20;pass66;pasien;;;;;;;;;;;;
+16;user16;pass66;pasien;;;;;;;;;;;;
+23;user23;pass66;pasien;;;;;;;;;;;;

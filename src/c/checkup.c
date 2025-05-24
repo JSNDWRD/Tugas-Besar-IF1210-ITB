@@ -262,10 +262,17 @@ void LihatAntrianSaya(UserList *userList, Session *session, Matrix *denahRumahSa
                         return;
                     }
 
-                    printf("\nStatus Antrian Anda:");
-                    printf("\nDokter  : Dr. %s", dokter.username);
-                    printf("\nRuangan : %s", ruangan->namaRuangan);
-                    printf("\nPosisi  : %d dari %d", posisi, ruangan->antrianPasien.length);
+                    if (posisi - ruangan->kapasitasRuangan <= 0 || ruangan->antrianPasien.length - ruangan->kapasitasRuangan <= 0)
+                    {
+                        printf("\nAnda sedang berada di dalam ruangan dokter!");
+                    }
+                    else
+                    {
+                        printf("\nStatus Antrian Anda:");
+                        printf("\nDokter  : Dr. %s", dokter.username);
+                        printf("\nRuangan : %s", ruangan->namaRuangan);
+                        printf("\nPosisi  : %d dari %d", posisi - ruangan->kapasitasRuangan, ruangan->antrianPasien.length - ruangan->kapasitasRuangan);
+                    }
 
                     found = 1;
                     return;

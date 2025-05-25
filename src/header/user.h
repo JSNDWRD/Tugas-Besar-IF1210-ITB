@@ -12,13 +12,18 @@
 #define MAX_PASSWORD_LENGTH 50
 
 /* Definisi ADT User */
-typedef struct {
+typedef struct
+{
     int id;
-    char username[MAX_USERNAME_LENGTH];  // Keunikan dicek secara case-insensitive
+    char username[MAX_USERNAME_LENGTH]; // Keunikan dicek secara case-insensitive
     char password[MAX_PASSWORD_LENGTH];
-    char role[10];  // "manager" / "dokter" / "pasien"
-    char riwayatPenyakit[50];  // Nama penyakit (bisa "-" jika kosong)
-    
+    char role[10];            // "manager" / "dokter" / "pasien"
+    char riwayatPenyakit[50]; // Nama penyakit (bisa "-" jika kosong)
+    int obat[100];            // inventory obat yang dipunyao pasien
+    int jumlahObat;           // jumlah obat
+    int diagnosa;
+    int ngobatin;
+
     // Data di bawah bernilai -1 jika tidak terdapat data tersebut dalam file CSV
     float suhuTubuh;
     int tekananDarahSistolik;
@@ -29,47 +34,43 @@ typedef struct {
     float beratBadan;
     int tinggiBadan;
     int kadarKolesterol;
-    int kadarKolesterolLDL;
     int trombosit;
 } User;
 
 /* Definisi Type UserList */
-typedef struct {
+typedef struct
+{
     User users[100];
     int count;
 } UserList;
 
 /* Definisi Type Session */
-typedef struct {
-    int loggedIn;  // 1 jika user sudah login, 0 jika tidak
-    User currentUser;  // Data user pada sesi sekarang
+typedef struct
+{
+    int loggedIn;     // 1 jika user sudah login, 0 jika tidak
+    User currentUser; // Data user pada sesi sekarang
 } Session;
 
-
-/* KONSTRUKTOR */
-
 /* Membentuk user berdasarkan komponen-komponen yang dimasukkan */
-void CreateUser(User *user,int id, char *username, char *password, char *role, char *riwayatPenyakit,
+void CreateUser(User *user, int id, char *username, char *password, char *role, char *riwayatPenyakit,
                 float suhuTubuh, int tekananDarahSistolik, int tekananDarahDiastolik, int detakJantung,
                 float saturasiOksigen, int kadarGulaDarah, float beratBadan, int tinggiBadan,
-                int kadarKolesterol, int kadarKolesterolLDL, int trombosit);
-
-/* SELEKTOR / GETTER */
+                int kadarKolesterol, int trombosit);
 
 /* Mendapatkan komponen ID dari user */
 int GetID(User *user);
 
 /* Mendapatkan komponen Username dari user */
-char* GetUsername(User *user);
+char *GetUsername(User *user);
 
 /* Mendapatkan komponen Password dari user */
-char* GetPassword(User *user);
+char *GetPassword(User *user);
 
 /* Mendapatkan komponen Role dari user */
-char* GetRole(User *user);
+char *GetRole(User *user);
 
 /* Mendapatkan komponen RiwayatPenyakit dari user */
-char* GetRiwayatPenyakit(User *user);
+char *GetRiwayatPenyakit(User *user);
 
 /* Mendapatkan komponen SuhuTubuh dari user */
 float GetSuhuTubuh(User *user);
@@ -103,8 +104,6 @@ int GetKadarKolesterolLDL(User *user);
 
 /* Mendapatkan komponen Trombosit dari user */
 int GetTrombosit(User *user);
-
-/* PENGUBAH / SETTER */
 
 /* Mengubah nilai komponen ID dari user menjadi val */
 void SetID(User *user, int val);
@@ -157,12 +156,10 @@ void SetTrombosit(User *user, int val);
 /* Menambahkan user ke dalam array userList */
 void AddUser(UserList *userList, User newUser);
 
-/* KELOMPOK OPERASI BACA / TULIS FILE EKSTERNAL */
-
 /* Membaca file eksternal dan memasukkan data user yang terdaftar ke dalam userList */
 void LoadUsers(UserList *userList, char *inputFolder);
 
 /* Menyimpan array userList ke dalam file eksternal user.csv */
-void SaveUsers(UserList userList, char* inputFolder);
+void SaveUsers(UserList userList, char *inputFolder);
 
 #endif

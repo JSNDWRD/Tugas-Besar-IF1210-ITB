@@ -1,0 +1,20 @@
+id,username,password,role,riwayatPenyakit,suhuTubuh,tekananDarahSistolik,tekananDarahDiastolik,detakJantung,saturasiOksigen,kadarGulaDarah,beratBadan,tinggiBadan,kadarKolesterol,kadarKolesterolLDL,trombosit
+10;neronimo;pass1010;dokter;;;;;;;;;;;
+11;ciciko;pass1111;dokter;;;;;;;;;;;
+12;cacako;pass1212;dokter;;;;;;;;;;;
+13;kroket;pass1313;dokter;;;;;;;;;;;
+15;risol;pass1515;dokter;;;;;;;;;;;
+88;zeru;pass77;manager;;;;;;;;;;;
+1;stewart;pass11;pasien;;36.10;92;92;92;36.10;92;36.10;92;92;92
+7;tuart;paturrt;pasien;;36.10;92;92;92;36.10;92;36.10;92;92;92
+2;gro;pass22;pasien;COVID-19;36.60;126;126;126;36.60;126;36.60;126;126;126
+3;kebin;pass33;pasien;;36.40;96;96;96;36.40;96;36.40;96;96;96
+6;nikeb;pnikeb;pasien;;36.40;96;96;96;36.40;96;36.40;96;96;96
+4;pop;pass44;pasien;Diabetes Mellitus;36.90;110;110;110;36.90;110;36.90;110;110;110
+8;minonette;pass88;pasien;;36.70;93;93;93;36.70;93;36.70;93;93;93
+9;tobo;pass99;pasien;;36.80;114;114;114;36.80;114;36.80;114;114;114
+10;ropik;pass110;pasien;;36.20;103;103;103;36.20;103;36.20;103;103;103
+5;opor;oporkanajala;pasien;;36.20;103;103;103;36.20;103;36.20;103;103;103
+16;tobokan;pass1234;pasien;;36.80;114;114;114;36.80;114;36.80;114;114;114
+20;popokan;passpopokan;pasien;;36.90;110;110;110;36.90;110;36.90;110;110;110
+100;pendatang;pendatangbaru;pasien;;;;;;;;;;;

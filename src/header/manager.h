@@ -5,6 +5,7 @@
 #include "auth.h"
 #include "user.h"
 #include "utils.h"
+#include "matrix.h"
 #include "hospital.h"
 
 // Hanya digunakan oleh manager, untuk melihat user, sort berdasarkan id atau nama.
@@ -43,6 +44,9 @@ int SequenceSearchUser(UserList *userList, char *username, int *index);
 // Get user from UserList by index
 User GetUserAt(UserList *userList, int idx);
 
+// Get user from UserList by its id
+User GetUserById(UserList *userList, int userId);
+
 // Set user in UserList by index
 void SetUserAt(UserList *userList, int idx, User user);
 
@@ -50,8 +54,6 @@ void SetUserAt(UserList *userList, int idx, User user);
 int AppendUser(UserList *userList, User user);
 
 // Assign dokter ke ruangan tertentu
-void AssignDokter(UserList *userList, Session *session, Matrix *denahRumahSakit);
-
-
+void AssignDokter(UserList *userList, Matrix *denahRumahSakit);
 
 #endif

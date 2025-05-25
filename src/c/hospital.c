@@ -1,8 +1,10 @@
 #include "../header/hospital.h"
 
-void LoadConfig(Matrix *denahHospital, char *inputFolder){
-    strcat(inputFolder,"/config.txt");
-    FILE *fDenah = fopen(inputFolder,"r");
+void LoadConfig(Matrix *denahHospital, char *inputFolder, UserList *userList){
+    char inputPath[50];
+    strcpy(inputPath,inputFolder);
+    strcat(inputPath,"/config.txt");
+    FILE *fDenah = fopen(inputPath,"r");
 
     if (fDenah == NULL) {
         perror("FILE config.txt kosong\n");
@@ -33,15 +35,27 @@ void LoadConfig(Matrix *denahHospital, char *inputFolder){
     // memeriksa baris ke dua yg berisi kapasitas
     fgets(baris,sizeof(baris),fDenah);
 
-    int kapasitas = 0,j = 0;
-    while (baris[j] >= '0' && baris[j] <= '9') {
-        kapasitas = kapasitas * 10 + (baris[j] - '0');
+    int kapasitasAntrian = 0,kapasitasRuangan = 0,j = 0;
+    temp = 0,count = 0;
+
+    while(baris[j] != '\0' && baris[j] != '\n'){
+        if(baris[j] >= '0' && baris[j] <= '9'){
+            temp = temp * 10 + (baris[j] - '0');
+        }else{
+            if(count == 0) kapasitasRuangan = temp;
+            else kapasitasAntrian = temp;
+            count ++;
+            temp = 0;
+        }
         j++;
     }
+
     // assign kapasitas untuk tiap kamar (semuanya sama)
     for(int i=0;i<denahHospital->rows;i++){
         for(int j=0;j<denahHospital->cols;j++){
-            denahHospital->data[i][j].kapasitas = kapasitas;
+            denahHospital->data[i][j].kapasitasRuangan = kapasitasRuangan;
+            denahHospital->data[i][j].kapasitasAntrian = kapasitasAntrian;
+            createQueue(&denahHospital->data[i][j].antrianPasien);
         }
     }
 
@@ -52,33 +66,85 @@ void LoadConfig(Matrix *denahHospital, char *inputFolder){
             /* array angka untuk menyimpan id sementara dari dokter dan para pasien
             Jika ada dokter angka[0] adalah id dokter dan angka[1-jumlahPasien+1] adalah id pasien 
             */
-            int angka[100], cnt = 0, temp = 0, index = 0;
+            int angka[100], count = 0;
             fgets(baris, sizeof(baris), fDenah);
-            while (baris[index] != '\0' && baris[index] != '\n') {
-                if (baris[index] >= '0' && baris[index] <= '9') {
-                    temp = temp * 10 + (baris[index] - '0');
-                } else if (temp > 0) {
-                    angka[cnt] = temp;
-                    cnt++;
+            int temp = 0, idx = 0;
+            while (baris[idx] != '\0' && baris[idx] != '\n') {
+                if (baris[idx] >= '0' && baris[idx] <= '9') {
+                    temp = temp * 10 + (baris[idx] - '0');
+                } 
+                else if (temp >= 0) {
+                    angka[count] = temp;
+                    count++;
                     temp = 0;
                 }
-                index++;
+                idx++;
             }
-            if (temp > 0) angka[cnt++] = temp;
+            if (temp > 0) {
+                angka[count++] = temp;
+            }
+            Ruangan *r = &denahHospital->data[i][j];
 
-            if (cnt == 0) {
-                denahHospital->data[i][j].dokter = -1;
-                denahHospital->data[i][j].jumlahPasien = 0;
-            } else {
-                denahHospital->data[i][j].dokter = angka[0];
-                denahHospital->data[i][j].jumlahPasien = cnt - 1;
-                for (int k = 1; k < cnt; k++) {
-                    denahHospital->data[i][j].pasien[k - 1] = angka[k];
+            if(angka[0] == 0 && count == 1){
+                r->dokter = -1;
+                r->jumlahPasienDalamRuangan = 0;
+                r->jumlahPasienDiAntrian = 0;
+            }else{
+                r->dokter = angka[0];
+                r->jumlahPasienDalamRuangan = 0;
+                r->jumlahPasienDiAntrian = 0;
+                for (int p = 1; p <= r->kapasitasRuangan && p < count; p++) {
+                    // Masukkan pasien yang ada di dalam ruangan 
+                    enqueue(&r->antrianPasien, createNode(angka[p]));
+                    r->jumlahPasienDalamRuangan ++;
+                }
+                for (int q = r->kapasitasRuangan + 1; q < count; q++) {
+                    // Masukkan pasien yang ada di antrian luar ruangan
+                    enqueue(&r->antrianPasien, createNode(angka[q]));
+                    r->jumlahPasienDiAntrian++;
                 }
             }
         }
     }
-    
+
+
+    fgets(baris, sizeof(baris), fDenah);
+    int pasienInventory = 0,k = 0;
+    while (baris[k] >= '0' && baris[k] <= '9') {
+        pasienInventory = pasienInventory * 10 + (baris[k] - '0');
+        k++;
+    }
+
+    for(int i=0;i<pasienInventory;i++){
+        fgets(baris, sizeof(baris), fDenah);
+        int angka[100], cnt = 0, temp = 0, idx = 0;
+
+        while (baris[idx] != '\0' && baris[idx] != '\n') {
+            if (baris[idx] >= '0' && baris[idx] <= '9') {
+                temp = temp * 10 + (baris[idx] - '0');
+            } else if (temp > 0) {
+                angka[cnt++] = temp;
+                temp = 0;
+            }
+            idx++;
+        }
+
+        if (temp > 0) {
+            angka[cnt++] = temp;
+        }
+
+        int indexinventory;
+        for(int i=0;i<userList->count;i++){
+            if(userList->users[i].id == angka[0]){
+                indexinventory = i;
+                break;
+            }
+        }
+        userList->users[indexinventory].jumlahObat = cnt - 1; 
+        for (int i = 1; i < cnt; i++) {
+            userList->users[indexinventory].obat[i - 1] = angka[i];
+        }
+    }
     fclose(fDenah);
 }
 /* Membaca file eksternal dan memasukkan data config ke dalam denahHospital */
@@ -104,7 +170,7 @@ void LihatDenah(Matrix *denahHospital) {
         // Baris nama ruangan
         printf(" %c ", 'A' + i);
         for (int j = 0; j < lebar; j++) {
-            printf("| %-4s", denahHospital->data[i][j].namaRuangan);  // menggunakan field nama
+            printf("| %-4s", denahHospital->data[i][j].namaRuangan);
         }
         printf("|\n");
     }
@@ -119,13 +185,9 @@ void LihatDenah(Matrix *denahHospital) {
 
 void UbahInput(char *input, int *row, int *col) {
     *row = -1;
-    *col = -1;
-    
     // isi variabel baris
     if (input[0] >= 'A' && input[0] <= 'Z') {
         *row = input[0] - 'A';
-    } else if (input[0] >= 'a' && input[0] <= 'z') {
-        *row = input[0] - 'a';
     } else {
         return;
     }
@@ -143,11 +205,16 @@ void LihatRuangan(Matrix *denahHospital, char *input, UserList userList) {
     int row, col;
     UbahInput(input, &row, &col);
 
+    if(row < 0 || row >= denahHospital->rows || col < 0 || col >= denahHospital->cols){
+        printf("Ruangan %s tidak ditemukan.\n",input);
+        return;
+    }
+
     // variable r yang menyimpan struktur data di ruangan yang sesuai input)
     Ruangan *r = GetRuangan(denahHospital, row, col);
 
     printf("--- Detail Ruangan %s ---\n", r->namaRuangan);
-    printf("Kapasitas  : %d\n", r->kapasitas);
+    printf("Kapasitas  : %d\n", r->kapasitasRuangan);
 
     char dokter[MAX_USERNAME_LENGTH] = "Tidak Ada";
     //Cari userList dengan role dokter dan id yang sesuai
@@ -168,60 +235,100 @@ void LihatRuangan(Matrix *denahHospital, char *input, UserList userList) {
     }
 
 
-    if ((r->jumlahPasien == 0) || strcmp(dokter,"Tidak Ada") == 0){
+    if ((r->jumlahPasienDalamRuangan == 0) || strcmp(dokter,"Tidak Ada") == 0){
         printf("  Tidak ada pasien di dalam ruangan saat ini.\n");
     } else {
         // cari setiap pasien di dalam ruangan yang sesuai
         printf("Pasien di dalam ruangan : \n");
-        for (int i = 0; i < r->jumlahPasien; i++) {
-            char pasien[MAX_USERNAME_LENGTH];
+        Node *n = r->antrianPasien.head;
+        int index = 1;
+        int count = 0;
+
+        while (n != NULL && count < r->jumlahPasienDalamRuangan) {
+            // cari nama pasien berdasarkan id
+            char pasien[MAX_USERNAME_LENGTH] = "Tidak Diketahui";
             for (int j = 0; j < userList.count; j++) {
-                if (userList.users[j].id == r->pasien[i] && strcmp(userList.users[j].role, "pasien") == 0) {
-                    if(strcmp(userList.users[j].role, "pasien") == 0){
-                        strcpy(pasien, userList.users[j].username);
-                    }else{
-                        printf("ID %d bukanlah id pasien\n",userList.users[j].id);
-                    }
+                if (userList.users[j].id == n->data && strcmp(userList.users[j].role, "pasien") == 0) {
+                    strcpy(pasien, userList.users[j].username);
                     break;
                 }
             }
-            printf("  %d. %s\n", i + 1, pasien);
+
+            printf("  %d. %s\n", index++, pasien);
+            n = n->next;
+            count++;
         }
     }
 
     printf("------------------------------\n");
 }
 
-void SaveConfig(Matrix denahHospital, char* inputFolder) {
-    strcat(inputFolder,"/config.txt");
-    FILE *file = fopen(inputFolder, "w"); 
-    if (file == NULL) {
+void SaveConfig(Matrix *denahHospital, char* inputFolder, UserList *userList) {
+    char outputPath[256];
+    strcpy(outputPath, inputFolder);
+    strcat(outputPath, "/config.txt");
+    FILE *fileConfig = fopen(outputPath, "w"); 
+    if (fileConfig == NULL) {
         perror("Gagal membuka file config.txt");
         return;
     }
 
     // Mengisi baris 1: jumlah baris dan kolom 
-    fprintf(file, "%d %d\n", denahHospital.rows, denahHospital.cols);
+    fprintf(fileConfig, "%d %d\n", denahHospital->rows, denahHospital->cols);
 
-    // Mengisi baris 2: kapasitas ruangan
-    fprintf(file, "%d\n", denahHospital.data[0][0].kapasitas);
+    // Mengisi baris 2: kapasitas ruangan dan kapasitas antrian
+    fprintf(fileConfig, "%d %d\n", denahHospital->data[0][0].kapasitasRuangan,denahHospital->data[0][0].kapasitasAntrian);
 
     // Mengisi baris 3-8 : isi tiap ruangan denagn id dokter dan pasien
     // karena ruangan masih statik, jadi isi ruangan berada pada baris 3-8 
-    for (int i = 0; i < denahHospital.rows; i++) {
-        for (int j = 0; j < denahHospital.cols; j++) {
-            Ruangan r = denahHospital.data[i][j];
+    for (int i = 0; i < denahHospital->rows; i++) {
+        for (int j = 0; j < denahHospital->cols; j++) {
+            Ruangan r = denahHospital->data[i][j];
+
             if (r.dokter == -1) {
-                fprintf(file, "0\n");  // jika tidak ada dokter tulis 0 saja pada baris tanpa id pasien
+                fprintf(fileConfig, "0\n");  // jika tidak ada dokter tulis 0 saja pada baris tanpa id pasien
             } else { // jika ada dokter di ruangan itu
-                fprintf(file, "%d", r.dokter);
-                for (int k = 0; k < r.jumlahPasien; k++) {
-                    fprintf(file, " %d", r.pasien[k]);
+                fprintf(fileConfig, "%d", r.dokter);
+
+                Node *n = r.antrianPasien.head;
+                int count = 0;
+
+                // Tulis pasien dalam ruangan terlebih dahulu
+                while (n != NULL && count < r.jumlahPasienDalamRuangan) {
+                    fprintf(fileConfig, " %d", n->data);
+                    n = n->next;
+                    count++;
                 }
-                fprintf(file, "\n");
+
+                // Tulis pasien dalam antrean
+                while (n != NULL) {
+                    fprintf(fileConfig, " %d", n->data);
+                    n = n->next;
+                }
+
+                fprintf(fileConfig, "\n");
             }
         }
     }
-    fclose(file);
-    printf("Data berhasil disimpan ke config.txt\n");
+
+    // mengisi baris 9 : jumlah orang dengan inventory obat
+    int pasienDenganObat = 0;
+    for (int i = 0; i < userList->count; i++) {
+        if (userList->users[i].jumlahObat > 0) {
+            pasienDenganObat++;
+        }
+    }
+
+    fprintf(fileConfig, "%d\n", pasienDenganObat);
+
+    for (int i = 0; i < userList->count; i++) {
+        if (userList->users[i].jumlahObat > 0) {
+            fprintf(fileConfig, "%d", userList->users[i].id);
+            for (int j = 0; j < userList->users[i].jumlahObat; j++) {
+                fprintf(fileConfig, " %d", userList->users[i].obat[j]);
+            }
+            fprintf(fileConfig,"\n");
+        }
+    }
+    fclose(fileConfig);
 }

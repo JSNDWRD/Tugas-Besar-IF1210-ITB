@@ -34,6 +34,7 @@ int main(int argc, char *argv[])
     ObatMap obatMap;
     LoadObatMap(&obatMap, folder);
 
+
     CommandList commandList; // Daftar command yang dapat digunakan
 
     const char *COMMAND_READY[COMMAND_CAPACITY] = {

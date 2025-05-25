@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "stack.h"
 
 // Manajemen User
 // Header untuk fungsi yang berhubungan dengan file eksternal
@@ -19,10 +20,12 @@ typedef struct
     char password[MAX_PASSWORD_LENGTH];
     char role[10];            // "manager" / "dokter" / "pasien"
     char riwayatPenyakit[50]; // Nama penyakit (bisa "-" jika kosong)
-    int obat[100];            // inventory obat yang dipunyao pasien
-    int jumlahObat;           // jumlah obat
     int diagnosa;
     int ngobatin;
+    int obat[100]; //inventory obat yang dipunyao pasien
+    int jumlahObat;
+    Stack perut ; // obat yang sudah di makan 
+    int jumlahObatMasukPerut;
 
     // Data di bawah bernilai -1 jika tidak terdapat data tersebut dalam file CSV
     float suhuTubuh;
@@ -42,6 +45,8 @@ typedef struct
 {
     User users[100];
     int count;
+    int pasienDenganObat;
+    int pasienKondisiPerut;
 } UserList;
 
 /* Definisi Type Session */

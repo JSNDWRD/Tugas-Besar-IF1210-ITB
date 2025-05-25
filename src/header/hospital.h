@@ -6,6 +6,7 @@
 #include "ngobatin.h"
 #include "dokter.h"
 #include "user.h"
+#include "stack.h"
 
 /* Membaca file eksternal dan memasukkan data config ke dalam denahHospital */
 void LoadConfig(Matrix *denahHospital, char *inputFolder, UserList *userlist);

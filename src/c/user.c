@@ -288,6 +288,9 @@ void LoadUsers(UserList *userList, char *inputFolder)
             i++;
         }
 
+        user.jumlahObat = 0;
+        user.jumlahObatMasukPerut = 0;
+
         // Kolom Data trombosit
         currentData[current] = '\0';
         user.trombosit = strlen(currentData) > 0 ? atoi(currentData) : -1;

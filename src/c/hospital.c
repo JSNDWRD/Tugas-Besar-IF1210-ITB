@@ -134,7 +134,7 @@ void LoadConfig(Matrix *denahHospital, char *inputFolder, UserList *userList){
             angka[cnt++] = temp;
         }
 
-        int indexinventory;
+        int indexinventory = -1;
         for(int i=0;i<userList->count;i++){
             if(userList->users[i].id == angka[0]){
                 indexinventory = i;
@@ -149,14 +149,13 @@ void LoadConfig(Matrix *denahHospital, char *inputFolder, UserList *userList){
 
     fgets(baris, sizeof(baris), fDenah);
     int pasienKondisiPerut = 0;
-    int pasienPunyaObat = 0;
     k = 0;
     while (baris[k] >= '0' && baris[k] <= '9') {
         pasienKondisiPerut = pasienKondisiPerut * 10 + (baris[k] - '0');
         k++;
     }
     userList->pasienKondisiPerut = pasienKondisiPerut;
-
+    
     for(int i=0;i<pasienKondisiPerut;i++){
         fgets(baris, sizeof(baris), fDenah);
         int angka[100], cnt = 0, temp = 0, idx = 0;
@@ -164,7 +163,7 @@ void LoadConfig(Matrix *denahHospital, char *inputFolder, UserList *userList){
         while (baris[idx] != '\0' && baris[idx] != '\n') {
             if (baris[idx] >= '0' && baris[idx] <= '9') {
                 temp = temp * 10 + (baris[idx] - '0');
-            } else  {
+            } else  if(temp > 0){
                 angka[cnt++] = temp;
                 temp = 0;
             }
@@ -175,23 +174,23 @@ void LoadConfig(Matrix *denahHospital, char *inputFolder, UserList *userList){
             angka[cnt++] = temp;
         }
 
-        int indexPerut;
+        int indexPerut = -1;
         for(int i=0;i<userList->count;i++){
-            if(userList->users[i].id == angka[0] && strcmp(userList->users[i].role,"Pasien") ==0){
+            if(userList->users[i].id == angka[0]){
                 indexPerut = i;
                 break;
             }
         }
-
         userList->users[indexPerut].jumlahObatMasukPerut = cnt -1;
-
         Stack *PerutPasien = &userList->users[indexPerut].perut;
+        CreateEmptyStack(PerutPasien);
         for (int i = cnt - 1; i >= 1; i--) {
             Obat obat;
             obat.id = angka[i];
             Push(PerutPasien,obat);
         }
     }
+
     fclose(fDenah);
 }
 /* Membaca file eksternal dan memasukkan data config ke dalam denahHospital */
@@ -375,6 +374,7 @@ void SaveConfig(Matrix *denahHospital, char* inputFolder, UserList *userList) {
     fprintf(fileConfig,"%d\n", userList->pasienKondisiPerut);
     for (int i = 0; i < userList->count; i++) {
         if (userList->users[i].jumlahObatMasukPerut > 0) {
+            fprintf(fileConfig, "%d", userList->users[i].id);
             Stack *PerutPasien = &userList->users[i].perut;
             for (int j = userList->users[i].jumlahObatMasukPerut - 1; j >= 0; j--) {
                 fprintf(fileConfig, " %d", PerutPasien->obat[j].id);

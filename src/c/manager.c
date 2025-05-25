@@ -290,6 +290,11 @@ void CariUser(UserList *userList, Session *session)
         if (BinarySearchUser(&sortedList, idInput, &index))
         {
             User user = GetUserAt(&sortedList, index);
+            if (strcmp(user.role, "manager") == 0)
+            {
+                printf("Tidak ditemukan user dengan ID %d.\n", idInput);
+                return;
+            }
             printf("Menampilkan user dengan nomor ID %d:\n", idInput);
             printf("ID | Nama     | Role   | Penyakit\n");
             printf("-------------------------------------\n");
@@ -317,6 +322,11 @@ void CariUser(UserList *userList, Session *session)
         if (SequenceSearchUser(&sortedList, nama, &index))
         {
             User user = GetUserAt(&sortedList, index);
+            if (strcmp(user.role, "manager") == 0)
+            {
+                printf("Tidak ditemukan user dengan nama %s.\n", user.username);
+                return;
+            }
             printf("Menampilkan pengguna dengan nama %s:\n", nama);
             printf("ID | Nama     | Role   | Penyakit\n");
             printf("-------------------------------------\n");

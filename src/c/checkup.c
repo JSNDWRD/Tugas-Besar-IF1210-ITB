@@ -14,7 +14,7 @@ void InputDataMedis(float *suhu, int *sistolik, int *diastolik, int *detak, floa
         printf("Suhu tubuh (°C): ");
         scanf("%f", suhu);
 
-        if (*suhu < 0)
+        if (*suhu <= 0)
         {
             printf("Suhu tidak valid.\n");
         }
@@ -22,10 +22,10 @@ void InputDataMedis(float *suhu, int *sistolik, int *diastolik, int *detak, floa
 
     do
     {
-        printf("Tekanan darah (sistol/distol): ");
+        printf("Tekanan darah (sistolik dan diastolik): ");
         scanf("%d %d", sistolik, diastolik);
 
-        if (*sistolik < 0 || *diastolik < 0)
+        if (*sistolik <= 0 || *diastolik <= 0)
         {
             printf("Tekanan darah tidak valid.\n");
         }
@@ -36,7 +36,7 @@ void InputDataMedis(float *suhu, int *sistolik, int *diastolik, int *detak, floa
         printf("Detak jantung (bpm): ");
         scanf("%d", detak);
 
-        if (*detak < 0)
+        if (*detak <= 0)
         {
             printf("Detak jantung tidak valid.\n");
         }
@@ -47,7 +47,7 @@ void InputDataMedis(float *suhu, int *sistolik, int *diastolik, int *detak, floa
         printf("Saturasi oksigen (%%): ");
         scanf("%f", saturasi);
 
-        if (*saturasi < 0)
+        if (*saturasi <= 0)
         {
             printf("Saturasi oksigen tidak valid.\n");
         }
@@ -58,7 +58,7 @@ void InputDataMedis(float *suhu, int *sistolik, int *diastolik, int *detak, floa
         printf("Kadar gula darah (mg/dL): ");
         scanf("%d", gula);
 
-        if (*gula < 0)
+        if (*gula <= 0)
         {
             printf("Kadar gula darah tidak valid.\n");
         }
@@ -69,7 +69,7 @@ void InputDataMedis(float *suhu, int *sistolik, int *diastolik, int *detak, floa
         printf("Berat badan (kg): ");
         scanf("%f", berat);
 
-        if (*berat < 0)
+        if (*berat <= 0)
         {
             printf("Berat badan tidak valid.\n");
         }
@@ -80,7 +80,7 @@ void InputDataMedis(float *suhu, int *sistolik, int *diastolik, int *detak, floa
         printf("Tinggi badan (cm): ");
         scanf("%d", tinggi);
 
-        if (*tinggi < 0)
+        if (*tinggi <= 0)
         {
             printf("Tinggi badan tidak valid.\n");
         }
@@ -91,7 +91,7 @@ void InputDataMedis(float *suhu, int *sistolik, int *diastolik, int *detak, floa
         printf("Kadar kolesterol (mg/dL): ");
         scanf("%d", kolesterol);
 
-        if (*kolesterol < 0)
+        if (*kolesterol <= 0)
         {
             printf("Kadar kolesterol tidak valid.\n");
         }
@@ -102,7 +102,7 @@ void InputDataMedis(float *suhu, int *sistolik, int *diastolik, int *detak, floa
         printf("Trombosit (x10^6/L): ");
         scanf("%d", trombosit);
 
-        if (*trombosit < 0)
+        if (*trombosit <= 0)
         {
             printf("Trombosit tidak valid.\n");
         }
@@ -114,6 +114,34 @@ void DaftarCheckup(UserList *userList, Session *session, Matrix *denahRumahSakit
     if (!session->loggedIn || strcmp(GetRole(&session->currentUser), "pasien") != 0)
     {
         printf("Akses ditolak. Login sebagai pasien terlebih dahulu.\n");
+        return;
+    }
+
+    int sudahTerdaftar = 0;
+    for (int i = 0; i < denahRumahSakit->rows; i++)
+    {
+        for (int j = 0; j < denahRumahSakit->cols; j++)
+        {
+            Ruangan *ruangan = &denahRumahSakit->data[i][j];
+            Node *currentPasien = ruangan->antrianPasien.head;
+            while (currentPasien != NULL)
+            {
+                if (currentPasien->data == session->currentUser.id)
+                {
+                    sudahTerdaftar = 1;
+                    break;
+                }
+                currentPasien = currentPasien->next;
+            }
+            if (sudahTerdaftar)
+                break;
+        }
+        if (sudahTerdaftar)
+            break;
+    }
+    if (sudahTerdaftar)
+    {
+        printf("Anda sudah terdaftar dalam antrian check-up!\n");
         return;
     }
 

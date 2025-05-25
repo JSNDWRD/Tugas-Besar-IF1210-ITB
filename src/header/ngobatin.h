@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <string.h>
 #include "./utils.h"
+#include "./types.h"
 
 #define OBAT_CAPACITY 500
 #define VAL_UNDEF "-"
@@ -25,13 +26,6 @@ typedef struct
     ObatEntry buffer[500];
     int length;
 } ObatMap;
-
-// Elemen List
-typedef struct
-{
-    int id;
-    char nama[STR_LENGTH];
-} Obat;
 
 // List
 typedef struct

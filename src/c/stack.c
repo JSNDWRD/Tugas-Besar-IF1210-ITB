@@ -21,7 +21,7 @@ bool IsStackFull(Stack s){
 /* Print stack obat (yang berada di perut) */
 void PrintStackObat(Stack s){
     for(int i=0; i<=s.top; i++){
-        printf("%s", s.obat[i]);
+        printf("%s", s.obat[i].nama);
         if(i<s.top){
             printf(" -> ");
         }
@@ -33,14 +33,14 @@ void PrintStackObat(Stack s){
 void Push(Stack *s, Obat val){
     if(!IsStackFull(*s)){
         s->top++;
-        strncpy(s->obat[s->top], val, MAX_OBAT_LENGTH);
+        strncpy(s->obat[s->top].nama, val.nama, MAX_OBAT_LENGTH);
     }
 }
 
 /* Mengambil nilai elemen top, sehingga top yang baru adalah elemen yang datang sebelum elemen top */
 void Pop(Stack *s, Obat *val){
     if(!IsStackEmpty(*s)){
-        strncpy(*val, s->obat[s->top], MAX_OBAT_LENGTH);
+        strncpy(val->nama, s->obat[s->top].nama, MAX_OBAT_LENGTH);
         s->top--;
     }
 }

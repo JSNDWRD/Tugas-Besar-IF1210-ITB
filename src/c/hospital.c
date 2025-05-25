@@ -148,8 +148,9 @@ void LoadConfig(Matrix *denahHospital, char *inputFolder, UserList *userList){
     }
 
     fgets(baris, sizeof(baris), fDenah);
-    int pasienKondisiPerut = 0,k = 0;
-    int pasienPunyaObat = 0,k = 0;
+    int pasienKondisiPerut = 0;
+    int pasienPunyaObat = 0;
+    k = 0;
     while (baris[k] >= '0' && baris[k] <= '9') {
         pasienKondisiPerut = pasienKondisiPerut * 10 + (baris[k] - '0');
         k++;

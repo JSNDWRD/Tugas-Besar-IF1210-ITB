@@ -2,7 +2,7 @@
 #define STACK_H
 
 #include <stdbool.h>
-#include "ngobatin.h"
+#include "types.h"
 
 #define MAX_OBAT_LENGTH 50
 #define MAX_STACK_SIZE 100

@@ -277,12 +277,20 @@ int main(int argc, char *argv[])
                                     found = 1;
                                     break;
                                 }
+                                else
+                                {
+                                    printf("Pasien %s sudah didiagnosis\n", userList.users[i].username);
+                                    found = 1;
+                                    break;
+                                }
                             }
                         }
                         if (found)
+                        {
                             break;
-                        count++;
-                        current = current->next;
+                        }
+                        // count++;
+                        // current = current->next;
                     }
                     if (!found)
                     {
@@ -344,14 +352,20 @@ int main(int argc, char *argv[])
                                     found = 1;
                                     break;
                                 }
+                                else if (userList.users[i].ngobatin == 1)
+                                {
+                                    printf("Pasien %s sudah pernah diobati!\n", userList.users[i].username);
+                                    found = 1;
+                                    break;
+                                }
                             }
                         }
                         if (found)
                         {
                             break;
                         }
-                        count++;
-                        current = current->next;
+                        // count++;
+                        // current = current->next;
                     }
                     if (!found || count >= currentRuangan->kapasitasRuangan)
                     {

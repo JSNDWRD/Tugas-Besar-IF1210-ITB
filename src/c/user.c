@@ -260,7 +260,7 @@ void LoadUsers(UserList *userList, char *inputFolder)
                     user.saturasiOksigen = (strlen(currentData) > 0) ? atof(currentData) : -1;
                     break;
                 case 10:
-                    user.kadarGulaDarah = (strlen(currentData) > 0) ? atof(currentData) : -1;
+                    user.kadarGulaDarah = (strlen(currentData) > 0) ? atoi(currentData) : -1;
                     break;
                 case 11:
                     user.beratBadan = (strlen(currentData) > 0) ? atof(currentData) : -1;
@@ -326,26 +326,38 @@ void SaveUsers(UserList userList, char *inputFolder)
     strcpy(outputPath, inputFolder);
     strcat(outputPath, "/user.csv");
     FILE *fUserList = fopen(outputPath, "w");
-    fprintf(fUserList, "id,username,password,role,riwayatPenyakit,suhuTubuh,tekananDarahSistolik,tekananDarahDiastolik,detakJantung,saturasiOksigen,kadarGulaDarah,beratBadan,tinggiBadan,kadarKolesterol,kadarKolesterolLDL,trombosit\n");
+    fprintf(fUserList, "id;username;password;role;riwayat_penyakit;suhu_tubuh;tekanan_darah_sistolik;tekanan_darah_diastolik;detak_jantung;saturasi_oksigen;kadar_gula_darah;berat_badan;tinggi_badan;kadar_kolesterol;trombosit\n");
     for (int i = 0; i < userList.count; i++)
     {
         User user = userList.users[i];
+        char suhu[32], sistolik[32], diastolik[32], detak[32], saturasi[32], gula[32], berat[32], tinggi[32], kolesterol[32], trombosit[32];
+        sprintf(suhu, "%.2f", user.suhuTubuh);
+        sprintf(sistolik, "%d", user.tekananDarahSistolik);
+        sprintf(diastolik, "%d", user.tekananDarahDiastolik);
+        sprintf(detak, "%d", user.detakJantung);
+        sprintf(saturasi, "%.2f", user.saturasiOksigen);
+        sprintf(gula, "%d", user.kadarGulaDarah);
+        sprintf(berat, "%.2f", user.beratBadan);
+        sprintf(tinggi, "%d", user.tinggiBadan);
+        sprintf(kolesterol, "%d", user.kadarKolesterol);
+        sprintf(trombosit, "%d", user.trombosit);
+
         fprintf(fUserList, "%d;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s;%s\n",
                 user.id,
                 user.username,
                 user.password,
                 user.role,
                 strcmp(user.riwayatPenyakit, "-") == 0 ? "" : user.riwayatPenyakit,
-                user.suhuTubuh == -1 ? "" : FloatToStr(user.suhuTubuh),
-                user.tekananDarahSistolik == -1 ? "" : IntToStr(user.tekananDarahSistolik),
-                user.tekananDarahDiastolik == -1 ? "" : IntToStr(user.tekananDarahDiastolik),
-                user.detakJantung == -1 ? "" : IntToStr(user.detakJantung),
-                user.saturasiOksigen == -1 ? "" : FloatToStr(user.saturasiOksigen),
-                user.kadarGulaDarah == -1 ? "" : IntToStr(user.kadarGulaDarah),
-                user.beratBadan == -1 ? "" : FloatToStr(user.beratBadan),
-                user.tinggiBadan == -1 ? "" : IntToStr(user.tinggiBadan),
-                user.kadarKolesterol == -1 ? "" : IntToStr(user.kadarKolesterol),
-                user.trombosit == -1 || user.trombosit == 0 ? "" : IntToStr(user.trombosit));
+                user.suhuTubuh == -1 ? "" : suhu,
+                user.tekananDarahSistolik == -1 ? "" : sistolik,
+                user.tekananDarahDiastolik == -1 ? "" : diastolik,
+                user.detakJantung == -1 ? "" : detak,
+                user.saturasiOksigen == -1 ? "" : saturasi,
+                user.kadarGulaDarah == -1 ? "" : gula,
+                user.beratBadan == -1 ? "" : berat,
+                user.tinggiBadan == -1 ? "" : tinggi,
+                user.kadarKolesterol == -1 ? "" : kolesterol,
+                user.trombosit == -1 || user.trombosit == 0 ? "" : trombosit);
     }
     fclose(fUserList);
 }

@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include <string.h>
 
-#define COMMAND_CAPACITY 22
+#define COMMAND_CAPACITY 25
 
 typedef struct
 {

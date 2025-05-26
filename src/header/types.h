@@ -1,7 +1,7 @@
 #ifndef TYPES_H
 #define TYPES_H
 
-#define STR_LENGTH 100
+#define STR_LENGTH 500
 
 typedef struct
 {
@@ -9,4 +9,4 @@ typedef struct
     char nama[STR_LENGTH];
 } Obat;
 
-#endif 
+#endif

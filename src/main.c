@@ -34,7 +34,6 @@ int main(int argc, char *argv[])
     ObatMap obatMap;
     LoadObatMap(&obatMap, folder);
 
-
     CommandList commandList; // Daftar command yang dapat digunakan
 
     const char *COMMAND_READY[COMMAND_CAPACITY] = {
@@ -70,7 +69,7 @@ int main(int argc, char *argv[])
 
     CreateCommandList(&commandList, COMMAND_READY); // Membuat List Statik yang berisikan command yang tersedia
 
-    char arrayUrutanObat[OBAT_CAPACITY][100];
+    char arrayUrutanObat[OBAT_CAPACITY][500];
     for (int i = 0; i < 1000; i++)
     {
         strcpy(arrayUrutanObat[i], ""); // Inisialisasi arrayUrutanObat
@@ -344,7 +343,7 @@ int main(int argc, char *argv[])
                                     {
                                         printf("%s memiliki penyakit %s!\n", userList.users[i].username, namaPenyakit);
                                         int penyakitId = GetPenyakitID(penyakitList, namaPenyakit);
-                                        PrintObat(obatMap, penyakitId, obatList, namaPenyakit, arrayUrutanObat);
+                                        PrintObat(obatMap, penyakitId, obatList, namaPenyakit, arrayUrutanObat, &userList.users[i]);
                                     }
                                     userList.users[i].ngobatin = 1;
                                     found = 1;
@@ -434,10 +433,120 @@ int main(int argc, char *argv[])
             DaftarCheckup(&userList, &session, &denahRumahSakit);
             break;
         case PULANGDOK:
+            if (strcmp(session.currentUser.role, "pasien") == 0)
+            {
+                if (session.currentUser.ngobatin == 0 || session.currentUser.diagnosa == 0)
+                {
+                    printf("Kamu belum menerima diagnosis atau pengobatan dari dokter, jangan buru-buru pulang!\n");
+                }
+                else
+                {
+                    if (session.currentUser.jumlahObatMasukPerut >= session.currentUser.jumlahNgobat)
+                    {
+                        // Cek apakah urutan obat yang diminum sesuai dengan yang diresepkan
+                        int benar = 1;
+                        if (session.currentUser.perut.top + 1 != session.currentUser.jumlahNgobat)
+                        {
+                            benar = 0; // Jumlah obat yang diminum tidak sesuai
+                        }
+                        else
+                        {
+                            for (int i = 0; i < session.currentUser.jumlahNgobat; i++)
+                            {
+                                int idxStack = i; // Check from bottom to top
+                                if (session.currentUser.perut.obat[idxStack].id != session.currentUser.urutanNgobat[i])
+                                {
+                                    benar = 0;
+                                    break;
+                                }
+                            }
+                        }
+                        if (benar)
+                        {
+                            printf("Selamat! Kamu sudah dinyatakan sembuh oleh dokter. Silahkan pulang dan semoga sehat selalu!\n");
+                        }
+                        else if (!benar)
+                        {
+                            printf("Maaf, tapi kamu masih belum bisa pulang!\n");
+                            printf("Urutan peminuman obat yang diharapkan:\n");
+                            for (int i = 0; i < session.currentUser.jumlahNgobat; i++)
+                            {
+                                printf("%d", session.currentUser.urutanNgobat[i]);
+                                if (i < session.currentUser.jumlahNgobat - 1)
+                                {
+                                    printf(" -> ");
+                                }
+                            }
+                            printf("\n");
+                            printf("Urutan peminum obat Anda:\n");
+                            for (int i = 0; i < session.currentUser.jumlahObatMasukPerut; i++)
+                            {
+                                printf("%d", session.currentUser.perut.obat[i].id);
+                                if (i < session.currentUser.jumlahObatMasukPerut - 1)
+                                {
+                                    printf(" -> ");
+                                }
+                            }
+                            printf("\n");
+                            printf("Silahkan kunjungi dokter untuk meminta penawar yang sesuai!\n");
+                        }
+                    }
+                    else
+                    {
+                        printf("Jumlah obat yang kamu minum masih kurang dari yang diresepkan oleh dokter!\n");
+                    }
+                }
+            }
+            else
+            {
+                printf("Akses ditolak. Fitur ini hanya dapat diakses oleh pasien.\n");
+            }
             break;
         case MINUM_OBAT:
+            if (strcmp(session.currentUser.role, "pasien") == 0)
+            {
+                if (session.currentUser.ngobatin == 0)
+                {
+                    printf("Anda belum diobati oleh dokter!\n");
+                }
+                else
+                {
+                    char arrNamaObat[OBAT_CAPACITY][500];
+                    printf("============ DAFTAR OBAT ============\n");
+                    for (int i = 0; i < session.currentUser.jumlahObat; i++)
+                    {
+                        strcpy(arrNamaObat[i], GetObatById(obatList, session.currentUser.obat[i]).nama);
+                        printf("%d. %s\n", i + 1, GetObatById(obatList, session.currentUser.obat[i]).nama);
+                    }
+                    MinumObat(obatList, &session.currentUser, arrNamaObat);
+                }
+            }
+            else
+            {
+                printf("Akses ditolak. Fitur ini hanya dapat diakses oleh pasien.\n");
+            }
             break;
         case PENAWAR:
+            if (strcmp(session.currentUser.role, "pasien") == 0)
+            {
+                if (session.currentUser.jumlahObatMasukPerut > 0)
+                {
+                    Obat muntahin;
+                    Pop(&session.currentUser.perut, &muntahin);
+                    // Memasukkan obat kembali ke inventory
+                    session.currentUser.obat[session.currentUser.jumlahObat++] = muntahin.id;
+                    printf("Obat berhasil dimuntahkan dan dikembalikan ke inventory (ew), lain kali jangan makan obat sembarangan ya dek~\n");
+                    session.currentUser.jumlahObatMasukPerut--;
+                }
+                else
+                {
+                    printf("Perut kosong!! Belum ada obat yang dimakan.\n");
+                }
+            }
+            else
+            {
+                printf("Akses ditolak. Fitur ini hanya dapat diakses oleh pasien.\n");
+            }
             break;
         default:
             printf("Command tidak ditemukan.\n");

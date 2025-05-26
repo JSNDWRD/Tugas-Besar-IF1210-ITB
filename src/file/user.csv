@@ -1,5 +1,4 @@
 id;username;password;role;riwayat_penyakit;suhu_tubuh;tekanan_darah_sistolik;tekanan_darah_diastolik;detak_jantung;saturasi_oksigen;kadar_gula_darah;berat_badan;tinggi_badan;kadar_kolesterol;trombosit
-10;neronimo;pass1010;dokter;;;;;;;;;;;
 11;ciciko;pass1111;dokter;;;;;;;;;;;
 12;cacako;pass1212;dokter;;;;;;;;;;;
 13;kroket;pass1313;dokter;;;;;;;;;;;

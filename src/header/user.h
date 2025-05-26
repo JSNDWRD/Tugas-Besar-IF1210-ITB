@@ -22,9 +22,11 @@ typedef struct
     char riwayatPenyakit[50]; // Nama penyakit (bisa "-" jika kosong)
     int diagnosa;
     int ngobatin;
-    int obat[100]; //inventory obat yang dipunyao pasien
+    int obat[100];         // inventory obat yang dipunyai pasien
+    int urutanNgobat[100]; // urutan id obat yang harus dimakan pasien
+    int jumlahNgobat;
     int jumlahObat;
-    Stack perut ; // obat yang sudah di makan 
+    Stack perut; // obat yang sudah di makan
     int jumlahObatMasukPerut;
 
     // Data di bawah bernilai -1 jika tidak terdapat data tersebut dalam file CSV

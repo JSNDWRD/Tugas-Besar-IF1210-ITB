@@ -27,9 +27,24 @@ Obat GetObatById(ObatList obatList, int idx)
     return tidakDitemukan;
 }
 
+Obat GetObatByName(ObatList obatList, const char *namaPenyakit)
+{
+    for (int i = 0; i < obatList.length; i++)
+    {
+        if (strcmp(obatList.obats[i].nama, namaPenyakit) == 0)
+        {
+            return obatList.obats[i];
+        }
+    }
+    Obat tidakDitemukan;
+    tidakDitemukan.id = -1;
+    strcpy(tidakDitemukan.nama, "");
+    return tidakDitemukan;
+}
+
 int SearchObatIndex(ObatMap obatMap, const char *penyakit);
 
-void PrintObat(ObatMap obatMap, int penyakitId, ObatList obatList, const char *namaPenyakit, char arrayUrutanObat[][100], User *pasien)
+void PrintObat(ObatMap obatMap, int penyakitId, ObatList obatList, const char *namaPenyakit, char arrayUrutanObat[][500], User *pasien)
 {
     if (penyakitId == -1)
     {
@@ -37,7 +52,6 @@ void PrintObat(ObatMap obatMap, int penyakitId, ObatList obatList, const char *n
         return;
     }
 
-    // 2. Cari entry di ObatMap dengan penyakitId
     int idx = -1;
     for (int i = 0; i < obatMap.length; i++)
     {
@@ -53,55 +67,59 @@ void PrintObat(ObatMap obatMap, int penyakitId, ObatList obatList, const char *n
         return;
     }
 
-    char namaObat[1000][100];
+    int panjangNgobat = 0;
+    for (int i = 0; i < obatMap.length; i++)
+    {
+        if (obatMap.buffer[i].penyakitId == idx)
+        {
+            panjangNgobat++;
+        }
+    }
+
+    pasien->jumlahNgobat = panjangNgobat;
+
+    char namaObat[1000][500];
     int idxObat[1000];
     int count = 0;
 
-    // 3. Print semua obat sesuai urutan
     printf("Obat untuk penyakit %s:\n", namaPenyakit);
     for (int i = 0; i < obatMap.buffer[idx].urutan; i++)
     {
         int obatId = obatMap.buffer[idx].obatId[i];
         if (obatId == -1)
             continue;
-        // Cari nama obat dari ObatList
+
         for (int j = 0; j < obatList.length; j++)
         {
             if (obatList.obats[j].id == obatId)
             {
-                // idxObat[count] = obatList.obats[j].id;
-                for (int k = 0; k < obatMap.length; k++)
-                {
-                    idxObat[count] = i + 1;
-                }
+                idxObat[count] = i + 1;
                 strcpy(namaObat[count], obatList.obats[j].nama);
-                int obatSudahAda = 0, ctr = 0;
-                while (ctr < pasien->jumlahObat && obatSudahAda == 0)
+
+                int obatSudahAda = 0;
+                for (int k = 0; k < pasien->jumlahObat && !obatSudahAda; k++)
                 {
-                    if (pasien->obat[i] == obatList.obats[j].id)
+                    if (pasien->obat[k] == obatList.obats[j].id)
                     {
                         obatSudahAda = 1;
                     }
-                    else
-                    {
-                        ctr++;
-                    }
                 }
-                if (obatSudahAda == 0)
-                {
 
+                if (!obatSudahAda)
+                {
                     pasien->obat[pasien->jumlahObat++] = obatList.obats[j].id;
                 }
-                // printf("%d %s\n", obatList.obats[j].id, obatList.obats[j].nama);
                 count++;
                 break;
             }
         }
     }
+
     for (int i = 0; i < count; i++)
     {
         strcpy(arrayUrutanObat[i], namaObat[i]);
-        printf("%d %s\n", idxObat[i], namaObat[i]);
+        pasien->urutanNgobat[i] = GetObatByName(obatList, namaObat[i]).id;
+        printf("%d. %s\n", idxObat[i], namaObat[i]);
     }
 }
 
@@ -160,8 +178,8 @@ void LoadObat(ObatList *obatList, char *inputFolder)
 
         // Kolom Data terakhir
         currentData[current] = '\0';
-        strcpy(obat.nama, strlen(currentData) > 0 ? currentData : "-");
-
+        strncpy(obat.nama, strlen(currentData) > 0 ? currentData : "-", sizeof(obat.nama) - 1);
+        obat.nama[sizeof(obat.nama) - 1] = '\0'; // pastikan null-terminated
         obatList->obats[count] = obat;
         count++;
     }
@@ -271,4 +289,38 @@ void SaveObat(char *folderAsal, char *folderTujuan)
     }
     fclose(fAsal);
     fclose(fTujuan);
+}
+
+void MinumObat(ObatList obatList, User *user, char arrNamaObat[][500])
+{
+    if (user->jumlahObat == 0)
+    {
+        printf("Anda tidak memiliki obat di inventory\n");
+    }
+    else
+    {
+        // printf("============ DAFTAR OBAT ============\n");
+        // for (int i = 0; i < session.currentUser.jumlahObat; i++)
+        // {
+        //     printf("%d. %s\n", i + 1, GetObatById(obatList, session.currentUser.obat[i]).nama);
+        // }
+        int N;
+        do
+        {
+            printf("\n>>> Pilih obat untuk diminum: ");
+            scanf("%d", &N);
+            if (N > user->jumlahObat || N <= 0)
+            {
+                printf("Pilihan nomor tidak tersedia!\n");
+            }
+        } while (N > user->jumlahObat || N <= 0);
+        printf("Obat berhasil diminum!\n");
+        Push(&user->perut, GetObatById(obatList, user->obat[N - 1]));
+        user->jumlahObatMasukPerut++;
+        for (int i = N - 1; i < user->jumlahObat - 1; i++)
+        {
+            user->obat[i] = user->obat[i + 1];
+        }
+        user->jumlahObat--;
+    }
 }

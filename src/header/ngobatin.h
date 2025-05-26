@@ -8,7 +8,7 @@
 
 #define OBAT_CAPACITY 500
 #define VAL_UNDEF "-"
-#define STR_LENGTH 100
+#define STR_LENGTH 500
 
 /* Definisi ADT Map Obat-Penyakit beserta ADT List Obat */
 
@@ -50,19 +50,24 @@ ObatEntry GetObatEntry(ObatMap obatMap, int i);
 // Mereturn obat pada indeks ke-i dalam list obat
 Obat GetObat(ObatList obatList, int i);
 
-// Mereturn obat sesuai dengan id yang diberikans
+// Mereturn obat sesuai dengan id yang diberikan
 Obat GetObatById(ObatList obatList, int idx);
+
+// Mereturn obat seusai dengan nama yang diberikan
+Obat GetObatByName(ObatList obatList, const char *namaPenyakit);
 
 // Mencari indeks dari obat berdasarkan nama penyakit
 int SearchObatIndex(ObatMap obatMap, const char *penyakit);
 
 // Mencetak obat-obatan yang harus dikonsumsi berdasarkan penyakit
-void PrintObat(ObatMap obatMap, int penyakitId, ObatList obatList, const char *namaPenyakit, char arrayUrutanObat[][100], User *pasien);
+void PrintObat(ObatMap obatMap, int penyakitId, ObatList obatList, const char *namaPenyakit, char arrayUrutanObat[][500], User *pasien);
 
 void LoadObat(ObatList *obatList, char *inputFolder);
 
 void LoadObatMap(ObatMap *obatMap, char *inputFolder);
 
 void SaveObat(char *folderAsal, char *folderTujuan);
+
+void MinumObat(ObatList obatList, User *user, char arrayNamaObat[][500]);
 
 #endif

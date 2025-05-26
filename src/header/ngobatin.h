@@ -50,11 +50,14 @@ ObatEntry GetObatEntry(ObatMap obatMap, int i);
 // Mereturn obat pada indeks ke-i dalam list obat
 Obat GetObat(ObatList obatList, int i);
 
+// Mereturn obat sesuai dengan id yang diberikans
+Obat GetObatById(ObatList obatList, int idx);
+
 // Mencari indeks dari obat berdasarkan nama penyakit
 int SearchObatIndex(ObatMap obatMap, const char *penyakit);
 
 // Mencetak obat-obatan yang harus dikonsumsi berdasarkan penyakit
-void PrintObat(ObatMap obatMap, int penyakitId, ObatList obatList, const char *namaPenyakit, char arrayUrutanObat[][100]);
+void PrintObat(ObatMap obatMap, int penyakitId, ObatList obatList, const char *namaPenyakit, char arrayUrutanObat[][100], User *pasien);
 
 void LoadObat(ObatList *obatList, char *inputFolder);
 

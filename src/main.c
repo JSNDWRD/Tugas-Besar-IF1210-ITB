@@ -34,7 +34,6 @@ int main(int argc, char *argv[])
     ObatMap obatMap;
     LoadObatMap(&obatMap, folder);
 
-
     CommandList commandList; // Daftar command yang dapat digunakan
 
     const char *COMMAND_READY[COMMAND_CAPACITY] = {
@@ -344,7 +343,7 @@ int main(int argc, char *argv[])
                                     {
                                         printf("%s memiliki penyakit %s!\n", userList.users[i].username, namaPenyakit);
                                         int penyakitId = GetPenyakitID(penyakitList, namaPenyakit);
-                                        PrintObat(obatMap, penyakitId, obatList, namaPenyakit, arrayUrutanObat);
+                                        PrintObat(obatMap, penyakitId, obatList, namaPenyakit, arrayUrutanObat, &userList.users[i]);
                                     }
                                     userList.users[i].ngobatin = 1;
                                     found = 1;
@@ -434,10 +433,45 @@ int main(int argc, char *argv[])
             DaftarCheckup(&userList, &session, &denahRumahSakit);
             break;
         case PULANGDOK:
+            if (strcmp(session.currentUser.role, "pasien") == 0)
+            {
+                // printf("");
+            }
+            else
+            {
+                printf("Akses ditolak. Fitur ini hanya dapat diakses oleh pasien.\n");
+            }
             break;
         case MINUM_OBAT:
+            if (strcmp(session.currentUser.role, "pasien") == 0)
+            {
+                if (session.currentUser.ngobatin == 0)
+                {
+                    printf("Anda belum diobati oleh dokter!\n");
+                }
+                else
+                {
+                    printf("============ DAFTAR OBAT ============\n");
+                    for (int i = 0; i < session.currentUser.jumlahObat; i++)
+                    {
+                        printf("%d. %s\n", i + 1, GetObatById(obatList, session.currentUser.obat[i]).nama);
+                    }
+                }
+            }
+            else
+            {
+                printf("Akses ditolak. Fitur ini hanya dapat diakses oleh pasien.\n");
+            }
             break;
         case PENAWAR:
+            if (strcmp(session.currentUser.role, "pasien") == 0)
+            {
+                // printf("");
+            }
+            else
+            {
+                printf("Akses ditolak. Fitur ini hanya dapat diakses oleh pasien.\n");
+            }
             break;
         default:
             printf("Command tidak ditemukan.\n");

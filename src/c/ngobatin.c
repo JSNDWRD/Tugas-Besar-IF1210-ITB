@@ -12,9 +12,24 @@ ObatEntry GetObatEntry(ObatMap obatMap, int i);
 
 Obat GetObat(ObatList obatList, int i);
 
+Obat GetObatById(ObatList obatList, int idx)
+{
+    for (int i = 0; i < obatList.length; i++)
+    {
+        if (obatList.obats[i].id == idx)
+        {
+            return obatList.obats[i];
+        }
+    }
+    Obat tidakDitemukan;
+    tidakDitemukan.id = -1;
+    strcpy(tidakDitemukan.nama, "");
+    return tidakDitemukan;
+}
+
 int SearchObatIndex(ObatMap obatMap, const char *penyakit);
 
-void PrintObat(ObatMap obatMap, int penyakitId, ObatList obatList, const char *namaPenyakit, char arrayUrutanObat[][100])
+void PrintObat(ObatMap obatMap, int penyakitId, ObatList obatList, const char *namaPenyakit, char arrayUrutanObat[][100], User *pasien)
 {
     if (penyakitId == -1)
     {
@@ -60,6 +75,23 @@ void PrintObat(ObatMap obatMap, int penyakitId, ObatList obatList, const char *n
                     idxObat[count] = i + 1;
                 }
                 strcpy(namaObat[count], obatList.obats[j].nama);
+                int obatSudahAda = 0, ctr = 0;
+                while (ctr < pasien->jumlahObat && obatSudahAda == 0)
+                {
+                    if (pasien->obat[i] == obatList.obats[j].id)
+                    {
+                        obatSudahAda = 1;
+                    }
+                    else
+                    {
+                        ctr++;
+                    }
+                }
+                if (obatSudahAda == 0)
+                {
+
+                    pasien->obat[pasien->jumlahObat++] = obatList.obats[j].id;
+                }
                 // printf("%d %s\n", obatList.obats[j].id, obatList.obats[j].nama);
                 count++;
                 break;

@@ -1,3 +1,5 @@
 build/
 main
 .vscode
+src/c/adt
+src/header/adt

@@ -56,6 +56,6 @@ bool SetElement(Matrix *M, int row, int col, Ruangan value);
 // Inisialisasi semua elemen matrix M dengan <Huruf><Angka>
 void InisialisasiNamaRuangan(Matrix *M);
 
-void printAntrianRuangan(Ruangan ruangan, UserList userList);
+void printAntrianRuangan(Ruangan ruangan, UserList *userList);
 
 #endif

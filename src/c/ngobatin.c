@@ -68,9 +68,9 @@ void PrintObat(ObatMap obatMap, int penyakitId, ObatList obatList, const char *n
     }
 
     int panjangNgobat = 0;
-    for (int i = 0; i < obatMap.length; i++)
+    for (int i = 0; i < obatMap.buffer[idx].urutan; i++)
     {
-        if (obatMap.buffer[i].penyakitId == idx)
+        if (obatMap.buffer[idx].obatId[i] != -1)
         {
             panjangNgobat++;
         }
@@ -203,10 +203,12 @@ void LoadObatMap(ObatMap *obatMap, char *inputFolder)
     char baris[1024];
     fgets(baris, sizeof(baris), fObatMap); // skip header
 
-    obatMap->length = 0;
+    obatMap->banyakObat = 0;
+    int banyakObat = 0;
 
     while (fgets(baris, sizeof(baris), fObatMap))
     {
+        banyakObat++;
         int obatId = -1, penyakitId = -1, urutan = -1;
         int i = 0, current = 0, kolomData = 0;
         char currentData[100];
@@ -271,6 +273,7 @@ void LoadObatMap(ObatMap *obatMap, char *inputFolder)
         if (obatMap->buffer[idx].urutan < urutan)
             obatMap->buffer[idx].urutan = urutan;
     }
+    obatMap->banyakObat = banyakObat;
     fclose(fObatMap);
 }
 

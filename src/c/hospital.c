@@ -173,6 +173,11 @@ void LoadConfig(Matrix *denahHospital, char *inputFolder, UserList *userList)
                 break;
             }
         }
+        if (indexinventory == -1) {
+            printf("User id %d tidak ada.\n", angka[0]);
+            continue;
+        }
+        
         userList->users[indexinventory].jumlahObat = cnt - 1;
         for (int i = 1; i < cnt; i++)
         {
@@ -218,6 +223,10 @@ void LoadConfig(Matrix *denahHospital, char *inputFolder, UserList *userList)
                 break;
             }
         }
+        if (indexPerut == -1) {
+            printf("User id %d tidak ada.\n", angka[0]);
+            continue;
+        }
         userList->users[indexPerut].jumlahObatMasukPerut = cnt -1;
         Stack *PerutPasien = &userList->users[indexPerut].perut;
         CreateEmptyStack(PerutPasien);
@@ -230,7 +239,7 @@ void LoadConfig(Matrix *denahHospital, char *inputFolder, UserList *userList)
 
     fclose(fDenah);
 }
-/* Membaca file eksternal dan memasukkan data config ke dalam denahHospital */
+
 void LihatDenah(Matrix *denahHospital)
 {
     int lebar = denahHospital->cols;
@@ -295,7 +304,7 @@ void UbahInput(char *input, int *row, int *col)
     *col -= 1;
 }
 
-void LihatRuangan(Matrix *denahHospital, char *input, UserList userList)
+void LihatRuangan(Matrix *denahHospital, char *input, UserList *userList)
 {
     int row, col;
     UbahInput(input, &row, &col);
@@ -314,17 +323,17 @@ void LihatRuangan(Matrix *denahHospital, char *input, UserList userList)
 
     char dokter[MAX_USERNAME_LENGTH] = "Tidak Ada";
     // Cari userList dengan role dokter dan id yang sesuai
-    for (int i = 0; i < userList.count; i++)
+    for (int i = 0; i < userList->count; i++)
     {
-        if (userList.users[i].id == r->dokter)
+        if (userList->users[i].id == r->dokter)
         {
-            if (strcmp(userList.users[i].role, "dokter") == 0)
+            if (strcmp(userList->users[i].role, "dokter") == 0)
             {
-                strcpy(dokter, userList.users[i].username);
+                strcpy(dokter, userList->users[i].username);
             }
             else
             {
-                printf("ID %d bukanlah id dokter\n", userList.users[i].id);
+                printf("ID %d bukanlah id dokter\n", userList->users[i].id);
             }
             break;
         }
@@ -354,11 +363,11 @@ void LihatRuangan(Matrix *denahHospital, char *input, UserList userList)
         {
             // cari nama pasien berdasarkan id
             char pasien[MAX_USERNAME_LENGTH] = "Tidak Diketahui";
-            for (int j = 0; j < userList.count; j++)
+            for (int j = 0; j < userList->count; j++)
             {
-                if (userList.users[j].id == n->data && strcmp(userList.users[j].role, "pasien") == 0)
+                if (userList->users[j].id == n->data && strcmp(userList->users[j].role, "pasien") == 0)
                 {
-                    strcpy(pasien, userList.users[j].username);
+                    strcpy(pasien, userList->users[j].username);
                     break;
                 }
             }

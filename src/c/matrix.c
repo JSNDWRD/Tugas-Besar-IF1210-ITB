@@ -97,18 +97,20 @@ void InisialisasiNamaRuangan(Matrix *M)
     }
 }
 
-void printAntrianRuangan(Ruangan ruangan, UserList userList)
+void printAntrianRuangan(Ruangan ruangan, UserList *userList)
 {
     Node *curr = ruangan.antrianPasien.head;
-    for (int i = 0; i < ruangan.jumlahPasienDalamRuangan; i++)
-    {
+    for (int i = 0; i < ruangan.jumlahPasienDalamRuangan; i++) {
+        if (curr == NULL) {
+            break;
+        }
         curr = curr->next;
     }
     printf("Pasien di antrian:\n");
     int count = 0;
     while (curr != NULL)
     {
-        printf("%d. %s\n", count + 1, GetUserById(&userList, curr->data).username);
+        printf("%d. %s\n", count + 1, GetUserById(userList, curr->data).username);
         curr = curr->next;
         count++;
     }

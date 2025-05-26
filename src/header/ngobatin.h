@@ -25,6 +25,7 @@ typedef struct
 {
     ObatEntry buffer[500];
     int length;
+    int banyakObat;
 } ObatMap;
 
 // List

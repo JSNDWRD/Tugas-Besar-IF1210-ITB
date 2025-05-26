@@ -443,29 +443,47 @@ int main(int argc, char *argv[])
                 {
                     if (session.currentUser.jumlahObatMasukPerut >= session.currentUser.jumlahNgobat)
                     {
-                        // Cek apakah urutan obat yang diminum sesuai dengan yang diresepkan
-                        int benar = 1;
-                        if (session.currentUser.perut.top + 1 != session.currentUser.jumlahNgobat)
+                        int benar = 1; // Nilai cek apakah urutan minum dengan resep sudah cocok atau belum
+                        for (int i = 0; i < session.currentUser.jumlahNgobat; i++)
                         {
-                            benar = 0; // Jumlah obat yang diminum tidak sesuai
-                        }
-                        else
-                        {
-                            for (int i = 0; i < session.currentUser.jumlahNgobat; i++)
+                            if (session.currentUser.perut.obat[i + 1].id != session.currentUser.urutanNgobat[i])
                             {
-                                int idxStack = i; // Check from bottom to top
-                                if (session.currentUser.perut.obat[idxStack].id != session.currentUser.urutanNgobat[i])
+                                benar = 0;
+                                break;
+                            }
+                        }
+                        if (benar == 1)
+                        {
+                            printf("Selamat! Kamu sudah dinyatakan sembuh oleh dokter. Silahkan pulang dan semoga sehat selalu!\n");
+                            for (int i = 0; i < denahRumahSakit.rows; i++)
+                            {
+                                for (int j = 0; j < denahRumahSakit.cols; j++)
                                 {
-                                    benar = 0;
-                                    break;
+                                    Node *curr = denahRumahSakit.data[i][j].antrianPasien.head;
+                                    while (curr != NULL)
+                                    {
+                                        if (curr->data == session.currentUser.id)
+                                        {
+                                            int idKeluar = dequeue(&denahRumahSakit.data[i][j].antrianPasien);
+                                            if (denahRumahSakit.data[i][j].jumlahPasienDalamRuangan > 0)
+                                            {
+                                                denahRumahSakit.data[i][j].jumlahPasienDalamRuangan--;
+                                            }
+                                            if (denahRumahSakit.data[i][j].jumlahPasienDiAntrian > 0)
+                                            {
+                                                denahRumahSakit.data[i][j].jumlahPasienDiAntrian--;
+                                            }
+                                            printf("Pasien dengan ID %d telah keluar dari antrian.\n", idKeluar);
+                                            session.currentUser.ngobatin = 0;
+                                            session.currentUser.diagnosa = 0;
+                                            break;
+                                        }
+                                        curr = curr->next;
+                                    }
                                 }
                             }
                         }
-                        if (benar)
-                        {
-                            printf("Selamat! Kamu sudah dinyatakan sembuh oleh dokter. Silahkan pulang dan semoga sehat selalu!\n");
-                        }
-                        else if (!benar)
+                        else if (benar == 0)
                         {
                             printf("Maaf, tapi kamu masih belum bisa pulang!\n");
                             printf("Urutan peminuman obat yang diharapkan:\n");
@@ -481,7 +499,7 @@ int main(int argc, char *argv[])
                             printf("Urutan peminum obat Anda:\n");
                             for (int i = 0; i < session.currentUser.jumlahObatMasukPerut; i++)
                             {
-                                printf("%d", session.currentUser.perut.obat[i].id);
+                                printf("%d", session.currentUser.perut.obat[i + 1].id);
                                 if (i < session.currentUser.jumlahObatMasukPerut - 1)
                                 {
                                     printf(" -> ");

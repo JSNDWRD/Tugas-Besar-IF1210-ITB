@@ -97,7 +97,7 @@ void InisialisasiNamaRuangan(Matrix *M)
     }
 }
 
-void printAntrianRuangan(Ruangan ruangan, UserList userList)
+void printAntrianRuangan(Ruangan ruangan, UserList *userList)
 {
     Node *curr = ruangan.antrianPasien.head;
     for (int i = 0; i < ruangan.jumlahPasienDalamRuangan; i++)
@@ -108,7 +108,7 @@ void printAntrianRuangan(Ruangan ruangan, UserList userList)
     int count = 0;
     while (curr != NULL)
     {
-        printf("%d. %s\n", count + 1, GetUserById(&userList, curr->data).username);
+        printf("%d. %s\n", count + 1, GetUserById(userList, curr->data).username);
         curr = curr->next;
         count++;
     }

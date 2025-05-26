@@ -214,7 +214,7 @@ int main(int argc, char *argv[])
                 // if(ruangan[0] == '\0'){
                 //     printf("Ruangan tidak ditemukan.\n");
                 // } else {
-                LihatRuangan(&denahRumahSakit, ruangan, userList);
+                LihatRuangan(&denahRumahSakit, ruangan, &userList);
                 // }
             }
             else
@@ -407,8 +407,8 @@ int main(int argc, char *argv[])
                         UbahInput(ruangan, &row, &col);
                         if (denahRumahSakit.data[row][col].dokter != -1)
                         {
-                            LihatRuangan(&denahRumahSakit, ruangan, userList);
-                            printAntrianRuangan(denahRumahSakit.data[i][j], userList);
+                            LihatRuangan(&denahRumahSakit, ruangan, &userList);
+                            printAntrianRuangan(denahRumahSakit.data[row][col], &userList);
                             printf("\n");
                         }
                     }

@@ -18,7 +18,7 @@ void UbahInput(char *input, int *row, int *col);
 void LihatDenah(Matrix *denahHospital);
 
 /*Untuk lihat ruangan yang sesuai*/
-void LihatRuangan(Matrix *denahHospital, char *input, UserList userlist);
+void LihatRuangan(Matrix *denahHospital, char *input, UserList *userlist);
 
 /* Menyimpan matrix denahHospital ke dalam file eksternal config.txt */
 void SaveConfig(Matrix *denahHospital, char* inputFolder, UserList *userlist);

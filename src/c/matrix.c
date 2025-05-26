@@ -100,8 +100,10 @@ void InisialisasiNamaRuangan(Matrix *M)
 void printAntrianRuangan(Ruangan ruangan, UserList *userList)
 {
     Node *curr = ruangan.antrianPasien.head;
-    for (int i = 0; i < ruangan.jumlahPasienDalamRuangan; i++)
-    {
+    for (int i = 0; i < ruangan.jumlahPasienDalamRuangan; i++) {
+        if (curr == NULL) {
+            break;
+        }
         curr = curr->next;
     }
     printf("Pasien di antrian:\n");

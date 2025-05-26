@@ -173,6 +173,11 @@ void LoadConfig(Matrix *denahHospital, char *inputFolder, UserList *userList)
                 break;
             }
         }
+        if (indexinventory == -1) {
+            printf("User id %d tidak ada.\n", angka[0]);
+            continue;
+        }
+        
         userList->users[indexinventory].jumlahObat = cnt - 1;
         for (int i = 1; i < cnt; i++)
         {
@@ -218,6 +223,10 @@ void LoadConfig(Matrix *denahHospital, char *inputFolder, UserList *userList)
                 break;
             }
         }
+        if (indexPerut == -1) {
+            printf("User id %d tidak ada.\n", angka[0]);
+            continue;
+        }
         userList->users[indexPerut].jumlahObatMasukPerut = cnt -1;
         Stack *PerutPasien = &userList->users[indexPerut].perut;
         CreateEmptyStack(PerutPasien);
@@ -230,7 +239,7 @@ void LoadConfig(Matrix *denahHospital, char *inputFolder, UserList *userList)
 
     fclose(fDenah);
 }
-/* Membaca file eksternal dan memasukkan data config ke dalam denahHospital */
+
 void LihatDenah(Matrix *denahHospital)
 {
     int lebar = denahHospital->cols;

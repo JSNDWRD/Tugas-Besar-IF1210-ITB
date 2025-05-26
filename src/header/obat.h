@@ -18,6 +18,6 @@ void MinumPenawar(User *user);
 bool IsUrut(ObatList urutanObat, Stack perut);
 
 //
-void PulangDok(User *user, Session *session, ObatList urutanObat, ObatList obatList);
+void PulangDok(Session *session, ObatList urutanObat, ObatList obatList);
 
 #endif

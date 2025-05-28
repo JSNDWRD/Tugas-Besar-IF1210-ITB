@@ -142,7 +142,7 @@ int main(int argc, char *argv[])
                 scanf("%s", inputFolder);
                 sprintf(command, "[ -d %s ] || mkdir %s", inputFolder, inputFolder);
                 system(command);
-                SaveUsers(userList, inputFolder);
+                SaveUsers(&userList, inputFolder);
                 SaveObat(folder, inputFolder);
                 SavePenyakit(folder, inputFolder);
                 SaveConfig(&denahRumahSakit, inputFolder, &userList);
@@ -155,7 +155,7 @@ int main(int argc, char *argv[])
             scanf("%s", inputFolder);
             sprintf(command, "[ -d %s ] || mkdir %s", inputFolder, inputFolder);
             system(command);
-            SaveUsers(userList, inputFolder);
+            SaveUsers(&userList, inputFolder);
             SaveObat(folder, inputFolder);
             SavePenyakit(folder, inputFolder);
             SaveConfig(&denahRumahSakit, inputFolder, &userList);
@@ -476,6 +476,16 @@ int main(int argc, char *argv[])
                                             printf("Pasien dengan ID %d telah keluar dari antrian.\n", idKeluar);
                                             session.currentUser.ngobatin = 0;
                                             session.currentUser.diagnosa = 0;
+                                            session.currentUser.suhuTubuh = -1;
+                                            session.currentUser.tekananDarahSistolik = -1;
+                                            session.currentUser.tekananDarahDiastolik = -1;
+                                            session.currentUser.detakJantung = -1;
+                                            session.currentUser.saturasiOksigen = -1;
+                                            session.currentUser.kadarGulaDarah = -1;
+                                            session.currentUser.beratBadan = -1;
+                                            session.currentUser.tinggiBadan = -1;
+                                            session.currentUser.kadarKolesterol = -1;
+                                            session.currentUser.trombosit = -1;
                                             break;
                                         }
                                         curr = curr->next;

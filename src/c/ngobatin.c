@@ -204,6 +204,7 @@ void LoadObatMap(ObatMap *obatMap, char *inputFolder)
     fgets(baris, sizeof(baris), fObatMap); // skip header
 
     obatMap->banyakObat = 0;
+    obatMap->length = 0;
     int banyakObat = 0;
 
     while (fgets(baris, sizeof(baris), fObatMap))

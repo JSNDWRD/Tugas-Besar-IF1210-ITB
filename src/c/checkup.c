@@ -271,11 +271,11 @@ void LihatAntrianSaya(UserList *userList, Session *session, Matrix *denahRumahSa
                     int dokterId = ruangan->dokter;
                     User dokter = GetUserById(userList, dokterId);
 
-                    if (dokter.id == -1)
-                    {
-                        printf("\nError: Data dokter tidak valid!\n");
-                        return;
-                    }
+                    // if (dokter.id == -1)
+                    // {
+                    //     printf("\nError: Data dokter tidak valid!\n");
+                    //     return;
+                    // }
 
                     if (posisi - ruangan->kapasitasRuangan <= 0 || ruangan->antrianPasien.length - ruangan->kapasitasRuangan <= 0)
                     {

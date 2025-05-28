@@ -142,7 +142,7 @@ int main(int argc, char *argv[])
                 scanf("%s", inputFolder);
                 sprintf(command, "[ -d %s ] || mkdir %s", inputFolder, inputFolder);
                 system(command);
-                SaveUsers(userList, inputFolder);
+                SaveUsers(&userList, inputFolder);
                 SaveObat(folder, inputFolder);
                 SavePenyakit(folder, inputFolder);
                 SaveConfig(&denahRumahSakit, inputFolder, &userList);
@@ -155,7 +155,7 @@ int main(int argc, char *argv[])
             scanf("%s", inputFolder);
             sprintf(command, "[ -d %s ] || mkdir %s", inputFolder, inputFolder);
             system(command);
-            SaveUsers(userList, inputFolder);
+            SaveUsers(&userList, inputFolder);
             SaveObat(folder, inputFolder);
             SavePenyakit(folder, inputFolder);
             SaveConfig(&denahRumahSakit, inputFolder, &userList);

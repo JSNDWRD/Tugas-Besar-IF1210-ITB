@@ -323,16 +323,16 @@ void LoadUsers(UserList *userList, char *inputFolder)
     // }
 }
 
-void SaveUsers(UserList userList, char *inputFolder)
+void SaveUsers(UserList *userList, char *inputFolder)
 {
     char outputPath[256];
     strcpy(outputPath, inputFolder);
     strcat(outputPath, "/user.csv");
     FILE *fUserList = fopen(outputPath, "w");
     fprintf(fUserList, "id;username;password;role;riwayat_penyakit;suhu_tubuh;tekanan_darah_sistolik;tekanan_darah_diastolik;detak_jantung;saturasi_oksigen;kadar_gula_darah;berat_badan;tinggi_badan;kadar_kolesterol;trombosit\n");
-    for (int i = 0; i < userList.count; i++)
+    for (int i = 0; i < userList->count; i++)
     {
-        User user = userList.users[i];
+        User user = userList->users[i];
         char suhu[32], sistolik[32], diastolik[32], detak[32], saturasi[32], gula[32], berat[32], tinggi[32], kolesterol[32], trombosit[32];
         sprintf(suhu, "%.2f", user.suhuTubuh);
         sprintf(sistolik, "%d", user.tekananDarahSistolik);

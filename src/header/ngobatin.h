@@ -4,17 +4,13 @@
 #include <stdio.h>
 #include <string.h>
 #include "./utils.h"
+#include "./types.h"
 
 #define OBAT_CAPACITY 500
 #define VAL_UNDEF "-"
 #define STR_LENGTH 500
 
 /* Definisi ADT Map Obat-Penyakit beserta ADT List Obat */
-
-typedef struct {
-    int id;
-    char nama[STR_LENGTH];
-} Obat;
 
 // Elemen Map berdasarkan penyakitId
 typedef struct

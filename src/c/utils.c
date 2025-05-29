@@ -17,12 +17,9 @@ void ToLower(char *target, char *str)
     target[i] = '\0';
 }
 
-void ToLowerCase(char *str)
-{
-    for (int i = 0; str[i]; i++)
-    {
-        if (str[i] >= 'A' && str[i] <= 'Z')
-        {
+void ToLowerCase(char *str) {
+    for (int i = 0; str[i]; i++) {
+        if (str[i] >= 'A' && str[i] <= 'Z') {
             str[i] += ('a' - 'A');
         }
     }

@@ -296,13 +296,11 @@ void UbahInput(char *input, int *row, int *col)
     *col -= 1;
 }
 
-void LihatRuangan(Matrix *denahHospital, char *input, UserList *userList)
-{
+void LihatRuangan(Matrix *denahHospital, char *input, UserList *userList) {
     int row, col;
     UbahInput(input, &row, &col);
 
-    if (row < 0 || row >= denahHospital->rows || col < 0 || col >= denahHospital->cols)
-    {
+    if (row < 0 || row >= denahHospital->rows || col < 0 || col >= denahHospital->cols) {
         printf("Ruangan %s tidak ditemukan.\n", input);
         return;
     }

@@ -18,19 +18,14 @@ void LoadConfig(Matrix *denahHospital, char *inputFolder, UserList *userList)
     fgets(baris, sizeof(baris), fDenah);
 
     int i = 0, count = 0, temp = 0;
-    while (baris[i] != '\0' && baris[i] != '\n')
-    {
-        if (baris[i] >= '0' && baris[i] <= '9')
-        {
+    while(baris[i] != '\0' && baris[i] != '\n'){
+        if(baris[i] >= '0' && baris[i] <= '9'){
             temp = temp * 10 + (baris[i] - '0');
         }
-        else
-        {
-            if (count == 0)
-                denahHospital->rows = temp;
-            else
-                denahHospital->cols = temp;
-            count++;
+        else{
+            if(count == 0) denahHospital->rows = temp;
+            else if (count == 1) denahHospital->cols = temp;
+            count ++;
             temp = 0;
         }
         i++;
@@ -53,10 +48,8 @@ void LoadConfig(Matrix *denahHospital, char *inputFolder, UserList *userList)
         }
         else
         {
-            if (count == 0)
-                kapasitasRuangan = temp;
-            else
-                kapasitasAntrian = temp;
+            if (count == 0) kapasitasRuangan = temp;
+            else if(count == 1) kapasitasAntrian = temp;
             count++;
             temp = 0;
         }
@@ -244,7 +237,6 @@ void LihatDenah(Matrix *denahHospital)
 {
     int lebar = denahHospital->cols;
     int panjang = denahHospital->rows;
-
     // Header kolom angka
     printf(" ");
     for (int j = 0; j < lebar; j++)
@@ -304,13 +296,11 @@ void UbahInput(char *input, int *row, int *col)
     *col -= 1;
 }
 
-void LihatRuangan(Matrix *denahHospital, char *input, UserList *userList)
-{
+void LihatRuangan(Matrix *denahHospital, char *input, UserList *userList) {
     int row, col;
     UbahInput(input, &row, &col);
 
-    if (row < 0 || row >= denahHospital->rows || col < 0 || col >= denahHospital->cols)
-    {
+    if (row < 0 || row >= denahHospital->rows || col < 0 || col >= denahHospital->cols) {
         printf("Ruangan %s tidak ditemukan.\n", input);
         return;
     }

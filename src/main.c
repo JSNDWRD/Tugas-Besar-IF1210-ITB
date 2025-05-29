@@ -10,12 +10,10 @@
 #include "./header/diagnosis.h"
 #include "./header/ngobatin.h"
 
-int main(int argc, char *argv[])
-{
+int main(int argc, char *argv[]) {
     UserList userList; // Daftar pengguna
     char folder[50];
-    if (argc < 2)
-    {
+    if (argc < 2) {
         printf("Tidak ada nama folder yang diberikan!\n");
         return 0;
     }
@@ -38,8 +36,7 @@ int main(int argc, char *argv[])
 
     const char *COMMAND_READY[COMMAND_CAPACITY] = {
         "HELP", "LOGIN", "LOGOUT", "REGISTER", "EXIT", "LUPA_PASSWORD", "LIHAT_USER", "LIHAT_PASIEN", "LIHAT_DOKTER", "CARI_USER", "CARI_PASIEN", "CARI_DOKTER", "TAMBAH_DOKTER", "LIHAT_DENAH", "LIHAT_RUANGAN", "ASSIGN_DOKTER", "DIAGNOSIS", "NGOBATIN", "LIHAT_SEMUA_ANTRIAN", "SAVE", "DAFTAR_CHECKUP", "ANTRIAN", "MINUM_OBAT", "PENAWAR", "PULANGDOK"};
-    enum Command
-    {
+    enum Command {
         HELP = 1,
         LOGIN,
         LOGOUT,
@@ -70,47 +67,39 @@ int main(int argc, char *argv[])
     CreateCommandList(&commandList, COMMAND_READY); // Membuat List Statik yang berisikan command yang tersedia
 
     char arrayUrutanObat[OBAT_CAPACITY][500];
-    for (int i = 0; i < 1000; i++)
-    {
+    for (int i = 0; i < 1000; i++) {
         strcpy(arrayUrutanObat[i], ""); // Inisialisasi arrayUrutanObat
     }
 
     Session session = {.loggedIn = 0}; // Ketika program mulai, session adalah logged out
     int command = 0;
     char input[50]; // Input command
-    do
-    {
+    do {
         int valid = 0;
-        do
-        {
+        do {
             printf("\n>>> Input Command: ");
             scanf(" %[^\n]", input);
             char commandAwal[50];
             int i = 0;
-            while (input[i] != '\0' && input[i] != ' ' && i < sizeof(commandAwal) - 1)
-            {
+            while (input[i] != '\0' && input[i] != ' ' && i < sizeof(commandAwal) - 1) {
                 commandAwal[i] = input[i];
                 i++;
             }
             commandAwal[i] = '\0';
             ToUpperCase(commandAwal);
-            for (int i = 0; i < COMMAND_CAPACITY; i++)
-            {
-                if (strcmp(commandAwal, ELMTNAME(commandList, i)) == 0)
-                {
+            for (int i = 0; i < COMMAND_CAPACITY; i++) {
+                if (strcmp(commandAwal, ELMTNAME(commandList, i)) == 0) {
                     valid = 1;
                     command = ELMTKEY(commandList, i);
                     break;
                 }
             }
-            if (!valid)
-            {
+            if (!valid) {
                 printf("Perintah tidak ditemukan, silakan input ulang.\n");
             }
         } while (valid == 0);
 
-        switch (command)
-        {
+        switch (command) {
         case HELP:
             Help(session);
             break;
@@ -128,14 +117,12 @@ int main(int argc, char *argv[])
             break;
         case EXIT:
             char simpan[10];
-            do
-            {
+            do {
                 printf("Apakah Anda mau melakukan penyimpanan file yang sudah diubah? (y/n) ");
                 scanf("%s", simpan);
                 ToLowerCase(simpan); // Ubah ke huruf kecil
             } while (strcmp(simpan, "y") != 0 && strcmp(simpan, "n") != 0);
-            if (strcmp(simpan, "y") == 0)
-            {
+            if (strcmp(simpan, "y") == 0) {
                 char command[256];
                 char inputFolder[100];
                 printf("\nMasukkan nama folder: ");
@@ -182,30 +169,24 @@ int main(int argc, char *argv[])
             TambahDokter(&userList, &session);
             break;
         case LIHAT_DENAH:
-            if (session.loggedIn != 1)
-            {
+            if (session.loggedIn != 1) {
                 printf("Anda harus login terlebih dahulu!");
             }
-            else
-            {
+            else {
                 LihatDenah(&denahRumahSakit);
             }
             break;
         case LIHAT_RUANGAN:
-            if (session.loggedIn == 1)
-            {
+            if (session.loggedIn == 1) {
                 char ruangan[10];
                 int i = 0, j = 0;
-                while (input[i] != '\0' && input[i] != ' ')
-                {
+                while (input[i] != '\0' && input[i] != ' ') {
                     i++;
                 }
-                if (input[i] == ' ')
-                {
+                if (input[i] == ' ') {
                     i++;
                 }
-                while (input[i] != '\0' && j < sizeof(ruangan) - 1)
-                {
+                while (input[i] != '\0' && j < sizeof(ruangan) - 1) {
                     ruangan[j] = input[i];
                     i++;
                     j++;
@@ -217,31 +198,25 @@ int main(int argc, char *argv[])
                 LihatRuangan(&denahRumahSakit, ruangan, &userList);
                 // }
             }
-            else
-            {
+            else {
                 printf("Anda harus login terlebih dahulu!");
             }
             break;
         case ASSIGN_DOKTER:
-            if (session.loggedIn == 1)
-            {
-                if (strcmp(GetRole(&session.currentUser), "manager") == 0)
-                {
+            if (session.loggedIn == 1) {
+                if (strcmp(GetRole(&session.currentUser), "manager") == 0) {
                     AssignDokter(&userList, &denahRumahSakit);
                 }
-                else
-                {
+                else {
                     printf("Akses ditolak. Fitur ini hanya dapat diakses oleh manager.\n");
                 }
             }
-            else
-            {
+            else {
                 printf("Anda harus login terlebih dahulu!");
             }
             break;
         case DIAGNOSIS:
-            if (strcmp(session.currentUser.role, "dokter") == 0)
-            {
+            if (strcmp(session.currentUser.role, "dokter") == 0) {
                 // Diagnosis(session.currentUser,penyakitList);
                 int indeksRuangan[2];
                 SearchRuangan(session.currentUser.id, &denahRumahSakit, indeksRuangan);
@@ -301,39 +276,31 @@ int main(int argc, char *argv[])
                     }
                 }
             }
-            else
-            {
+            else {
                 printf("Akses ditolak. Fitur ini hanya dapat diakses oleh dokter.\n");
             }
             break;
         case NGOBATIN:
-            if (strcmp(session.currentUser.role, "dokter") == 0)
-            {
+            if (strcmp(session.currentUser.role, "dokter") == 0) {
                 // Diagnosis(session.currentUser,penyakitList);
                 int indeksRuangan[2];
                 SearchRuangan(session.currentUser.id, &denahRumahSakit, indeksRuangan);
 
-                if (indeksRuangan[0] == -1 && indeksRuangan[1] == -1)
-                {
+                if (indeksRuangan[0] == -1 && indeksRuangan[1] == -1) {
                     printf("Anda tidak ter-assign pada ruangan mana pun.\n");
                 }
-                else
-                {
+                else {
                     Ruangan *currentRuangan = GetRuangan(&denahRumahSakit, indeksRuangan[0], indeksRuangan[1]);
                     Node *current = currentRuangan->antrianPasien.head;
                     int found = 0;
                     int count = 0;
-                    while (current != NULL && count < currentRuangan->kapasitasRuangan)
-                    {
+                    while (current != NULL && count < currentRuangan->kapasitasRuangan) {
                         char namaPenyakit[256];
                         strcpy(namaPenyakit, "");
                         // Find the user in userList by ID
-                        for (int i = 0; i < userList.count; i++)
-                        {
-                            if (userList.users[i].id == current->data && strcmp(userList.users[i].role, "pasien") == 0)
-                            {
-                                if (userList.users[i].diagnosa == 1 && userList.users[i].ngobatin == 0)
-                                {
+                        for (int i = 0; i < userList.count; i++) {
+                            if (userList.users[i].id == current->data && strcmp(userList.users[i].role, "pasien") == 0) {
+                                if (userList.users[i].diagnosa == 1 && userList.users[i].ngobatin == 0) {
                                     Diagnosis(userList.users[i], penyakitList, namaPenyakit);
                                     if (strcmp(namaPenyakit, "") == 0)
                                     {
@@ -376,29 +343,23 @@ int main(int argc, char *argv[])
                     }
                 }
             }
-            else
-            {
+            else {
                 printf("Akses ditolak. Fitur ini hanya dapat diakses oleh dokter.\n");
             }
             break;
         case LIHAT_SEMUA_ANTRIAN:
-            if (strcmp(session.currentUser.role, "manager") == 0)
-            {
+            if (strcmp(session.currentUser.role, "manager") == 0) {
                 LihatDenah(&denahRumahSakit);
-                for (int i = 0; i < denahRumahSakit.rows; i++)
-                {
-                    for (int j = 0; j < denahRumahSakit.cols; j++)
-                    {
+                for (int i = 0; i < denahRumahSakit.rows; i++) {
+                    for (int j = 0; j < denahRumahSakit.cols; j++) {
                         char ruangan[8];
                         ruangan[0] = 'A' + i;
-                        if (j + 1 < 10)
-                        {
+                        if (j + 1 < 10) {
                             ruangan[1] = '1' + j;
                             ruangan[1] = '0' + (j + 1);
                             ruangan[2] = '\0';
                         }
-                        else
-                        {
+                        else {
                             ruangan[1] = '0' + ((j + 1) / 10);
                             ruangan[2] = '0' + ((j + 1) % 10);
                             ruangan[3] = '\0';
@@ -414,18 +375,15 @@ int main(int argc, char *argv[])
                     }
                 }
             }
-            else
-            {
+            else {
                 printf("Akses ditolak. Fitur ini hanya dapat diakses oleh manager.\n");
             }
             break;
         case ANTRIAN:
-            if (strcmp(session.currentUser.role, "pasien") == 0)
-            {
+            if (strcmp(session.currentUser.role, "pasien") == 0) {
                 LihatAntrianSaya(&userList, &session, &denahRumahSakit);
             }
-            else
-            {
+            else {
                 printf("Akses ditolak. Fitur ini hanya dapat diakses oleh pasien.\n");
             }
             break;
@@ -555,10 +513,8 @@ int main(int argc, char *argv[])
             }
             break;
         case PENAWAR:
-            if (strcmp(session.currentUser.role, "pasien") == 0)
-            {
-                if (session.currentUser.jumlahObatMasukPerut > 0)
-                {
+            if (strcmp(session.currentUser.role, "pasien") == 0) {
+                if (session.currentUser.jumlahObatMasukPerut > 0) {
                     Obat muntahin;
                     Pop(&session.currentUser.perut, &muntahin);
                     // Memasukkan obat kembali ke inventory
@@ -566,13 +522,11 @@ int main(int argc, char *argv[])
                     printf("Obat berhasil dimuntahkan dan dikembalikan ke inventory (ew), lain kali jangan makan obat sembarangan ya dek~\n");
                     session.currentUser.jumlahObatMasukPerut--;
                 }
-                else
-                {
+                else {
                     printf("Perut kosong!! Belum ada obat yang dimakan.\n");
                 }
             }
-            else
-            {
+            else {
                 printf("Akses ditolak. Fitur ini hanya dapat diakses oleh pasien.\n");
             }
             break;

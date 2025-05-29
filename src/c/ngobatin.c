@@ -297,27 +297,24 @@ void SaveObat(char *folderAsal, char *folderTujuan)
 
 void MinumObat(ObatList obatList, User *user, char arrNamaObat[][500])
 {
-    if (user->jumlahObat == 0)
-    {
+    if (user->jumlahObat == 0) {
         printf("Anda tidak memiliki obat di inventory\n");
     }
-    else
-    {
+    else {
         // printf("============ DAFTAR OBAT ============\n");
         // for (int i = 0; i < session.currentUser.jumlahObat; i++)
         // {
         //     printf("%d. %s\n", i + 1, GetObatById(obatList, session.currentUser.obat[i]).nama);
         // }
         int N;
-        do
-        {
+        do {
             printf("\n>>> Pilih obat untuk diminum: ");
             scanf("%d", &N);
-            if (N > user->jumlahObat || N <= 0)
-            {
+            if (N > user->jumlahObat || N <= 0) {
                 printf("Pilihan nomor tidak tersedia!\n");
             }
         } while (N > user->jumlahObat || N <= 0);
+        
         printf("Obat berhasil diminum!\n");
         Push(&user->perut, GetObatById(obatList, user->obat[N - 1]));
         user->jumlahObatMasukPerut++;

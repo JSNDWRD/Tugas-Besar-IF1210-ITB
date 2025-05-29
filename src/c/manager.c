@@ -1,31 +1,26 @@
 #include "../header/manager.h"
-#include <stdio.h>
+// #include <stdio.h>
 
-void SelectionSort(UserList *userList, int n, int basedOn, int order)
-{
+void SelectionSort(UserList *userList, int n, int basedOn, int order) {
     // n adalah jumlah elemen dalam array
     // basedOn = 1 -> sort by ID, basedOn = 2 -> sort by username
     // order = 1 -> ascending, order = 2 -> descending
 
     int i, j, idMin;
 
-    for (i = 0; i < n - 1; i++)
-    {
+    for (i = 0; i < n - 1; i++) {
         idMin = i;
-        for (j = i + 1; j < n; j++)
-        {
+        for (j = i + 1; j < n; j++) {
             // 'beda' adalah hasil perbandingan
             int beda;
 
-            if (basedOn == 1)
-            {
+            if (basedOn == 1) {
                 // jika negatif, berarti user j (user1) memiliki ID lebih kecil dari user idMin (user2)
                 User user1 = GetUserAt(userList, j);
                 User user2 = GetUserAt(userList, idMin);
                 beda = GetID(&user1) - GetID(&user2);
             }
-            else if (basedOn == 2)
-            {
+            else if (basedOn == 2) {
                 // strcmp mengembalikan nilai negatif jika str1 < str2,
                 // nilai nol jika sama, dan nilai positif jika str1 > str2
                 User user1 = GetUserAt(userList, j);
@@ -33,15 +28,13 @@ void SelectionSort(UserList *userList, int n, int basedOn, int order)
                 beda = strcmp(GetUsername(&user1), GetUsername(&user2));
             }
 
-            if ((order == 1 && beda < 0) || (order == 2 && beda > 0))
-            {
+            if ((order == 1 && beda < 0) || (order == 2 && beda > 0)) {
                 idMin = j;
             }
         }
 
         // swap di dalam loop
-        if (idMin != i)
-        {
+        if (idMin != i) {
             User temp = GetUserAt(userList, idMin);
             SetUserAt(userList, idMin, GetUserAt(userList, i));
             SetUserAt(userList, i, temp);
@@ -49,25 +42,21 @@ void SelectionSort(UserList *userList, int n, int basedOn, int order)
     }
 }
 
-void CariPilihan(int *pil)
-{
+void CariPilihan(int *pil) {
     *pil = 0;
 
-    do
-    { // validasi input
+    do { // validasi input
         printf("Cari berdasarkan:\n");
         printf("   1. ID\n");
         printf("   2. Nama\n> Pilihan: ");
         scanf("%d", pil);
-        if (*pil < 1 || *pil > 2)
-        {
+        if (*pil < 1 || *pil > 2) {
             printf("Pilihan tidak valid. Silakan masukkan 1 atau 2.\n\n");
         }
     } while (*pil < 1 || *pil > 2);
 }
 
-void PrintPilihan(int *pil1, int *pil2)
-{
+void PrintPilihan(int *pil1, int *pil2) {
     *pil1 = 0;
     *pil2 = 0;
 
@@ -85,8 +74,7 @@ void PrintPilihan(int *pil1, int *pil2)
 
     printf("\n");
 
-    do
-    { // validasi input 2
+    do { // validasi input 2
         printf("Urutkan secara:\n");
         printf("   1. Ascending\n");
         printf("   2. Descending\n> Pilihan: ");
@@ -98,8 +86,7 @@ void PrintPilihan(int *pil1, int *pil2)
     } while (*pil2 < 1 || *pil2 > 2);
 }
 
-void PrintList(UserList *userList, int basedOn, int order)
-{
+void PrintList(UserList *userList, int basedOn, int order) {
     if (userList->count == 0)
     {
         printf("Tidak ada pengguna yang terdaftar.\n");
@@ -131,26 +118,21 @@ void PrintList(UserList *userList, int basedOn, int order)
     }
 }
 
-void LihatUser(UserList *userList, Session *session)
-{
-    if (!session->loggedIn || strcmp(GetRole(&session->currentUser), "manager") != 0)
-    {
+void LihatUser(UserList *userList, Session *session) {
+    if (!session->loggedIn || strcmp(GetRole(&session->currentUser), "manager") != 0) {
         printf("Akses ditolak. Fitur ini hanya dapat diakses oleh manager.\n");
         return;
     }
-    else
-    {
+    else {
         int pil1, pil2; // pil1 = sort by, pil2 = asc/desc
         PrintPilihan(&pil1, &pil2);
 
         // copy userList to sortedList
         UserList *sortedList = malloc(sizeof(UserList));
         sortedList->count = 0;
-        for (int i = 0; i < userList->count; i++)
-        {
+        for (int i = 0; i < userList->count; i++) {
             User user = GetUserAt(userList, i);
-            if (strcmp(GetRole(&user), "manager") != 0)
-            {
+            if (strcmp(GetRole(&user), "manager") != 0) {
                 AppendUser(sortedList, user);
             }
         }
@@ -161,10 +143,8 @@ void LihatUser(UserList *userList, Session *session)
     }
 }
 
-void LihatPasien(UserList *userList, Session *session)
-{
-    if (!session->loggedIn || strcmp(GetRole(&session->currentUser), "manager") != 0)
-    {
+void LihatPasien(UserList *userList, Session *session) {
+    if (!session->loggedIn || strcmp(GetRole(&session->currentUser), "manager") != 0) {
         printf("Akses ditolak. Fitur ini hanya dapat diakses oleh manager.\n");
         return;
     }
@@ -175,11 +155,9 @@ void LihatPasien(UserList *userList, Session *session)
     // filter hanya pasien
     UserList *sortedList = malloc(sizeof(UserList));
     sortedList->count = 0;
-    for (int i = 0; i < userList->count; i++)
-    {
+    for (int i = 0; i < userList->count; i++) {
         User user = GetUserAt(userList, i);
-        if (strcmp(GetRole(&user), "pasien") == 0)
-        {
+        if (strcmp(GetRole(&user), "pasien") == 0) {
             AppendUser(sortedList, user);
         }
     }
@@ -200,13 +178,12 @@ void LihatPasien(UserList *userList, Session *session)
 
     printf("ID | Nama     | Penyakit\n");
     printf("-----------------------------\n");
-    for (int i = 0; i < sortedList->count; i++)
-    {
+    for (int i = 0; i < sortedList->count; i++) {
         User user = GetUserAt(sortedList, i);
         printf("%d | %-8s | %s\n",
-               GetID(&user),
-               GetUsername(&user),
-               GetRiwayatPenyakit(&user));
+            GetID(&user),
+            GetUsername(&user),
+            GetRiwayatPenyakit(&user));
     }
     free(sortedList);
 }
@@ -338,10 +315,8 @@ void CariUser(UserList *userList, Session *session) {
     free(sortedList);
 }
 
-void CariPasien(UserList *userList, Session *session)
-{
-    if (!session->loggedIn || strcmp(GetRole(&session->currentUser), "manager") != 0)
-    {
+void CariPasien(UserList *userList, Session *session) {
+    if (!session->loggedIn || strcmp(GetRole(&session->currentUser), "manager") != 0) {
         printf("Akses ditolak. Fitur ini hanya dapat diakses oleh manager.\n");
         return;
     }
@@ -350,18 +325,15 @@ void CariPasien(UserList *userList, Session *session)
     sortedList->count = 0;
 
     // copy userList to sortedList, khusus pasien
-    for (int i = 0; i < userList->count; i++)
-    {
+    for (int i = 0; i < userList->count; i++) {
         User user = GetUserAt(userList, i);
-        if (strcmp(GetRole(&user), "pasien") == 0)
-        {
+        if (strcmp(GetRole(&user), "pasien") == 0) {
             AppendUser(sortedList, user);
         }
     }
 
     int pilihan;
-    do
-    { // validasi input, tidak pakai fungsi karena input ada 3
+    do { // validasi input, tidak pakai fungsi karena input ada 3
         printf("Cari berdasarkan:\n");
         printf("   1. ID\n");
         printf("   2. Nama\n");
@@ -373,8 +345,7 @@ void CariPasien(UserList *userList, Session *session)
         }
     } while (pilihan < 1 || pilihan > 3);
 
-    if (pilihan == 1)
-    {
+    if (pilihan == 1) {
         int idInput;
         printf("> Masukkan nomor ID pasien: ");
         scanf("%d", &idInput);
@@ -382,48 +353,42 @@ void CariPasien(UserList *userList, Session *session)
         SelectionSort(sortedList, sortedList->count, 1, 1); // sort by ID, ascending
 
         int index;
-        if (BinarySearchUser(sortedList, idInput, &index))
-        {
+        if (BinarySearchUser(sortedList, idInput, &index)) {
             User user = GetUserAt(sortedList, index);
             printf("Menampilkan pasien dengan ID %d:\n", idInput);
             printf("ID | Nama     | Penyakit\n");
             printf("----------------------------\n");
             printf("%d | %-8s | %s\n",
-                   GetID(&user),
-                   GetUsername(&user),
-                   GetRiwayatPenyakit(&user));
+                GetID(&user),
+                GetUsername(&user),
+                GetRiwayatPenyakit(&user));
             return;
         }
-        else
-        {
+        else {
             printf("Tidak ditemukan pasien dengan ID %d.\n", idInput);
         }
     }
-    else if (pilihan == 2)
-    {
+    else if (pilihan == 2) {
         char nama[MAX_USERNAME_LENGTH];
         printf("> Masukkan nama pasien: ");
         scanf(" %[^\n]", nama);
 
         int index;
-        if (SequenceSearchUser(sortedList, nama, &index))
-        {
+        if (SequenceSearchUser(sortedList, nama, &index)) {
             User user = GetUserAt(sortedList, index);
             printf("Menampilkan pasien dengan nama %s:\n", nama);
             printf("ID | Nama     | Penyakit\n");
             printf("----------------------------\n");
             printf("%d | %-8s | %s\n",
-                   GetID(&user),
-                   GetUsername(&user),
-                   GetRiwayatPenyakit(&user));
+                GetID(&user),
+                GetUsername(&user),
+                GetRiwayatPenyakit(&user));
         }
-        else
-        {
+        else {
             printf("Tidak ditemukan pasien dengan nama \"%s\".\n", nama);
         }
     }
-    else if (pilihan == 3)
-    {
+    else if (pilihan == 3) {
         char penyakit[50];
         printf("> Masukkan nama penyakit: ");
         scanf(" %[^\n]", penyakit);
@@ -432,17 +397,22 @@ void CariPasien(UserList *userList, Session *session)
         UserList *pasienList = malloc(sizeof(UserList));
         pasienList->count = 0;
 
-        for (int i = 0; i < sortedList->count; i++)
-        {
+        for (int i = 0; i < sortedList->count; i++) {
             User user = GetUserAt(sortedList, i);
-            if (strcmp(GetRiwayatPenyakit(&user), penyakit) == 0)
-            {
+            char penyakitUser[50];
+            strcpy(penyakitUser, GetRiwayatPenyakit(&user));
+            ToLowerCase(penyakitUser);
+
+            char penyakitInput[50];
+            strcpy(penyakitInput, penyakit);
+            ToLowerCase(penyakitInput);
+
+            if (strcmp(penyakitUser, penyakitInput) == 0) {
                 AppendUser(pasienList, user);
             }
         }
 
-        if (pasienList->count == 0)
-        {
+        if (pasienList->count == 0) {
             printf("Tidak ditemukan pasien dengan penyakit %s.\n", penyakit);
             return;
         }
@@ -458,18 +428,16 @@ void CariPasien(UserList *userList, Session *session)
 
         printf("ID | Nama     | Penyakit\n");
         printf("----------------------------\n");
-        for (int i = 0; i < pasienList->count; i++)
-        {
+        for (int i = 0; i < pasienList->count; i++) {
             User user = GetUserAt(pasienList, i);
             printf("%d | %-8s | %s\n",
-                   GetID(&user),
-                   GetUsername(&user),
-                   GetRiwayatPenyakit(&user));
+                GetID(&user),
+                GetUsername(&user),
+                GetRiwayatPenyakit(&user));
         }
         free(pasienList);
     }
-    else
-    {
+    else {
         printf("Pilihan tidak valid.\n");
     }
     free(sortedList);

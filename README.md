@@ -50,7 +50,9 @@ wsl --install
 sudo apt update
 sudo apt install build-essential
 ```
-Jika sudah, maka clone repo ini dengan command pada terminal anda
+
+## Penggunaan
+Pertama, clone repo ini dengan command pada terminal anda
 ``` bash
 git clone https://github.com/Labpro-22/if1210-tubes-2025-k02-h.git
 ```

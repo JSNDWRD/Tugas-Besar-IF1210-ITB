@@ -45,9 +45,9 @@ Anggota Kelompok:
 
 ## Instalasi 
 Program ini dibuat dengan bahasa C yang dapat dijalankan dengan make file pada wsl (sesuai spesifikasi tubes :)), berikut command yang dapat anda gunakan
-''' bash
+``` bash
 wsl --install
 sudo apt update
 sudo apt install build-essential
-'''
+```
 

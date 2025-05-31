@@ -12,13 +12,19 @@ Anggota Kelompok:
 
 ## Pembagian Kerja Anggota Kelompok
 ### Laporan
+| Bagian Laporan                      | Nama                   | NIM        |
+| :---------------------------------- | :--------------------- | :--------- |
+| Desain Kamus Data                   | Safira Berlianti       | 13524128   |
+| Desain Dekomposisi Algoritmik dan Fungsional | Yusuf Faishal Listyardi | 13524014   |
+| Spesifikasi                         | Nathaniel Christian <br/> Eliana Natalie Widjojo   | 13524122 <br/> 13524116  |
+| Pengujian Program                   | Jason Edward Salim     | 13524034   |
 
 ### Program
+Pembagian kerja anggota kelompok bagian program dapat dilihat pada laporan tugas besar IF1210 yang terlampir pada folder doc pada repository ini
 
 ## Fitur yang Dikerjakan
 | Fitur                  | Status Pengerjaan      |
 | :--------------------- | :--------------------- |
-| F00 | Selesai |
 | F01 | Selesai |
 | F02 | Selesai |
 | F03 | Selesai |
@@ -28,15 +34,15 @@ Anggota Kelompok:
 | F07 | Selesai |
 | F08 | Selesai |
 | F09 | Selesai |
-| F010 | Selesai |
-| F011 | Selesai |
-| F012 | Selesai |
-| F013 | Selesai |
-| F014 | Selesai |
-| F015 | Selesai |
-| F016 | Selesai |
-| F017 | Selesai |
-| F018 | Selesai |
+| F10 | Selesai |
+| F11 | Selesai |
+| F12 | Selesai |
+| F13 | Selesai |
+| F14 | Selesai |
+| F15 | Selesai |
+| F16 | Selesai |
+| F17 | Selesai |
+| F18 | Selesai |
 | B01 | Selesai |
 | D01 | Selesai |
 | D02 | Selesai |
@@ -56,7 +62,7 @@ Pertama, clone repo ini dengan command pada terminal anda
 ``` bash
 git clone https://github.com/Labpro-22/if1210-tubes-2025-k02-h.git
 ```
-Lalu pergi ke wsl dan jalankan command berikut (hanya jalankan main.c saja)
+Lalu pergi ke wsl dan jalankan command berikut
 ``` bash
 cd src
 make clean

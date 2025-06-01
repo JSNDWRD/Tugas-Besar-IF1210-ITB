@@ -18,14 +18,19 @@ void LoadConfig(Matrix *denahHospital, char *inputFolder, UserList *userList)
     fgets(baris, sizeof(baris), fDenah);
 
     int i = 0, count = 0, temp = 0;
-    while(baris[i] != '\0' && baris[i] != '\n'){
-        if(baris[i] >= '0' && baris[i] <= '9'){
+    while (baris[i] != '\0' && baris[i] != '\n')
+    {
+        if (baris[i] >= '0' && baris[i] <= '9')
+        {
             temp = temp * 10 + (baris[i] - '0');
         }
-        else{
-            if(count == 0) denahHospital->rows = temp;
-            else if (count == 1) denahHospital->cols = temp;
-            count ++;
+        else
+        {
+            if (count == 0)
+                denahHospital->rows = temp;
+            else if (count == 1)
+                denahHospital->cols = temp;
+            count++;
             temp = 0;
         }
         i++;
@@ -48,8 +53,10 @@ void LoadConfig(Matrix *denahHospital, char *inputFolder, UserList *userList)
         }
         else
         {
-            if (count == 0) kapasitasRuangan = temp;
-            else if(count == 1) kapasitasAntrian = temp;
+            if (count == 0)
+                kapasitasRuangan = temp;
+            else if (count == 1)
+                kapasitasAntrian = temp;
             count++;
             temp = 0;
         }
@@ -160,17 +167,20 @@ void LoadConfig(Matrix *denahHospital, char *inputFolder, UserList *userList)
         }
 
         int indexinventory = -1;
-        for(int i=0;i<userList->count;i++){
-            if(userList->users[i].id == angka[0]){
+        for (int i = 0; i < userList->count; i++)
+        {
+            if (userList->users[i].id == angka[0])
+            {
                 indexinventory = i;
                 break;
             }
         }
-        if (indexinventory == -1) {
+        if (indexinventory == -1)
+        {
             printf("User id %d tidak ada.\n", angka[0]);
             continue;
         }
-        
+
         userList->users[indexinventory].jumlahObat = cnt - 1;
         for (int i = 1; i < cnt; i++)
         {
@@ -187,8 +197,9 @@ void LoadConfig(Matrix *denahHospital, char *inputFolder, UserList *userList)
         k++;
     }
     userList->pasienKondisiPerut = pasienKondisiPerut;
-    
-    for(int i=0;i<pasienKondisiPerut;i++){
+
+    for (int i = 0; i < pasienKondisiPerut; i++)
+    {
         fgets(baris, sizeof(baris), fDenah);
         int angka[100], cnt = 0, temp = 0, idx = 0;
 
@@ -197,7 +208,9 @@ void LoadConfig(Matrix *denahHospital, char *inputFolder, UserList *userList)
             if (baris[idx] >= '0' && baris[idx] <= '9')
             {
                 temp = temp * 10 + (baris[idx] - '0');
-            } else  if(temp > 0){
+            }
+            else if (temp > 0)
+            {
                 angka[cnt++] = temp;
                 temp = 0;
             }
@@ -210,20 +223,24 @@ void LoadConfig(Matrix *denahHospital, char *inputFolder, UserList *userList)
         }
 
         int indexPerut = -1;
-        for(int i=0;i<userList->count;i++){
-            if(userList->users[i].id == angka[0]){
+        for (int i = 0; i < userList->count; i++)
+        {
+            if (userList->users[i].id == angka[0])
+            {
                 indexPerut = i;
                 break;
             }
         }
-        if (indexPerut == -1) {
+        if (indexPerut == -1)
+        {
             printf("User id %d tidak ada.\n", angka[0]);
             continue;
         }
-        userList->users[indexPerut].jumlahObatMasukPerut = cnt -1;
+        userList->users[indexPerut].jumlahObatMasukPerut = cnt - 1;
         Stack *PerutPasien = &userList->users[indexPerut].perut;
         CreateEmptyStack(PerutPasien);
-        for (int i = cnt - 1; i >= 1; i--) {
+        for (int i = cnt - 1; i >= 1; i--)
+        {
             Obat obat;
             obat.id = angka[i];
             Push(PerutPasien, obat);
@@ -296,11 +313,13 @@ void UbahInput(char *input, int *row, int *col)
     *col -= 1;
 }
 
-void LihatRuangan(Matrix *denahHospital, char *input, UserList *userList) {
+void LihatRuangan(Matrix *denahHospital, char *input, UserList *userList)
+{
     int row, col;
     UbahInput(input, &row, &col);
 
-    if (row < 0 || row >= denahHospital->rows || col < 0 || col >= denahHospital->cols) {
+    if (row < 0 || row >= denahHospital->rows || col < 0 || col >= denahHospital->cols)
+    {
         printf("Ruangan %s tidak ditemukan.\n", input);
         return;
     }
@@ -337,7 +356,7 @@ void LihatRuangan(Matrix *denahHospital, char *input, UserList *userList) {
         printf("Dokter     : %s\n", dokter);
     }
 
-    if ((r->jumlahPasienDalamRuangan == 0) || strcmp(dokter, "Tidak Ada") == 0)
+    if (((r->jumlahPasienDalamRuangan == 0) || strcmp(dokter, "Tidak Ada") == 0) || (r->jumlahPasienDalamRuangan == 1 && r->antrianPasien.head->data == 0))
     {
         printf("  Tidak ada pasien di dalam ruangan saat ini.\n");
     }
@@ -445,9 +464,11 @@ void SaveConfig(Matrix *denahHospital, char *inputFolder, UserList *userList)
     }
 
     // mengisi baris jumlah pasien yang memiliki kondisi perut dengan obat
-    fprintf(fileConfig,"%d\n", userList->pasienKondisiPerut);
-    for (int i = 0; i < userList->count; i++) {
-        if (userList->users[i].jumlahObatMasukPerut > 0) {
+    fprintf(fileConfig, "%d\n", userList->pasienKondisiPerut);
+    for (int i = 0; i < userList->count; i++)
+    {
+        if (userList->users[i].jumlahObatMasukPerut > 0)
+        {
             fprintf(fileConfig, "%d", userList->users[i].id);
             Stack *PerutPasien = &userList->users[i].perut;
             for (int j = userList->users[i].jumlahObatMasukPerut - 1; j >= 0; j--)

@@ -49,8 +49,6 @@ Pembagian kerja anggota kelompok bagian program dapat dilihat pada laporan tugas
 | D03 | Selesai |
 | D04 | Selesai |
 
-### Special Feature
-Segmentation Fault (rare)
 
 ## Instalasi 
 Program ini dibuat dengan bahasa C yang dapat dijalankan dengan make file pada wsl (sesuai spesifikasi tubes :)), berikut command yang dapat anda gunakan
